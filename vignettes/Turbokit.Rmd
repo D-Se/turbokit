@@ -47,9 +47,7 @@ The following features have their own vignette
 
 *Quasi-comment -* `vignette(tidymath)`
 
-Finally, a brief introduction to the whole game
 
-![](images/vignette.gif)
 
 # Setup turbokit
 
