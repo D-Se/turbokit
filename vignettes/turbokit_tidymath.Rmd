@@ -1,0 +1,185 @@
+---
+title: "turbokit_tidymath"
+output: rmarkdown::html_vignette
+author: "Donald Seinen"
+vignette: >
+  %\VignetteIndexEntry{turbokit_tidymath}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(turbokit)
+```
+
+In this vignette, *tidymath* is introduced, covering the following topics:
+
+-   What is tidymath?
+
+-   Syntax
+
+    -   single functions
+
+    -   chaining functions
+
+-   
+
+[tidy](https://www.jstatsoft.org/article/view/v059i10)
+
+Let's combine them. The turbokit package provides quality of life features that makes existing systems and the tidy design philosophy easily accessible, more consistent and speedier to use.
+
+Tidymath is one such feature, which seeks to provide a way to "vectorise" code input for frequently used functions, which is performing the same operation on a set of values.
+
+How many functions are typed, how many backspaces hit every day, every month, every year, per career, per R user?
+
+> Do not Repeat Yourself (Hunt & Davis, 1999)
+
+Adults on average, can read about 270 words per minute
+
+The same adult would type about 40-60 words per minute.
+
+## What is tidymath?
+
+*Tidymath* is a translation mechanism for an initialism description of frequently used functions, their interactions and origins. It is a general approach to describe function names in abbreviated format, and uses a set of symbols to identify package names, placements of function and arguments, syntax and sequence of function calls and operators.
+
+Tidymath can be seen as the crankshaft of a car: it translates
+
+An initialism is an abbreviation formed from initial letters, in the case of tidymath, the initials of each component of a function name. For example, the tidyselect function `starts_with()` maps to `sw` .
+
+Tidymath powers quick input by reducing typing of functions to performing the same operation on a set of values. The values in *tidymath* are the names of functions in abbreviated form.
+
+Consider the following piece of legacy code:
+
+```{r BaseR, eval=FALSE}
+transform(iris[which(iris$Species == "versicolor"),], new = Sepal.Length*2)
+```
+
+In baseR such a call would take roughly 76 keystrokes, given that there are no mistakes.
+
+```{r Tidyverse, eval=FALSE}
+iris %>%
+    select(starts_with("Sepal")) %>%
+    filter(str_detect())
+    mutate(new = Sepal.Length * 2)
+```
+
+The tidyverse packages provide an alternative way to write code in a nice format
+
+```{r, eval=FALSE}
+iris %>%
+    select(starts_with("Sepal"), Species) %>%
+    filter(str_detect(Species, "v")) %>%
+    group_by(Species) %>%
+    summarise(across(everything(), mean)) %>%
+    ggplot(aes(Sepal.Length, Sepal.Width)) +
+    geom_density_2d_filled()
+```
+
+What the current design philosophy does not do, however, is heavily reduce the keypresses required to arrive at this code. The above example takes roughly 75 keystrokes.
+
+Turbokit provides two new ways to input the code in tidy format.
+
+### method 1: shortcuts
+
+```{r, eval=FALSE}
+"~f>m" %>>%.
+s
+```
+
+which returns
+
+```{r, eval=FALSE}
+snippet s
+	${1:mydata} %>%
+	  filter(${2:var}) %>%
+	  mutate(${3:var})
+```
+
+turbokit: 53 key presses
+
+The integrated development environment (IDE) RStudio has many systems in place that aid the user to reduce cognitive and physical workload when using R.
+
+1.  Functions
+
+2.  Objects
+
+3.  Code autocompletion
+
+4.  Code snippets
+
+5.  Addins
+
+6.  Keyboard shortcuts
+
+Inspiration for tidymath and superpipe comes from several sources.
+
+-   Recipes and workflow packages
+
+-   Tidy
+
+-   Plotmath
+
+-   Observation
+
+## Defining Tidymath
+
+Definition
+
+:   **tidymath** is a shorthand notation form for widely used R functions. It uses first letters of snake case functions to construct a complex pipeline of function calls.
+
+*Example*: `"~s*sw>m*2sd>z*a*e>p>1gv>1syc"`, which is equivalent to
+
+```{r, eval=FALSE}
+mydata %>%
+  select(starts_with()) %>%
+  mutate(str_detect()) %>%
+  summarise(across(everything())) %>%
+  ggplot(aes()) +
+  geom_violin() +
+  scale_y_continuous()
+```
+
+## Tidymath terminology
+
+Defintions
+
+:   The **initial term** ( \~ ) denotes the system of functions to use. Currently supported are the tidyverse ( \~ ) and tidymodels.
+
+:   An **interaction term** ( \* ) denotes that the function on the right is placed within the parenthesis of the function on the left.
+
+:   A **package term** ( digit ) denotes the package in which the function lives, exceptions are the dplyr and tidyselect packages, for which no package term is implemented.
+
+:   An **abbreviation** describes a compound function by its first snake case letters.
+
+:   A **function term** ( letter ) denotes a part or the whole of an abbreviation for a function.
+
+# Design origins
+
+There are 4 events that led to the implementation of turbokit.
+
+1.  A catastrophic typo by its author on a Sunday afternoon just after a cup of coffee. `group_By()+`
+
+    Wrong operator, capital letter after underscore, no space after ). 5 backspaces, 5 keypresses.
+
+2.  Writing code is a bottleneck in the data science process.
+
+    Adults read about 270-300 words per minute, but type only about 40-70 words per minute given *fluency* in a language. Now extend this to non-native speakers and different keyboard layouts or scripts. An example is Chinese, where the *Shift* key is often linked to a change in input styles. Punctuation marks and input often is not identical to what R expects and recognizes, for example the parenthesis ）verses ).
+
+3.  Realisation that much of a function name is redundant.
+
+> It deosn't mttaer in waht oredr the ltteers in a wrod are, hmuans can udnertsand it.
+
+If we then do not write for computers, nor place letters in the correct order for ourselves, who or what are we writing so much text for?
+
+`starts_with()` `startsWith()`
+
+4.  Existing systems are wonky and inefficient, but powerful.
+
+5.  Best practices evolve faster than

@@ -1,0 +1,32 @@
+Package: turbokit
+Type: Package
+Title: Speed up tidyverse data analysis with shortcuts
+Version: 0.1.0
+Authors@R: person("Donald", "Seinen", email="2869830202@qq.com",
+    role = c("aut", "cre"))
+Maintainer: Donald Seinen <2869830202@qq.com>
+Description: Through shortcut addins, insert commonly used tidyverse verbs and
+    indented pipe operators. Avoid repeatedly typing long verbs, mashing the
+    backspace after a typo, and inserting wrong pipe operators.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.1.1
+Imports: 
+    lifecycle,
+    methods,
+    rlang,
+    rstudioapi (>= 0.13),
+    settings (>= 0.2.4),
+    stringi,
+    stringr,
+    styler,
+    svDialogs
+Suggests: 
+    rmarkdown,
+    KeyboardSimulator,
+    knitr,
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
+VignetteBuilder: knitr
+Roxygen: list(markdown = TRUE)

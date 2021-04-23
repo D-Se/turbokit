@@ -1,0 +1,174 @@
+Name: Turbo insert superpipe operator (%>>% s)
+Description: Switches between pipe operator options
+Binding: superpipe
+Interactive: false
+
+Name: Turbo insert pipe operator (%>% or +)
+Description: Switches between pipe operator options
+Binding: insert_pipe
+Interactive: false
+
+Name: Turbo switch pipe operators (%>% or +)
+Description: Switches between pipe operator options
+Binding: toggle
+Interactive: false
+
+
+
+
+
+Name: Turbo construct complex combination function
+Description: Expands and inserts combination of abbreviations of tidyverse packages
+Binding: construct_complex
+Interactive: false
+
+Name: Turbo construct ggplot combination function
+Description: Expands and inserts combination of abbreviations of ggplot2 package
+Binding: construct_ggplot
+Interactive: false
+
+Name: Turbo construct recipes combination function
+Description: Expands and inserts combination of abbreviations of recipes package
+Binding: construct_recipes
+Interactive: false
+
+Name: Turbo construct parsnip combination function
+Description: Expands and inserts combination of abbreviations of parsnip package
+Binding: construct_parsnip
+Interactive: false
+
+Name: Turbo construct stringr combination function
+Description: Expands and inserts combination of abbreviations of stringr package
+Binding: construct_stringr
+Interactive: false
+
+Name: Turbo construct clock combination function
+Description: Expands and inserts combination of abbreviations of clock package
+Binding: construct_clock
+Interactive: false
+
+Name: Turbo construct forcats combination function
+Description: Expands and inserts combination of abbreviations of forcats package
+Binding: construct_forcats
+Interactive: false
+
+Name: Turbo construct readr combination function
+Description: Expands and inserts combination of abbreviations of readr package
+Binding: construct_readr
+Interactive: false
+
+
+
+
+
+Name: Turbo insert dplyr filter
+Description: Inserts `filter()` at the cursor position
+Binding: insert_filter
+Interactive: false
+
+Name: Turbo insert dplyr mutate
+Description: Inserts `mutate()` at the cursor position
+Binding: insert_mutate
+Interactive: false
+
+Name: Turbo insert dplyr summarise
+Description: Inserts `summarise()` at the cursor position
+Binding: insert_summarise
+Interactive: false
+
+Name: Turbo insert dplyr group_by
+Description: Inserts `group_by()` at the cursor position
+Binding: insert_group_by
+Interactive: false
+
+Name: Turbo insert dplyr select
+Description: Inserts `select()` at the cursor position
+Binding: insert_select
+Interactive: false
+
+Name: Turbo insert dplyr inner join
+Description: Inserts `inner_join()` at the cursor position
+Binding: insert_inner_join
+Interactive: false
+
+Name: Turbo insert dplyr right join
+Description: Inserts `right_join()` at the cursor position
+Binding: insert_right_join
+Interactive: false
+
+Name: Turbo insert dplyr left join
+Description: Inserts `left_join()` at the cursor position
+Binding: insert_left_join
+Interactive: false
+
+Name: Turbo insert dplyr full join
+Description: Inserts `full_join()` at the cursor position
+Binding: insert_full_join
+Interactive: false
+
+Name: Turbo insert dplyr case_when
+Description: Inserts `case_when()` at the cursor position
+Binding: insert_case_when
+Interactive: false
+
+
+
+
+
+Name: Turbo insert tidyr pivot wider
+Description: Inserts `pivot_wider()` at the cursor position
+Binding: insert_pivot_wider
+Interactive: false
+
+Name: Turbo insert tidyr pivot longer
+Description: Inserts `pivot_longer()` at the cursor position
+Binding: insert_pivot_longer
+Interactive: false
+
+
+
+
+
+Name: Turbo insert ggplot(aes())
+Description: Inserts `ggplot(aes())` at the cursor position
+Binding: insert_ggplot
+Interactive: false
+
+
+
+
+
+Name: Turbo insert tidyhelper across
+Description: Inserts `across()` at the cursor position
+Binding: insert_across
+Interactive: false
+
+Name: Turbo insert tidyhelper everything
+Description: Inserts `everything()` at the cursor position
+Binding: insert_everything
+Interactive: false
+
+Name: Turbo insert tidyhelper starts with
+Description: Inserts `starts_with()` at the cursor position
+Binding: insert_starts_with
+Interactive: false
+
+Name: Turbo insert tidyhelper ends with
+Description: Inserts `ends_with()` at the cursor position
+Binding: insert_ends_with
+Interactive: false
+
+Name: Turbo insert tidyhelper where
+Description: Inserts `where()` at the cursor position
+Binding: insert_where
+Interactive: false
+
+Name: Turbo insert tidyhelper is.numeric
+Description: Inserts `numeric()` at the cursor position
+Binding: insert_is.numeric
+Interactive: false
+
+Name: Turbo insert tidyhelper contains
+Description: Inserts `contains()` at the cursor position
+Binding: insert_contains
+Interactive: false
