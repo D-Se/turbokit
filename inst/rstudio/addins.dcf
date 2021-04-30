@@ -10,10 +10,13 @@ Interactive: false
 
 Name: Turbo switch pipe operators (%>% or +)
 Description: Switches between pipe operator options
-Binding: toggle
+Binding: toggle_pipe
 Interactive: false
 
-
+Name: Turbo switch mode
+Description: Switches between turbokit modes
+Binding: toggle_mode
+Interactive: false
 
 
 

@@ -220,7 +220,7 @@ insert_where <- function(){
 insert_ggplot <- function(){
     .insertmulti(ggplot, aes)
     .reposition(2)
-    if (!toggle_pipe()$pipe == "+") {
-        invisible(turbokit::toggle())
+    if (!pipe_toggle()$pipe == "+") {
+        invisible(toggle_pipe())
     }
 }

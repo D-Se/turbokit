@@ -9,7 +9,7 @@ vignette: >
 
 # Package Summary
 
-Turbokit introduces quality of life features reducing redundancy in day-to-day coding tasks in R and increasing the accessibility of stylish R code. It does so by re-thinking how frequently used functions are written by users, minimizing the number of key presses and reducing time spent on formatting tasks, leveraging [snippets](https://support.rstudio.com/hc/en-us/articles/204463668-Code-Snippets) , [infix operators](https://cran.r-project.org/doc/manuals/R-lang.html#Operators) , [custom shortcuts](https://support.rstudio.com/hc/en-us/articles/206382178-Customizing-Keyboard-Shortcuts) , [addins](https://rstudio.github.io/rstudioaddins/) and [the tidyverse manifesto](https://cran.r-project.org/web/packages/tidyverse/vignettes/manifesto.html) to do so.
+Turbokit introduces quality of life features reducing redundancy in day-to-day coding tasks in R and increasing the accessibility of stylish R code. It does so by re-thinking how frequently used functions are written by users, minimizing the number of key presses and reducing time spent on formatting tasks. Turbokit leverages [snippets](https://support.rstudio.com/hc/en-us/articles/204463668-Code-Snippets) , [infix operators](https://cran.r-project.org/doc/manuals/R-lang.html#Operators) , [custom shortcuts](https://support.rstudio.com/hc/en-us/articles/206382178-Customizing-Keyboard-Shortcuts) , [addins](https://rstudio.github.io/rstudioaddins/) and [the tidyverse manifesto](https://cran.r-project.org/web/packages/tidyverse/vignettes/manifesto.html) to do so.
 
 Turbokit includes the following features:
 
@@ -19,13 +19,15 @@ Turbokit includes the following features:
 
 -   *Superpipe*: `%>>%` operator to convert tidymath instructions to a full-length snippet. **Reduce menuing**
 
-<!-- -->
-
 -   *Dynamic snippets:* adaptive snippets of formatted complex pipes described by *tidymath* and constructed by the *superpipe*.
 
--   Quasi-comments: Non-evaluated syntax highlighted R code.
+-   *Quasi-comments*: Non-evaluated syntax highlighted R code.
 
 -   Shortcut buttons for key functions: dplyr / tidyselect / superpipe / construct functions.
+
+This vignette explains in detail each of these features.
+
+# Why turbokit?
 
 A stigma yet clings to R - It is hard to use.
 
@@ -39,19 +41,9 @@ Convergence by the user-base toward acceptance of human-centered, consistent, co
 
 There is however a bottleneck. Tidyverse and tidyverse-style packages tend to have long function names that consist of multiple verbs and nouns. While easy to remember, consistent and extremely helpful in making R accessible, functions takes a long time to type. The turbokit package provides quality of life features that makes existing systems and the tidy design philosophy easily accessible, more consistent and speedier to use.
 
-The following features have their own vignette
-
-*Tidymath* - `vignette(tidymath)`
-
-*Dynamic snippets* - `vignette(tidymath)`
-
-*Quasi-comment -* `vignette(tidymath)`
-
-
-
 # Setup turbokit
 
-The remainder of this vignette focuses on setting up turbokit to your preferences.
+Turbokit is somewhat different from most packages, as many of its features are available without the need to call `library(turbokit)`. However, to use turbokit to its full potential, the user has to invest some time in setting up turbokit to their preference.
 
 ## Shortcuts
 
@@ -71,6 +63,7 @@ Naturally, users should experiment with the shortcut setup to find their favorit
 tabl <- "
 | Function       | Shortcut 
 |---------------|:-------------:|
+| toggle pipe      | *ctrl + shift + ,*  |
 | smart pipe      | *ctrl + shift + .*  |
 | superpipe    | *ctrl + shift + `*     |
 | contruct_complex | *ctrl + shift + /*       |

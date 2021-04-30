@@ -69,3 +69,12 @@ NULL
 #       7.3.3 if multiple snippet position and not =, update .construct_snippet L147
 # 8. Add construct_pckname to .construct_chain (construct)
 # 9. Update documentation
+
+
+# TODO make function factories for construct, expand abbreviation to easily
+# expand package for feature request
+
+# 1. describe family of packages (wrapper package) or package names
+# 2. execute factories
+# 3.
+

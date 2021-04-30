@@ -155,7 +155,7 @@ superpipe <- function(){
 #'
 #' @export
 insert_pipe <- function() {
-    pipe <- toggle_pipe()$pipe
+    pipe <- pipe_toggle()$pipe
     x <- rstudioapi::getActiveDocumentContext()
     y <- x$selection[[1]]$range
     row <- y$end["row"]

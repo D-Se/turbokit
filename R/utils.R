@@ -168,13 +168,13 @@
 #' @return Boolean TRUE if plot, geom, coord or facet is on line of R script where cursor is
 .check_plot_context <- function(warn = T) {
     ### TODO getActiveDoc call or extract elements twice
-    if (toggle_pipe()$pipe == "%>%"){
+    if (pipe_toggle()$pipe == "%>%"){
         context <- rstudioapi::getActiveDocumentContext()
         doc_text <- context$contents[context$selection[[1]]$range$end["row"]]
         if (grepl("plot\\(|aes\\(|geom\\_|coord\\_|facet\\_|scale_",
                   x = doc_text, perl = TRUE)) {
             if (warn) {
-                warning("%>% operator mode spotted while plotting.\nsetting mode to +, use turbokit::toggle() or shortcut to switch back")
+                warning("%>% operator mode spotted while plotting.\nsetting mode to +, use turbokit::toggle_pipe() or shortcut to switch back")
             }
             out <- TRUE
         } else {
@@ -197,10 +197,10 @@
         if (rlang::is_empty(abb)) {
             stop(NULL)
         }
-        if (!grepl("^[[:digit:]]{1}", abb, perl = TRUE)) {
-            stop(paste("Invalid input: Non-numeric at start of wrapper function.
+        if (!grepl(x = abb, pattern = "^[[:alnum:]]{1}", perl = TRUE)) {
+            stop(paste("BBB Invalid input: Non-numeric at start of wrapper function.
                     In complex wrapper, please use one of", .complex_error))
-        } else if (grepl(" ", abb, perl = TRUE) | nchar(abb) > 6) {
+        } else if (grepl(" ", abb, perl = TRUE) | nchar(abb) > 10) {
             stop("Invalid input: space detected or input too long")
         }
         abb
@@ -236,13 +236,13 @@
             }
             # input is ready for chaining constructs and inserts
             return(out)
-        } else if (!grepl("^[[:digit:]]{1}", abb, perl = TRUE)) {
+        } else if (!grepl(pattern = "^[[:alnum:]]{1}",x =  abb, perl = TRUE)) {
             ### TODO: create direct call for user-defined favorite shortcuts
             # example: input ~p~ returns ggplot(aes()) + geom_boxplot()
-            stop(paste("Invalid input: Non-numeric at start of wrapper function.
+            stop(paste("AAA Invalid input: Non-numeric at start of wrapper function.
                     In complex wrapper, please use one of", .complex_error))
         } else {
-            if (nchar(abb) > 6) {
+            if (nchar(abb) > 10) {
                 stop("Invalid input: input too long, no such abbreviations in dictionary")
             }
             return(abb)

@@ -23,21 +23,86 @@ In this vignette, *tidymath* is introduced, covering the following topics:
 
 -   What is tidymath?
 
+    -   Definition
+
+    -   Superpipe - translating tidymath
+
+    -   Dynamic snippets - inserting the result
+
+-   What are dynamic snippets?
+
+    -   Problem definition
+
+    -   Design philosophy
+
 -   Syntax
 
     -   single functions
+
+        -   Exceptions
 
     -   chaining functions
 
 -   
 
-[tidy](https://www.jstatsoft.org/article/view/v059i10)
+# What is tidymath?
 
-Let's combine them. The turbokit package provides quality of life features that makes existing systems and the tidy design philosophy easily accessible, more consistent and speedier to use.
+The turbokit package provides quality of life features that makes existing systems and the tidy design philosophy easily accessible, more consistent and speedier to use. Tidymath is one such feature. *Tidymath* is an initialism description of frequently used functions, their interactions and origins. It is a general approach to describe function names in abbreviated format
 
-Tidymath is one such feature, which seeks to provide a way to "vectorise" code input for frequently used functions, which is performing the same operation on a set of values.
+Abbreviations used in tidymath adhere to [tidy](https://www.jstatsoft.org/article/view/v059i10) principles, that is, each abbreviation is structured and constructed in the same way, it does not matter if the function it describes is snake case, camel case or some other notation form. Using a metaphor, tidymath is "vectorising" function names allowing for performing the same operation on vastly different function naming conventions.
 
-How many functions are typed, how many backspaces hit every day, every month, every year, per career, per R user?
+```{r, eval=FALSE}
+# Tidymath
+"~s*sw>m*3fr>g>p>1gh"
+
+```
+
+# The superpipe - translating tidymath
+
+The superpipe `%>>%` is the translation mechanism that converts tidymath into usable complex pipes.
+
+```{r, eval=FALSE}
+# Tidymath + superpipe
+"~s*sw>m>g>p>1gh" %>>%.
+
+# Describes
+mydata %>%
+    select(starts_with()) %>%
+    mutate() %>%
+    group_by() %>%
+    ggplot(aes()) +
+    geom_histogram()
+
+```
+
+## Dynamic snippets - inserting tidymath + superpipe
+
+The superpipe serves another purpose. In addition to translating tidymath, it converts the outcome to a *dynamic snippet*. Dynamic snippets are [snippets](%5B%3Chttps://support.rstudio.com/hc/en-us/articles/204463668-Code-Snippets%3E)](<https://support.rstudio.com/hc/en-us/articles/204463668-Code-Snippets>)), text macros, modified in place according to a singular naming convention for one-time use. This differs from regular snippets in that those usually are defined in advance to simplify recurring coding tasks.
+
+```{r, eval=FALSE}
+# Tidymath + superpipe
+"~s*sw>m*3fr>g>p>1gh" %>>%.
+
+# Translates to
+${1}:mydata %>%
+    select(starts_with("${2}:charmatch")) %>%
+    mutate(${3:new}) %>%
+    group_by(${4:var}) %>%
+    ggplot(aes(${5:param})) +
+    geom_histogram()
+    
+
+```
+
+The last piece of the puzzle that the superpipe does, is to insert this dynamic snippet at the cursor location. The user can then call a custom snippet, named `s` by writing an s and hitting the `TAB` key. For Windows users, an additional package setting is available, `getOption("turbokit-autoinsert")` to automatically insert the snippet after its creation. Alternatively, users might want to use the insertSnippet shortcut.
+
+# What is complex input?
+
+Complex input is a one-off execution of tidymath through an interface. This interface does not break the dynamic snippet, and can be used to append pipes after they have been constructed.
+
+## Problem definition
+
+How many functions are typed, how many backspaces hit every day, every month, every year, per career, per R user? What is the total redundant hand travel distance? Once asked, a problem becomes clear.
 
 > Do not Repeat Yourself (Hunt & Davis, 1999)
 

@@ -75,13 +75,20 @@
 ##### error message strings ######
 .complex_error <- c("1: ggplot, 2: stringr, 3: forcats, 4: clock, 5: readr.")
 .ggplot_error <- c("g, s, c, f, e, p, t")
-.recipes_error <- c("r, b, j, p, a, s, c, h, u")
-.parsnip_error <- c("d, b, c, e, g")
 .stringr_error <- c("s, w")
 .clock_error <- c("a, d, g, i, s, w, z")
 .forcats_error <- c("d, a, l")
 .readr_error <- c("r, w, t, c, d, f, m, p, s")
 
+.recipes_error <- c("r, b, j, p, a, s, c, h, u")
+.parsnip_error <- c("d, b, c, e, g")
+.tune_error <- c("c, e, f, l, m, o, p, r, s, t")
+.dials_error <- c("a, b, c, d, e, f, g, h, i, k, l, m, n, o, p, r, s, t, u, v , w")
+.yardstick_error <- c("a, b , c, d, f, g, h, i, j, m, n, p, r, s, t, v")
+.workflows_error <- c("a, c, i, p, r, u, w")
+.rsample_error <- c("a, b , c, e, f, g, i, l, m, n, s, t, v")
+
+.shiny_error <- c("a, b, c, d, e, f, h, i, k, l, m, n, o , p, q, r, s, t, u, v")
 ##### roxygen ######
 # avoid NOTE during roxygen check due to NSE
 utils::globalVariables(c(

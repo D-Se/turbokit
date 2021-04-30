@@ -3,6 +3,8 @@
     # options("turbokit-tabspref" = .rs.readUiPref("num_spaces_for_tab")) fails
     options("turbokit-smartpipe" = TRUE)
     options("turbokit-autoinsert" = TRUE)
+    # should user be informed when changing complex input modes?
+    options("turbokit-verbose" = TRUE)
 }
 
 .onAttach <- function(libname, pkgname){
