@@ -9,7 +9,7 @@ vignette: >
 
 # Package Summary
 
-Turbokit introduces quality of life features reducing redundancy in day-to-day coding tasks in R and increasing the accessibility of stylish R code. It does so by re-thinking how frequently used functions are written by users, minimizing the number of key presses and reducing time spent on formatting tasks. Turbokit leverages [snippets](https://support.rstudio.com/hc/en-us/articles/204463668-Code-Snippets) , [infix operators](https://cran.r-project.org/doc/manuals/R-lang.html#Operators) , [custom shortcuts](https://support.rstudio.com/hc/en-us/articles/206382178-Customizing-Keyboard-Shortcuts) , [addins](https://rstudio.github.io/rstudioaddins/) and [the tidyverse manifesto](https://cran.r-project.org/web/packages/tidyverse/vignettes/manifesto.html) to do so.
+Turbokit introduces quality of life features reducing redundancy in day-to-day coding tasks in R and increasing the accessibility of stylish R code. It does so by re-thinking how frequently used functions are written by users, minimizing the number of key presses and reducing time spent on formatting tasks. Turbokit leverages [snippets](https://support.rstudio.com/hc/en-us/articles/204463668-Code-Snippets) , [infix operators](https://cran.r-project.org/doc/manuals/R-lang.html#Operators) , [custom shortcuts](https://support.rstudio.com/hc/en-us/articles/206382178-Customizing-Keyboard-Shortcuts) , fuzze matching, [addins](https://rstudio.github.io/rstudioaddins/) and [the tidyverse manifesto](https://cran.r-project.org/web/packages/tidyverse/vignettes/manifesto.html) to do so.
 
 Turbokit includes the following features:
 
@@ -39,7 +39,41 @@ Historically, naming conventions used in R packages were [problematic](https://j
 
 Convergence by the user-base toward acceptance of human-centered, consistent, composable and [inclusive unifying principles](https://design.tidyverse.org/index.html) of the tidyverse and increasingly widespread usage of its [style guide](https://style.tidyverse.org/) is great for reducing redundant loss of resources - making R (and data science!) easier.
 
-There is however a bottleneck. Tidyverse and tidyverse-style packages tend to have long function names that consist of multiple verbs and nouns. While easy to remember, consistent and extremely helpful in making R accessible, functions takes a long time to type. The turbokit package provides quality of life features that makes existing systems and the tidy design philosophy easily accessible, more consistent and speedier to use.
+## Code input
+
+There is however a bottleneck. Inputting code takes time, and this time cost increases the longer or harder to remember a function name is. Systems are in place to aid the user, but often come with hurdles to overcome or drawbacks when used.
+
++----------------+-------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| System         | Benefit                                                                                                                                         | Drawback                                                                                                                                                                                     |
++================+=================================================================================================================================================+==============================================================================================================================================================================================+
+| Autocompletion | Visual cues and menuing for fuzzy matches, shorthand function notation. Covers all possible functions. Prompt speed and wait time customizable. | Packages have to be attached. to be searched. Output differs depending on typing speed. User has to slow down to be fast for most functions. Unpredictable position of match in search list. |
++----------------+-------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Shortcuts      | One-stop-shop for complicated input at a button press.                                                                                          | Requires package addin (long setup time) and shortcut overload as each button is tied to a unique key.                                                                                       |
++----------------+-------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Snippet        | Insert arbitrarily long code chunks, and jump from location to location.                                                                        | Requires special syntax and menuing to set up.                                                                                                                                               |
++----------------+-------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Turbokit       | Combines shorthand notation, shortcuts and snippets.                                                                                            | Does not cover all possible functions. Has some setup cost and learning curve.                                                                                                               |
+|                |                                                                                                                                                 |                                                                                                                                                                                              |
+|                | Supports search list customization. Curated list of supported functions based on lifecycles.                                                    |                                                                                                                                                                                              |
++----------------+-------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+The turbokit package provides quality of life features that makes existing systems and the tidy design philosophy easily accessible, more consistent and speedier to use.
+
+## Script navigation
+
+Another bottleneck occurs when doing data science in R. Script navigation and formatting code consumes user attention and is the cause of many a rant. Ever typed a wrong pipe operator? A capital letter instead of a small letter? Forgot the shortcut to move to the end of the line, resulting in abuse of the direction keys? System exist to help with this.
+
++-----------+-------------------------+------------------------+
+| System    | Benefit                 | Drawback               |
++===========+=========================+========================+
+| Shortcuts | Powerful tasks          | After the fact         |
++-----------+-------------------------+------------------------+
+| Packages  |                         | Requires library calls |
++-----------+-------------------------+------------------------+
+| Snippet   |                         |                        |
++-----------+-------------------------+------------------------+
+| Turbokit  |                         |                        |
++-----------+-------------------------+------------------------+
 
 # Setup turbokit
 
@@ -49,23 +83,22 @@ Turbokit is somewhat different from most packages, as many of its features are a
 
 Several turbokit functions are exported as addin that can be bound to a shortcut key. Here, shortcuts are meant to be used as a quick insertion of a particular verb that work well with the smart pipe. These shortcuts will place the cursor between the brackets of the verb inserted at the cursor location. The smart pipe, when called, will relocate the cursor to the end of the line, and insert an operator based on the context of the pipe at that point.
 
-To use the addin to its potential, the user can setup specific bindings to call turbokit functions directly, without loading the package.
-
 Turbokit shortcut addins all start with "Turbo".
 
 ***Tools \> Addins \> Browse Addins \> Keyboard Shortcuts \> Turbo \_\_\_***
 
-The following table is a suggestion for mapping turbokit shortcut keys. Some of these recommended shortcuts may overlap with default shortcuts. The philosophy of the turbokit package is to reduce redundant typing tasks and to speed up the piping process. To this extent, recommended shortcuts are such that hand travel distance is minimized and shortcuts have a link to the function name.
+The following table is a suggestion for mapping turbokit shortcut keys. Some of these recommended shortcuts may overlap with default shortcuts. Recommended shortcuts are such that hand travel distance is minimized and shortcuts have a link to the function name.
 
-Naturally, users should experiment with the shortcut setup to find their favorite setup. that works best for them.
+Naturally, users are encouraged experiment with the shortcut setup to find their favorite setup. that works best for them.
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
 tabl <- "
 | Function       | Shortcut 
 |---------------|:-------------:|
-| toggle pipe      | *ctrl + shift + ,*  |
-| smart pipe      | *ctrl + shift + .*  |
-| superpipe    | *ctrl + shift + `*     |
+| switch pipe      | *ctrl + shift + ,*  |
+| switch mode      | *ctrl + shift + right*  |
+| insert pipe      | *ctrl + shift + .*  |
+| insert superpipe      | *ctrl + shift + `*   |
 | contruct_complex | *ctrl + shift + /*       |
 | select       | *ctrl + shift + s*    |
 | filter    | *ctrl + shift + f*       |
@@ -79,17 +112,35 @@ tabl <- "
 cat(tabl)
 ```
 
-Note: the superpipe shortcut is the backtick, often on same key as \~. The superpipe function requires loading the package. This is because it processes information, and may alter a users' snippets. All other shortcuts are usable without loading the package.
+Note: the superpipe shortcut is the backtick, often on same key as \~.
 
-Other shortcuts are exported and available and may be bound as the user sees fit. These shortcut, including insert\_ and construct\_ cover specific use cases.
-
-Besides the two pipe operators, all of the output of the aforementioned shortcuts and construct\_ and insert\_, can be achieved through tidymath and superpipe combination. It is thus recommended to only bind those functions that the user uses very frequently in short pipes.
+Besides the two pipe operators, all of the output of the aforementioned shortcuts and construct\_ and insert\_, can be achieved through tidymath and superpipe combination as well as the construct_complex wrapper function. It is thus recommended to only bind those functions that the user very frequently uses.
 
 ## Options
 
-Turbokit has several options that can change the output of its operators that can be changed to the users desire or requirement. As turbokit deals with snippets and shortcuts, it inevitably has to deal with different operating systems and use cases.
+Turbokit has several options that can change the output of its operators to the users desire or requirement. As turbokit deals with snippets and shortcuts, it inevitably has to deal with different operating systems and use cases.
 
-Changes to options are not stored, and must be rerun after restarting an R session.
+Changes to options are not stored, and must be rerun after restarting an R session. This is both a blessing and a curse.
+
+### up
+
+Up, or user preference, is an option that determines the output of several of turbokits' functions. It specifies a maximum of 9 different packages to search when using the construct_complex function. Additionally, it determines the prefix to abbreviations to call a function. To get the current options.
+
+```{r, eval=FALSE}
+getOption("turbokit-up")
+```
+
+to change its option, there is a function available.
+
+```{r, eval=FALSE}
+read(package_name)
+```
+
+To undo the read functions' doings, another function is shipped with the package, which returns the default option list.
+
+```{r, eval=FALSE}
+default()
+```
 
 ### autoinsert
 
@@ -123,7 +174,7 @@ options("turbokit-smartpipe" = FALSE)
 
 ## snippetdir
 
-The directory where snippets are stored is likely to be untouched by many R users. However, when run from a cloud or when the directory has been manually changed, users may want to change this option so that turbokit can find the proper location of the snippet file to change.
+The directory where snippets are stored is likely to be untouched by many R users. However, when run in a cloud environment or when the directory has been manually changed, users may want to change this option so that turbokit can find the proper location of the snippet file to change.
 
 The default for this is the value returned by an internal `.get_snippets_path()` function. When called from a Windows PC, this will return
 
@@ -140,3 +191,19 @@ file.path(file.choose())
 ```
 
 and navigate to the location of a `r.snippets` file. Other language snippets are not supported by the turbokit package, but do notice - no checks are run on the filepath, make sure you don't accidentally overwrite other language files.
+
+## verbose
+
+Some users may not want to be updated regularly on the changes in behavior of functions. To turn of the chatty behavior of the package,
+
+```{r, eval=FALSE}
+getOption("turbokit-verbose")
+```
+
+to disable, use
+
+```{r, eval=FALSE}
+options("turbokit-verbose" = FALSE)
+```
+
+## 

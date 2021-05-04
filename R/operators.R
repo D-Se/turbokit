@@ -94,7 +94,8 @@
             rstudioapi::insertText("s")
             if (Sys.info()["sysname"] == "Windows"
                 & getOption("turbokit-autoinsert")){
-                ### TODO: access shortcuts and default shortcuts in R. mimic insert snippet code?
+                ### TODO: access shortcuts and default shortcuts in R.
+                # mimic insert snippet code // programmatically insert hook.
                 KeyboardSimulator::keybd.press(button = "shift+tab")
             }
         }
@@ -132,6 +133,9 @@
 #' @export
 superpipe <- function(){
     rstudioapi::insertText("%>>%.")
+    if (!"turbokit" %in% .packages()) {
+        library(turbokit)
+    }
     x <- rstudioapi::getActiveDocumentContext()
     y <- rstudioapi::primary_selection(x = x)
     if (stringi::stri_detect_regex(str = x$contents[y$range$end[1]],
@@ -145,7 +149,7 @@ superpipe <- function(){
     rstudioapi::sendToConsole(z, execute = T, focus = F)
 }
 
-# code adapted from mufflr package (performance, generalized)
+# code adapted from mufflr package (performance, generalized, extended)
 # original author Miles McBain, under MIT license.
 
 #' Insert indented smart pipe operator in R script.

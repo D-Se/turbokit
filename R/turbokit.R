@@ -1,42 +1,81 @@
-#' turbokit: Speedy tidyverse and pipe input
+#' turbokit: Speedy and dynamic code input.
 #'
-#' The turbokit package provides two categories of important functions:
-#' insert_ and toggle_.
+#' The turbokit package provides several features to speed up inputting code
+#' and minimize redundant formatting tasks. Its main purposes is to aid the user
+#' in doing data science efficiently. To do this, turbokit introduces alternative
+#' input methods for functions in different packages, and has powerful chaining
+#' abilities.
+#'
+#' A core consideration of the package is that each user is unique and has their own
+#' preference and use case. For this reason, most functions' side effects are
+#' customizable, and several approaches are offered that result in the same output.
+#'
+#' \code{vignette("tidymath")}
+#' \code{vignette("superpipe")}
 #'
 #' @section
 #' Setting up turbokit:
-#' Setting up turbokit requires the user to bind shortcuts to function calls.
+#' To get the most out of turbokit, the user should bind its core functions to shortcuts.
 #' This can be done by navigating from RStudio:
 #' \strong{Tools -> Addins -> Browse Addins -> Keyboard Shortcuts}
 #'
 #' Suggestion for bindings, for minimal hand travel distance and natural combinations.
-#' \tabular{lc}{
-#' Function \tab Recommended Shortcut\cr
-#' toggle \tab \emph{ctrl+shift+/}\cr
-#' pipe \tab \emph{ctrl+shift+.}\cr
-#' select \tab \emph{ctrl+shift+s}\cr
-#' filter \tab \emph{ctrl+shift+f}\cr
-#' mutate \tab \emph{ctrl+shift+m}\cr
-#' summarise \tab \emph{ctrl+shift+z}\cr
-#' across \tab \emph{ctrl+shift+a}\cr
-#' contains \tab \emph{ctrl+shift+f}\cr
-#' starts_with \tab \emph{ctrl+shift+1}\cr
-#' ends_with \tab \emph{ctrl+shift+2}\cr
+#' \tabular{lcr}{
+#' \bold{Function} \tab \bold{Recommended Shortcut} \tab Description\cr
+#' construct_complex \tab \emph{ctrl+shift+/} \tab  insert 1500+ functions\cr
+#' insert_pipe \tab \emph{ctrl+shift+.} \tab  insert pipe based on context\cr
+#' toggle_pipe \tab \emph{ctrl+shift+,} \tab  switch between pipes\cr
+#' toggle_mode \tab \emph{ctrl+shift+right} \tab  switch between shortcut modes\cr
+#' select \tab \emph{ctrl+shift+s} \tab  insert dplyr::select\cr
+#' filter \tab \emph{ctrl+shift+f} \tab  insert dplyr::filter\cr
+#' mutate \tab \emph{ctrl+shift+m} \tab  insert dplyr::mutate\cr
+#' summarise \tab \emph{ctrl+shift+z} \tab  insert dplyr::summarise\cr
+#' across \tab \emph{ctrl+shift+a} \tab  insert tiyselect::across\cr
+#' contains \tab \emph{ctrl+shift+f} \tab  insert tiyselect::across\cr
+#' starts_with \tab \emph{ctrl+shift+1} \tab insert tiyselect::across\cr
+#' ends_with \tab \emph{ctrl+shift+2} \tab  insert tiyselect::across\cr
 #' }
 #'
+#' \emph{This is a mere recommendation - users are highly encouraged to try out
+#' different setupts that work for them.}
+#'
 #' @section
-#' insert_ functions:
-#' The insert_ functions insert a verb or operator in the R script at the current cursor
+#' \code{insert} functions:
+#' The \code{insert} functions insert a verb or operator in the R script at the current cursor
 #' location, and place the cursor between the function's brackets. The insert_ functions are
-#' designed to be called with shortcuts, allowing for successive shortcut calls.
+#' designed to be called with shortcuts, allowing for rapid insertion of code.
+#'
+#' @section
+#' \code{construct} functions:
+#' The \code{construct} functions are a family of insert functions of a certain
+#' package. Each function is formed by an abbreviation of snakecase initials.
+#' Construct functions describe most functions of a packages, bar those with
+#' identical initials, in which case the more popular one is implemented.
+#'
+#' The \code{construct_complex} function is a wrapper for all other construct
+#' functions, and its shortcut bindings are dynamic. This means that the user
+#' can specify preferences, changing the shortcuts required to call functions from
+#' different packages. In other words, per user definition, the same shortcut
+#' combinations may yield different outputs, and this change can be tightly controled
+#' by the user.
 #'
 #' @section
 #' toggle_ functions:
 #' The toggle_ function provides a shortcut to change package options, which
-#' makes conditional verb insertion possible. This is used to switch between
-#' widely used pipe operators \%>\% and + with a button press. This button press
-#' alters the output of another shortcut. This results in a general operator
-#' shortcut button.
+#' changes the side effects of key turbokit functions.
+#'
+#' 1. \code{toggle_pipe}
+#'
+#' This function toggles between widely used pipe operators \%>\% and +. This is
+#' often called under the hood by several turbokit functions to switch between
+#' operators based on the document context. In effect, it greatly reduces the chance
+#' to input the wrong operator. This function is exported.
+#'
+#' 2. \code{toggle_mode}
+#'
+#' This function toggles between \code{turbokit modes}. A turbokit mode defines
+#' the output of the \code{construct_complex} function. Each mode comes with
+#' several predefined packages and shortcut abbreviations.
 #'
 #' @docType package
 #' @name turbokit

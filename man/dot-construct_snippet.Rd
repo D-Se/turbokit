@@ -10,7 +10,7 @@
 \item{input}{a list of tidyverse verbs, each list element is a row in output}
 }
 \value{
-a new entry in r.snippets fall called "s"
+a new entry in r.snippets file called "s"
 }
 \description{
 Translates tidymath into snippet format.

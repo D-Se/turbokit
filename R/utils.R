@@ -225,10 +225,14 @@
         if (grepl(" ", abb, perl = TRUE)) {
             stop("Invalid input: space detected - refrain from formatting abbreviations")
         }
-        if (grepl("^[~]{1}", abb, perl = TRUE)) {
+        if (grepl("^>{1}", abb, perl = TRUE)) {
+            return("boot")
+        } else if (grepl("^<{1}", abb, perl = TRUE)) {
+            return("default")
+        } else if (grepl("^[~]{1}", abb, perl = TRUE)) {
             message("complex input - computing verb inserts")
             # remove any non-accepted formatting
-            out <- sub(pattern = "[^~>,*a-z0-9]", x = abb,
+            out <- sub(pattern = "[^~,*a-z0-9]", x = abb,
                        replacement = "",
                        perl = TRUE)
             if (abb != out) {
@@ -289,4 +293,166 @@
 .transform_complex_input <- function(x) {
     x <- sub(x = x, pattern = ".", replacement = "", perl = TRUE)
     unlist(strsplit(x = x, split = "", fixed = TRUE))
+}
+
+#' Specify personal preference for shortcut functions
+#'
+#' @description
+#'
+#' `r lifecycle::badge('experimental')`
+#'
+#' This function is is much like the well-known library function. It imports the
+#' abbreviations of a package and overwrites the existing setup. See \code{?default()}
+#' to undo its effects.
+#'
+#' @param package name of a package.
+#' @param pos position to insert package at in list of options. If \code{NULL},
+#' a guess to a position is made.
+#' @export
+#' @return Change in turbokit options, changing the behavior of \code{construct_complex}
+#' @examples
+#' # add a package to the search tree of construct_coplex function.
+#' read(scales)
+#'
+#' # note: one exception exists in the naming conventions used
+#' read(ggplot)
+#'
+#' # specify a specific location, to determine a prefix to the abbreviation.
+#' read(stringr, 3)
+read <- function(package, pos = NULL) {
+    package <- deparse(substitute(package))
+    l <- vector(mode = "list", length = 9L)
+    if (!package %in% .turbokit_packages) {stop("Package not recognized or not (yet) implemented")}
+    l <- getOption("turbokit-up")
+    if (is.null(pos)) {
+        pos <- as.numeric(min(which(unlist(lapply(l, rlang::is_empty)) == T)))
+    }
+    if (!pos < 10 & pos != 0){stop("Position out of range, accepted positions: 1-9")}
+    if (!is.numeric(pos)) {
+        warning("position is not numeric, converting to numeric")
+        pos <- as.numeric(pos)
+    }
+    l[[pos]] <- .create_expression(package = {{ package }})
+    options("turbokit-up" = l)
+    if (getOption("turbokit-verbose")) {
+        cat(paste0(package, " inserted at position ", pos))
+    }
+
+}
+
+#' Helper to restore default package options used for construct_complex package
+#' abbreviations layout.
+#'
+#' @description
+#' This function undos the action of the read function.
+#'
+#' @export
+#' @return library call in script
+#' @examples
+#' # resetting the default
+#' default()
+default <- function() {
+    options("turbokit-up" = {
+        l <- vector(mode = "list", length = 9)
+        names(l) <- letters[1:9]
+        l
+    })
+}
+
+#' Helper to transform character string into turbokit-recognized expression of package expansion
+#'
+#' @param package package name to transform into expression
+#' @return library call in script
+.create_expression <- function(package) {
+    package <- rlang::ensym(package)
+    term <- rlang::parse_expr(
+        paste0(".expand_",
+               rlang::expr_text(package),
+               "_abbreviation(x)"
+        )
+    )
+}
+
+#' Helper for inserting library call if package is not yet loaded
+#'
+#' @description
+#' This function is rarely directly called by the user. More often, it is called
+#' through the \code{>} syntax of the \code{construct_complex} function and
+#' automatically by the \code{%>>%} superpipe.
+#'
+#' @return library call in script
+#' @export
+#' @examples
+#' # when manually inserting library calls
+#' toggle_mode(mode_op = "tidyverse")
+#' boot()
+#'
+#' # alternatively, the function can be called by using \code{>} or \code{boot}
+#' shortcuts in the \code{construct_complex} function.
+#' construct_complex("boot")
+boot <- function(){
+    up <- getOption("turbokit-up")
+    default_up <- {
+        l <- vector(mode = "list", length = 9)
+        names(l) <- letters[1:9]
+        l
+    }
+    if (!identical(up, default_up, ignore.environment = T, ignore.bytecode = T, ignore.srcref = T)) {
+        packages <- as.character(unlist(up))
+        if (!"turbokit" %in% .packages()) {
+            library(turbokit)
+        }
+        packages <- paste0("library(", gsub(".*_(.+)_.*", "\\1", packages), ")")
+        invisible(rstudioapi::insertText(packages))
+    } else {
+        mode <- mode_toggle()$mode
+        switch(mode,
+               "tidyverse" = invisible(
+                   rstudioapi::insertText("library(tidyverse)")),
+               "tidymodels" = invisible(
+                   rstudioapi::insertText("library(tidymodels)")),
+               "shiny" = invisible(rstudioapi::insertText("library(shiny)")),
+               "dev" = invisible(rstudioapi::insertText("library(dev)"))
+        )
+    }
+}
+
+#' Clean the script of turbokit syntax
+#'
+#' @description
+#' `r lifecycle::badge('experimental')`
+#'
+#' Turbokit comes with several features that require special syntax.
+#' Remnants of such syntax are not useful to the data science process. The clean
+#' function is an exit function that transforms any sentences with tidymath
+#' format into comments so that it will not be evaluated when running the script.
+#' This is especially helpful for markdown files.
+#'
+#' Additionally, it detaches the turbokit package from the namespace.
+#'
+#' @param detach Boolean - detach the turbokit package after cleaning?
+#' @export
+#' @return Commented turbokit syntax
+#' @example
+#' # when there is turbokit syntax present in the active document
+#' clean()
+clean <- function(detach = TRUE){
+    x <- rstudioapi::getActiveDocumentContext()
+    rstudioapi::sendToConsole(.cleaner(doc = x, detach = detach), execute = T, focus = F)
+}
+
+#' Clean the script of turbokit syntax
+#'
+#' @return library call in script
+.cleaner <- function(doc, detach) {
+    clean_ind <- which(stringi::stri_detect(str = doc$contents, regex = "%>>%") == T)
+    for (i in seq_along(clean_ind)) {
+        rstudioapi::modifyRange(id = doc$id,
+                                text = "# ",
+                                location = rstudioapi::document_position(
+                                    row = clean_ind[i], column = 1))
+    }
+    if (detach) {
+        devtools::unload("turbokit")
+    }
 }

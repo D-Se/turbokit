@@ -1,7 +1,14 @@
 ####### complex ######
+.turbokit_packages <- c("ggplot", "stringr", "forcats", "clock",
+                        "readr", "recipes", "parsnip", "tune",
+                        "dials", "yarstick", "workflow",
+                        "shiny", "rsample", "ggmisc", "cowplot",
+                        "ggsci", "ggthemes", "ggforce", "ggridges",
+                        "ggraph", "usethis", "testthat", "scales")
 ### TODO: make comprehensive list of combinations and "guessing" positions.
 ### NOTE changes in .patterns MUST correspond to changes in .replacements!
-.patterns <- c( "mydata",
+.patterns <- c( "read",
+                "mydata",
                 "ggplot\\(aes\\(\\)\\)",
 
                 "mutate\\(\\)",
@@ -36,7 +43,8 @@
                 "theme\\(element_text\\(\\)\\)")
 
 # if "fun" is used, the default fun snippet is inserted when TAB is hit.
-.replacements <- c("${0:mydata}",
+.replacements <- c("read(${0:package})",
+                   "${0:mydata}",
                    "ggplot(aes(${0:params}))",
 
                    "mutate(${0:var})",
@@ -74,6 +82,7 @@
 
 ##### error message strings ######
 .complex_error <- c("1: ggplot, 2: stringr, 3: forcats, 4: clock, 5: readr.")
+
 .ggplot_error <- c("g, s, c, f, e, p, t")
 .stringr_error <- c("s, w")
 .clock_error <- c("a, d, g, i, s, w, z")
@@ -89,6 +98,19 @@
 .rsample_error <- c("a, b , c, e, f, g, i, l, m, n, s, t, v")
 
 .shiny_error <- c("a, b, c, d, e, f, h, i, k, l, m, n, o , p, q, r, s, t, u, v")
+
+.usethis_error <- c("b, c, e, g, i, l, p, r, t, u, w")
+.testthat_error <- c("a, c, d, e, f, g, h, i, l, m, n, p, q, r, s, t, u, v, w")
+
+.ggmisc_error <- c("a, c, g, p, s, e, t, u, f, r")
+.cowplot_error <- c("g, p, d, s, t")
+.ggsci_error <- c("p, r, s")
+.ggthemes_error <- c("s, t, w, h, c, e, p")
+.ggforce_error <- c("f, g, l, n, p, r, s, t, i")
+.ggridges_error <- c("c, g, p, s, t")
+.ggraph_error <- c("a, c, e, f, g, i, l, n, r, s, t, u")
+.scales_error <- c("a, b, c, d, e, f, g, h, i, l, m, n, o, p, r, s, t, u, v, w, y, z")
+
 ##### roxygen ######
 # avoid NOTE during roxygen check due to NSE
 utils::globalVariables(c(

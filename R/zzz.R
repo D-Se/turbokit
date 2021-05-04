@@ -5,6 +5,11 @@
     options("turbokit-autoinsert" = TRUE)
     # should user be informed when changing complex input modes?
     options("turbokit-verbose" = TRUE)
+    options("turbokit-up" = {
+        l <- vector(mode = "list", length = 9)
+        names(l) <- letters[1:9]
+        l
+        })
 }
 
 .onAttach <- function(libname, pkgname){

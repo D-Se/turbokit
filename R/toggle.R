@@ -1,13 +1,18 @@
-pipe_opts <- settings::options_manager(pipe = "%>%",
-                                              .allowed = list(
-                                                  pipe = settings::inlist("%>%", "+")
-                                              ))
-mode_opts <- settings::options_manager(mode = "tidyverse",
-                                              .allowed = list(
-                                                  mode = settings::inlist("tidyverse",
-                                                                          "tidymodels",
-                                                                          "shiny")
-                                              ))
+pipe_opts <- settings::options_manager(
+    pipe = "%>%",
+    .allowed = list(
+        pipe = settings::inlist("%>%", "+")
+    ))
+mode_opts <- settings::options_manager(
+    mode = "tidyverse",
+    .allowed = list(
+        mode = settings::inlist("tidyverse",
+                                "visualisation",
+                                "tidymodels",
+                                "shiny",
+                                # possible but not visible (few users use this)
+                                "dev")
+    ))
 
 #' An S4 class for storing turbokit toggle options
 #'
@@ -18,7 +23,8 @@ Turbo <- setClass("Turbo",
                       slots = list(pipe_options = 'function',
                                    pipe_value = 'character',
                                    mode_options = 'function',
-                                   mode_value = 'character'),
+                                   mode_value = 'character'
+                                   ),
                       prototype = list(
                           pipe_options = pipe_opts,
                           pipe_value = "%>%",
@@ -91,8 +97,15 @@ toggle_pipe <- function() {
 toggle_mode <- function(mode_opt = NULL) {
     new <- character(length = 1)
     get_current <- mode_toggle()$mode
+    if (get_current == "dev") {
+        if (getOption("turbokit-verbose")) {
+            cat(paste0("Turbokit mode: " , mode_toggle()$mode, "\n"))
+        }
+        return(mode_toggle(mode = "tidyverse"))
+    }
     if (is.null(mode_opt)) {
-        new <- dplyr::case_when(get_current == "tidyverse" ~ "tidymodels",
+        new <- dplyr::case_when(get_current == "tidyverse" ~ "visualisation",
+                                get_current == "visualisation" ~ "tidymodels",
                                 get_current == "tidymodels" ~ "shiny",
                                 get_current == "shiny" ~ "tidyverse")
         if (getOption("turbokit-verbose")) {
@@ -102,19 +115,23 @@ toggle_mode <- function(mode_opt = NULL) {
     } else if (is.character(mode_opt)) {
         mode_opt <- tolower(mode_opt)
         # verse model shiny
-        if (mode_opt %in% c("v", "m", "s")) {
-            mode_opt <- dplyr::case_when(mode_opt == "v" ~ "tidyverse",
-                                         mode_opt == "m" ~ "tidymodels",
-                                         mode_opt == "s" ~ "shiny")
+        if (mode_opt %in% c("tv", "v", "tm", "s", "d")) {
+            mode_opt <- dplyr::case_when(mode_opt == "tv" ~ "tidyverse",
+                                         mode_opt == "v" ~ "visualisation",
+                                         mode_opt == "tm" ~ "tidymodels",
+                                         mode_opt == "s" ~ "shiny",
+                                         mode_opt == "d" ~ "dev")
         }
-        stopifnot(mode_opt %in% c("tidyverse", "tidymodels", "shiny"))
+        stopifnot(mode_opt %in% c("tidyverse", "tidymodels",
+                                  "shiny", "visualisation", "dev"))
         new <- mode_opt
     } else if (is.numeric(mode_opt)) {
         # currently only 3 modes, may expand in future
         stopifnot(mode_opt <= 3)
         new <- dplyr::case_when(mode_opt == 1 ~ "tidyverse",
-                                mode_opt == 2 ~ "tidymodels",
-                                mode_opt == 3 ~ "shiny")
+                                mode_opt == 2 ~ "visualisation",
+                                mode_opt == 3 ~ "tidymodels",
+                                mode_opt == 4 ~ "shiny")
 
     }
     if (get_current == new ) {

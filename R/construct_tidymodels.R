@@ -9,7 +9,6 @@ construct_recipes <- function() {
     abb <- svDialogs::dlg_input("Input function abbreviation",
                                 default = NULL,
                                 Sys.info()["user"])$res
-    ### TODO:  if nchar is 1, make shortcut of widely used functions
     if (grepl(" ", abb, perl = TRUE)) {
         message("Invalid input: space detected in input")
         return(NULL)
@@ -25,12 +24,8 @@ construct_recipes <- function() {
         warning("+ operator mode spotted while making recipe.\nsetting mode to %>%, use turbokit::toggle() or shortcut to switch back")
         invisible(toggle_pipe())
     }
-
-    ### TODO: allow for numbers? multiple non-unique letter combi
     abb <- tolower(unlist(strsplit(abb, split = "", fixed = TRUE)))
-
     expression <- .expand_recipes_abbreviation(abb)
-
     if (grepl("NA", expression, perl = TRUE)) {
         return(NULL)
     }
@@ -79,9 +74,6 @@ construct_recipes <- function() {
                                        "n" = "nominal",
                                        "o" = "outcomes",
                                        "p" = "predictors",
-                                       "j" = "jitter", # jitterdodge?
-                                       "n" = "nudge",
-                                       "s" = "stack",
                                        {
                                            message(paste(
                                                "second letter:",
@@ -248,7 +240,6 @@ construct_parsnip <- function() {
     abb <- svDialogs::dlg_input("Input function abbreviation",
                                 default = NULL,
                                 Sys.info()["user"])$res
-    ### TODO:  if nchar is 1, make shortcut of widely used functions
     if (grepl(" ", abb, perl = TRUE)) {
         message("Invalid input: space detected in input")
         return(NULL)
@@ -264,12 +255,8 @@ construct_parsnip <- function() {
         warning("+ operator mode spotted while making recipe.\nsetting mode to %>%, use turbokit::toggle() or shortcut to switch back")
         invisible(toggle_pipe())
     }
-
-    ### TODO: allow for numbers? multiple non-unique letter combi
     abb <- tolower(unlist(strsplit(abb, split = "", fixed = TRUE)))
-
     expression <- .expand_parsnip_abbreviation(abb)
-
     if (grepl("NA", expression, perl = TRUE)) {
         return(NULL)
     }
@@ -284,46 +271,97 @@ construct_parsnip <- function() {
 .expand_parsnip_abbreviation <- function(x) {
     stopifnot(length(x) > 0 & length(x) <= 3)
     out <- character(length(x))
-    if (length(out) == 3) {
-        ### TODO: what did i want here?
-    } else if(length(out) == 2 & x[1] %in% c("d,b,c,e")) {
-        switch(
-            x[1],
-            "d" = "decision_tree", # remove_role?
-            "b" = "boost_tree",
+    if (length(out) == 1) {
+        out[1] <- sub(x = x[1],
+                      pattern = x[1],
+                      replacement = switch(x[1],
+               "g" = .expand_parsnip_get(x),
+               "a" = "augment",
+               "t" = "translate",
+               "v" = "varying",
+               "f" = "fit",
+               "m" = "mars",
+               {
+                   message(paste(
+                       "first letter:",
+                       x[1],
+                       "unknown parsnip abbreviation"))
+                   NA
+               }))
+        return(paste0(out, collapse = "_"))
+    } else if (length(out) == 2) {
+        x <- stringi::stri_c(x, collapse = "")
+        out <- sub(x = x,
+                   pattern = x,
+                   replacement = switch(x,
+            "dt" = "decision_tree", # remove_role?
+            "bt" = "boost_tree",
             "c" = "C5.0_train",
-            "e" = "eval_args",
-            "g" = .expand_parsnip_get(x), # add?
+            "ea" = "eval_args",
+            "ar" = "add_rowindex",
+            "fc" = "fit_control",
+            "fx" = "fit_xy",
+            "iv" = "is_varying",
+            "km" = "keras_mlp",
+            "lr" = "linear_reg", #logistic_reg
+            "mc" = "min_cols", #make_call
+            "mr" = "multinum_reg", #min_rows
+            "mp" = "model_predict", #model_printer
+            "mm" = "maybe_matrix",
+            "nn" = "nearest_neighbor",
+            "nm" = "null_model",
+            "nv" = "null_value",
+            "pa" = "parsnip_addin",
+            "pr" = "predict_raw",
+            "pd" = "predict_data",
+            "rf" = "rand_forest",
+            "rc" = "repair_call",
+            "rp" = "req_pkgs",
+            "rt" = "rpart_train",
+            "sa" = "set_args",
+            "sd" = "set_dependency",
+            "se" = "set_engine", #set_encoding show_engines
+            "sf" = "set_fit", #shot_fit
+            "sm" = "set_mode",
+            "sp" = "set_predict", #svm_poly
+            "sc" = "show_call",
+            "sr" = "surv_reg", #svm_rbf
+            "xt" = "xgb_train",
+            "va" = "varying_args",
             {
                 message(paste(
-                    "first letter:",
-                    x[1],
                     "unknown parsnip abbreviation"))
                 NA
-            }
-        )
-    } else {
-
+            }))
+    } else if (length(out) == 3) {
+        x <- stringi::stri_c(x, collapse = "")
+        out <- sub(x = x,
+                   pattern = x,
+                   replacement = switch(x,
+               "cee" = "check_empty_ellipse",
+               "cfp" = "check_final_param",
+               "coh" = "control_one_hot",
+               "csi" = "convert_stan_interval",
+               "gfe" = "get_from_env",
+               "gme" = "get_model_env",
+               "gpt" = "get_predict_type",
+               "hmp" = "has_multi_predict",
+               "mpa" = "multi_predict_args",
+               "pvt" = "pred_value_template",
+               "udc" = "update_dot_check",
+               "mdf" = "maybe_data_frame",
+               "sci" = "stan_conf_int",
+               "smi" = "show_model_info",
+               "sme" = "set_model_engine",
+               "smm" = "set_model_mode",
+               "sie" = "set_in_env",
+               "sma" = "set_model_arg",
+               {
+                   message(paste(
+                       "unknown parsnip abbreviation"))
+                   NA
+               }))
     }
-    switch(
-        x[1],
-        "r" = "recipe", # remove_role?
-        "b" = "bake",
-        "j" = "juice",
-        "p" = "prep",
-        "a" = .expand_recipes_all(x), # add?
-        "s" = .expand_recipes_step(x),
-        "c" = .expand_recipes_check(x),
-        "h" = .expand_recipes_has(x),
-        "u" = .expand_recipes_update(x),
-        {
-            message(paste(
-                "first letter:",
-                x[1],
-                "unknown parsnip abbreviation"))
-            NA
-        }
-    )
 }
 
 #' Function to translate parsnip abbreviation starting with \code{a} into
@@ -365,7 +403,6 @@ construct_tune <- function() {
     abb <- svDialogs::dlg_input("Input function abbreviation",
                                 default = NULL,
                                 Sys.info()["user"])$res
-    ### TODO:  if nchar is 1, make shortcut of widely used functions
     if (grepl(" ", abb, perl = TRUE)) {
         message("Invalid input: space detected in input")
         return(NULL)
@@ -380,10 +417,7 @@ construct_tune <- function() {
     if (!pipe_toggle()$pipe == "%>%") {
         if (.check_plot_context()) invisible(toggle_pipe())
     }
-
-    ### TODO: allow for numbers? multiple non-unique letter combi
     abb <- tolower(unlist(strsplit(abb, split = "", fixed = TRUE)))
-
     expression <- .expand_tune_abbreviation(abb)
     if (grepl("NA", expression, perl = TRUE)) {
         return(NULL)
@@ -399,6 +433,7 @@ construct_tune <- function() {
 .expand_tune_abbreviation <- function(x) {
     stopifnot(length(x) > 0 & length(x) <= 4)
     ### TODO: order of appearance here?
+    x <- stringi::stri_c(x, collapse = "")
     switch(
         x,
         "t" = "tune",
@@ -417,7 +452,7 @@ construct_tune <- function() {
         "ed" = "expo_decay",
         "em" = "extract_model",
         "er" = "extract_recipe",
-        "fp" = "filter parameters",
+        "fp" = "filter_parameters",
         "fm" = "finalize_model",
         "fr" = "finalize_recipe", #fit_resamples
         "fw" = "finalize_workflow",
@@ -449,7 +484,6 @@ construct_dials <- function() {
     abb <- svDialogs::dlg_input("Input function abbreviation",
                                 default = NULL,
                                 Sys.info()["user"])$res
-    ### TODO:  if nchar is 1, make shortcut of widely used functions
     if (grepl(" ", abb, perl = TRUE)) {
         message("Invalid input: space detected in input")
         return(NULL)
@@ -464,10 +498,7 @@ construct_dials <- function() {
     if (!pipe_toggle()$pipe == "%>%") {
         if (.check_plot_context()) invisible(toggle_pipe())
     }
-
-    ### TODO: allow for numbers? multiple non-unique letter combi
     abb <- tolower(unlist(strsplit(abb, split = "", fixed = TRUE)))
-
     expression <- .expand_dials_abbreviation(abb)
     if (grepl("NA", expression, perl = TRUE)) {
         return(NULL)
@@ -502,6 +533,7 @@ construct_dials <- function() {
                    fixed = TRUE)
     } else {
         ### TODO:sequence of appearance here. Split in half with grepl?
+        x <- stringi::stri_c(x, collapse = "")
         out <- sub(x = x,
                    pattern = x,
                    replacement = switch(
@@ -521,10 +553,10 @@ construct_dials <- function() {
                        "e" = "epochs", # extrapolation
                        "f" = "finalize",
                        "fc" = "freq_cut",
-                       "ft" = "fuzze_thresholding",
+                       "ft" = "fuzzy_thresholding",
                        "hu" = "hidden_units", # has_unknowns
                        "iu" = "is_unknown",
-                       "ko" = "lernell_offset",
+                       "ko" = "kernell_offset",
                        "l" = "Laplace",
                        "lr" = "learn_rate", # loss_reduction
                        "lq" = "lower_quantile",
@@ -547,7 +579,7 @@ construct_dials <- function() {
                        "rb" = "rule_bands",
                        "sp" = "sample_prop",
                        "sz" = "sample_size",
-                       "sf" = "Scale_factor",
+                       "sf" = "scale_factor",
                        "sh" = "signed_hash",
                        "st" = "significance_threshold",
                        "s" = "smoothness",
@@ -694,7 +726,6 @@ construct_yardstick <- function() {
     abb <- svDialogs::dlg_input("Input function abbreviation",
                                 default = NULL,
                                 Sys.info()["user"])$res
-    ### TODO:  if nchar is 1, make shortcut of widely used functions
     if (grepl(" ", abb, perl = TRUE)) {
         message("Invalid input: space detected in input")
         return(NULL)
@@ -710,12 +741,8 @@ construct_yardstick <- function() {
         warning("%>% operator mode spotted while plotting.\nsetting mode to +, use turbokit::toggle() or shortcut to switch back")
         invisible(toggle_pipe())
     }
-
-    ### TODO: allow for numbers? multiple non-unique letter combi
     abb <- tolower(unlist(strsplit(abb, split = "", fixed = TRUE)))
-
     expression <- .expand_yardstick_abbreviation(abb)
-
     if (grepl("NA", expression, perl = TRUE)) {
         return(NULL)
     }
@@ -730,6 +757,7 @@ construct_yardstick <- function() {
 #' @return Adjusted cursor position in R script
 .expand_yardstick_abbreviation <- function(x) {
     stopifnot(length(x) > 0 & length(x) <= 4)
+    x <- stringi::stri_c(x, collapse = "")
     switch(
         x,
         "a" = "accuracy",
@@ -749,7 +777,7 @@ construct_yardstick <- function() {
         "fm" = "f_meas",
         "fmv" = "f_meas_vec",
         "fe" = "finalize_estimator",
-        "fev" = "finalize_estimator_interval",
+        "fei" = "finalize_estimator_internal",
         "gc" = "gain_curve", # gain_capture (similar to lift_curve)
         "gcv" = "gain_capture_vec",
         "gw" = "get_weights",
@@ -807,7 +835,6 @@ construct_workflows <- function() {
     abb <- svDialogs::dlg_input("Input function abbreviation",
                                 default = NULL,
                                 Sys.info()["user"])$res
-    ### TODO:  if nchar is 1, make shortcut of widely used functions
     if (grepl(" ", abb, perl = TRUE)) {
         message("Invalid input: space detected in input")
         return(NULL)
@@ -839,9 +866,10 @@ construct_workflows <- function() {
 #' @return Adjusted cursor position in R script
 .expand_workflows_abbreviation <- function(x) {
     stopifnot(length(x) > 0 & length(x) <= 4)
+    x <- stringi::stri_c(x, collapse = "")
     switch(
         x,
-        "af" = "ad_formula",
+        "af" = "add_formula",
         "am" = "add_model",
         "ar" = "add_recipe",
         "av" = "add_variables",
@@ -882,7 +910,6 @@ construct_rsample <- function() {
     abb <- svDialogs::dlg_input("Input function abbreviation",
                                 default = NULL,
                                 Sys.info()["user"])$res
-    ### TODO:  if nchar is 1, make shortcut of widely used functions
     if (grepl(" ", abb, perl = TRUE)) {
         message("Invalid input: space detected in input")
         return(NULL)
@@ -896,7 +923,7 @@ construct_rsample <- function() {
     }
     if (.check_plot_context()) {
         warning("%>% operator mode spotted while plotting.\nsetting mode to +, use turbokit::toggle() or shortcut to switch back")
-        invisible(toggle())
+        invisible(toggle_pipe())
     }
     abb <- tolower(unlist(strsplit(abb, split = "", fixed = TRUE)))
     expression <- .expand_rsample_abbreviation(abb)
@@ -912,11 +939,12 @@ construct_rsample <- function() {
 #' @param x character string starting with s
 #' @return Adjusted cursor position in R script
 .expand_rsample_abbreviation <- function(x) {
-    stopifnot(length(x) > 0 & length(x) <= 4)
+    stopifnot(length(x) > 0 & length(x) <= 5)
     out <- character(length(x))
     if (length(out) > 2 & grepl(x = x, pattern = "^p{1}", perl = TRUE)) {
         out <- .expand_rsample_pretty(x)
     } else {
+        x <- stringi::stri_c(x, collapse = "")
         switch(
             x,
             "t" = "training", #testing
@@ -965,7 +993,7 @@ construct_rsample <- function() {
 #' @param x character vector, maximum length 2.
 #' @return full length character string of input.
 .expand_rsample_pretty <- function(x) {
-    stopifnot(length(x) <= 2)
+    stopifnot(length(x) <= 5)
     out <- character(length(x))
     out[1] <- "pretty."
     out[2] <- sub(x = x[2],

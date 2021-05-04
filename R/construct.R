@@ -51,6 +51,25 @@
 #' @export
 construct_complex <- function(input = NULL) {
     mode <- mode_toggle()$mode
+    up <- getOption("turbokit-up")
+    default_up <- {
+        l <- vector(mode = "list", length = 9)
+        names(l) <- letters[1:9]
+        l
+    }
+    if (!identical(up, default_up, ignore.environment = T, ignore.bytecode = T, ignore.srcref = T)) {
+        abb <- .get_complex_userinput()
+        if (abb == "boot") {
+            return(boot())
+        } else if (abb == "default") {
+            return(default())
+        } else {
+            expression <- .expand_user_pref(abb)
+            rstudioapi::insertText(paste0(expression, "()"))
+            .reposition(1)
+        }
+        return(NULL)
+    }
     abb <- character(length = 1)
     if (is.null(input)) {
         abb <- .get_complex_userinput()
@@ -64,22 +83,48 @@ construct_complex <- function(input = NULL) {
         }
         abb <- input
     }
+    if (abb == "boot") {
+        return(boot())
+    }
     # translate tidymath
     if (grepl(x = abb, pattern = "^[~]{1}", perl = TRUE)) {
         return(.construct_chain(abb))
         # default abbreviation per mode
-    } else if (grepl(x = abb, pattern = "^[[:alpha:]]", perl = TRUE)) {
-        expression <- .expand_default_abbreviation(abb)
+        #} #else if (grepl(x = abb, pattern = "^[[:alpha:]]", perl = TRUE)) {
+        #expression <- .expand_default_abbreviation(abb)
     } else if (grepl(x = abb, pattern = "^[0]{1}", perl = TRUE)){
         abb <- sub(x = abb, pattern = ".", replacement = "", perl = TRUE)
         return(.expand_user_defined(abb))
     } else {
         if (mode == "tidyverse") {
-            expression <- .expand_tidyverse(abb)
+            if (grepl(x = abb, pattern = "^[[:alpha:]]", perl = TRUE)) {
+                #if (abb == "ltv") return(rstudioapi::insertText("library(tidyverse)"))
+                expression <- .expand_tidyverse_default(abb)
+            } else {expression <- .expand_tidyverse(abb)}
+            #expression <- .expand_tidyverse(abb)
         } else if (mode == "tidymodels") {
+            #if (abb == "ltm") return(rstudioapi::insertText("library(tidymodels)"))
             expression <- .expand_tidymodels(abb)
         } else if (mode == "shiny") {
-            expression <- .expand_shiny(abb)
+            if (grepl(x = abb, pattern = "^[[:alpha:]]", perl = TRUE)) {
+                #if (abb == "ls") return(rstudioapi::insertText("library(shiny)"))
+                abb <- unlist(strsplit(x = abb, split = "", fixed = TRUE))
+                expression <- .expand_shiny_default(abb)
+            } else {
+                expression <- .expand_shiny(abb)
+            }
+        } else if (mode == "visualisation") {
+            if (grepl(x = abb, pattern = "^[[:alpha:]]", perl = TRUE)) {
+                expression <- .expand_visualisation_default(abb)
+            } else {
+                expression <- .expand_visualisation(abb)
+            }
+        } else if (mode == "dev") {
+            if (grepl(x = abb, pattern = "^[[:alpha:]]", perl = TRUE)) {
+                expression <- .expand_dev_default(abb)
+            } else {
+                expression <- .expand_dev(abb)
+            }
         }
     }
     if (grepl("NA", expression, perl = T)) {
@@ -93,7 +138,7 @@ construct_complex <- function(input = NULL) {
 #' Translates tidymath into snippet format.
 #'
 #' @param input a list of tidyverse verbs, each list element is a row in output
-#' @return a new entry in r.snippets fall called "s"
+#' @return a new entry in r.snippets file called "s"
 .construct_snippet <- function(input) {
     ### TODO:vectorised stri_replace_all_fixed here
     out <- stringr::str_replace_all(string = input, pattern = .NAMED_PATTERNS)
@@ -121,8 +166,9 @@ construct_complex <- function(input = NULL) {
         }
     }
     .add_snippet(name = "s",
-                        body = out)
+                 body = out)
 }
+
 
 #' Transformation step of dialog box input to be construct_* function-friendly
 #'
@@ -132,8 +178,13 @@ construct_complex <- function(input = NULL) {
     mode <- mode_toggle()$mode
     chain <- as.list(strsplit(x = input, "(?<=[>])", perl = TRUE)[[1]])
     chain <- lapply(chain, function(x) {
-        unlist(strsplit(x = x, "(?=[,>*~])", perl = TRUE))
+        unlist(strsplit(x = x, "(?=[!,>*~])", perl = TRUE))
     })
+    if (chain[[1]][2] == "!") {
+        chain <- unlist(chain)
+        n <- sum(stringi::stri_count(str = chain, regex = "!"))
+        return(rep("read", n))
+    }
     chain <- lapply(chain, function(x) {
         unlist(
             lapply(x, FUN = function(y) {
@@ -194,8 +245,8 @@ construct_complex <- function(input = NULL) {
     })
     chain <- lapply(lapply(chain[!!lengths(chain)], toString),
                     function(x) { sub(x = x, pattern = ",",
-                                     replacement = "",
-                                     fixed = TRUE)})
+                                      replacement = "",
+                                      fixed = TRUE)})
     chain <- lapply(chain, function(x) {
         if(any(grepl(x = x,
                      pattern = "ggplot|geom|facet|position|scale|coord|element|theme",
@@ -260,22 +311,22 @@ construct_complex <- function(input = NULL) {
     switch(substr(x, start = 1, stop = 1),
            "1" = {
                x <- .transform_complex_input(x)
-               if (!pipe_toggle()$pipe == "+") invisible(toggle_pipe())
+               if (!pipe_toggle()$pipe == "%>%") invisible(toggle_pipe())
                .expand_recipes_abbreviation(x)
            },
            "2" = {
                x <- .transform_complex_input(x)
-               if (.check_plot_context()) invisible(toggle_pipe())
+               if (!pipe_toggle()$pipe == "%>%") invisible(toggle_pipe())
                .expand_parsnip_abbreviation(x)
            },
            "3" = {
                x <- .transform_complex_input(x)
-               if (.check_plot_context()) invisible(toggle_pipe())
+               if (!pipe_toggle()$pipe == "%>%") invisible(toggle_pipe())
                .expand_tune_abbreviation(x)
            },
            "4" = {
                x <- .transform_complex_input(x)
-               if (.check_plot_context()) invisible(toggle_pipe())
+               if (!pipe_toggle()$pipe == "%>%") invisible(toggle_pipe())
                .expand_dials_abbreviation(x)
            },
            "5" = {
@@ -286,7 +337,7 @@ construct_complex <- function(input = NULL) {
            "6" = {
                x <- .transform_complex_input(x)
                if (!pipe_toggle()$pipe == "%>%") invisible(toggle_pipe())
-               .expand_workflows_abbreviation(abb)
+               .expand_workflows_abbreviation(x)
            },
            "7" = {
                x <- .transform_complex_input(x)
@@ -304,8 +355,53 @@ construct_complex <- function(input = NULL) {
     switch(substr(x, start = 1, stop = 1),
            "1" = {
                x <- .transform_complex_input(x)
-               if (.check_plot_context()) invisible(toggle_pipe())
-               .expand_shiny_abbreviation(x)
+               if (!pipe_toggle()$pipe == "%>%") invisible(toggle_pipe())
+               .expand_shiny_default(x)
+           },
+           NA)
+}
+
+.expand_visualisation <- function(x){
+    switch(substr(x, start = 1, stop = 1),
+           "1" = {
+               x <- .transform_complex_input(x)
+               if (!pipe_toggle()$pipe == "+") invisible(toggle_pipe())
+               .expand_ggmisc_abbreviation(x)
+           },
+           "2" = {
+               x <- .transform_complex_input(x)
+               if (!pipe_toggle()$pipe == "+") invisible(toggle_pipe())
+               .expand_cowplot_abbreviation(x)
+           },
+           "3" = {
+               x <- .transform_complex_input(x)
+               if (!pipe_toggle()$pipe == "+") invisible(toggle_pipe())
+               .expand_ggsci_abbreviation(x)
+           },
+           "4" = {
+               x <- .transform_complex_input(x)
+               if (!pipe_toggle()$pipe == "+") invisible(toggle_pipe())
+               .expand_ggthemes_abbreviation(x)
+           },
+           "5" = {
+               x <- .transform_complex_input(x)
+               if (!pipe_toggle()$pipe == "+") invisible(toggle_pipe())
+               .expand_ggforce_abbreviation(x)
+           },
+           "6" = {
+               x <- .transform_complex_input(x)
+               if (!pipe_toggle()$pipe == "+") invisible(toggle_pipe())
+               .expand_ggridges_abbreviation(x)
+           },
+           "7" = {
+               x <- .transform_complex_input(x)
+               if (!pipe_toggle()$pipe == "+") invisible(toggle_pipe())
+               .expand_ggraph_abbreviation(x)
+           },
+           "8" = {
+               x <- .transform_complex_input(x)
+               if (!pipe_toggle()$pipe == "+") invisible(toggle_pipe())
+               .expand_scales_abbreviation(x)
            },
            NA)
 }
@@ -314,40 +410,18 @@ construct_complex <- function(input = NULL) {
 #'
 #' @param x character string starting with g.
 #' @return Adjusted cursor position in R script
-.expand_default_abbreviation <- function(x){
-    if (nchar(x) == 2) {
-        expression <- switch(substr(x, start = 1, stop = 2),
-                             "sw" = "starts_with",
-                             "ew" = "ends_with",
-                             "rj" = "right_join",
-                             "lj" = "left_join",
-                             "cw" = "case_when",
-                             "ao" = "any_of",
-                             "nr" = "num_range",
-                             {
-                                 message(
-                                     "No default word found. Did you forget a leading digit?")
-                                 NA
-                             })
-    } else if (nchar(x == 1)) {
-        expression <- switch(substr(x, start = 1, stop = 1),
-                             "m" = "mutate",
-                             "f" = "filter",
-                             "s" = "select",
-                             "p" = "ggplot",
-                             "z" = "summarise",
-                             "a" = "across",
-                             "e" = "everything",
-                             "g" = "group_by",
-                             "c" = "contains",
-                             {
-                                 message(
-                                     "No default word found. Did you forget a leading digit?")
-                                 NA
-                             })
-    }
+.expand_dev <- function(x){
+    switch(substr(x, start = 1, stop = 1),
+           "1" = {
+               x <- .transform_complex_input(x)
+               .expand_usethis_abbreviation(x)
+           },
+           "2" = {
+               x <- .transform_complex_input(x)
+               .expand_testthat_abbreviation(x)
+           },
+           NA)
 }
-
 
 #' Translates and inserts abbreviation of function in user's global environment
 #'
@@ -388,4 +462,32 @@ construct_complex <- function(input = NULL) {
         "()"
     ))
     .reposition(1)
+}
+
+#' Expansion function if user has changed user preferences for construct_complex
+#'
+#' @description
+#' This function changes the behavior of the construct_complex function by changing
+#' the default package arrangement. Its side effects can be undone by calling
+#' the default function.
+#'
+#' @param x abbreviation
+#' @return Changed turbokit-up options and construct_complex behavior
+.expand_user_pref <- function(x) {
+    y <- unlist(strsplit(x = x, split = "", fixed = T))
+    z <- y[1]
+    pos_char <-
+        lapply(as.list(unlist(list(names(getOption("turbokit-up"))))), function(x){
+            as.character(which(letters == x))
+        })
+    index <- as.numeric(which(pos_char == z))
+    x <- .transform_complex_input(x)
+    ### TODO:  unname needed?
+    expression <- unname(getOption("turbokit-up"))
+    dplyr::case_when(
+        rlang::parse_expr(paste0(z,
+                                 "==",
+                                 index,
+                                 "~",
+                                 deparse(expression[[index]]))))
 }

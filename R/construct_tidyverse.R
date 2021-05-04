@@ -8,7 +8,6 @@ construct_ggplot <- function() {
     abb <- svDialogs::dlg_input("Input function abbreviation",
                                 default = NULL,
                                 Sys.info()["user"])$res
-    ### TODO:  if nchar is 1, make shortcut of widely used functions
     if (grepl(" ", abb, perl = TRUE)) {
         message("Invalid input: space detected in input")
         return(NULL)
@@ -24,10 +23,7 @@ construct_ggplot <- function() {
         # user not in "+" mode and plot / geom / coord / facet / scaleon script line
         if (.check_plot_context()) invisible(toggle_pipe())
     }
-
-    ### TODO: allow for numbers? multiple non-unique letter combi
     abb <- tolower(unlist(strsplit(abb, split = "", fixed = TRUE)))
-
     expression <- .expand_ggplot_abbreviation(abb)
     if (grepl("NA", expression, perl = TRUE)) {
         return(NULL)
@@ -112,7 +108,7 @@ construct_ggplot <- function() {
            "d" = "discrete",
            "l" = "log10",
            "r" = "reverse",
-           "s" = "sqrt",
+           "s" = "sqrt", #steps
            "t" = "time",
            "m" = "manual",
            "g" = "gradient",
@@ -121,6 +117,7 @@ construct_ggplot <- function() {
            "h" = "hue",
            "f" = "fermenter",
            "i" = "identity",
+           "o" = "ordinal",
            {
                message(paste(
                    "third letter:",
@@ -337,7 +334,6 @@ construct_stringr <- function() {
     abb <- svDialogs::dlg_input("Input function abbreviation",
                                 default = NULL,
                                 Sys.info()["user"])$res
-    ### TODO:  if nchar is 1, make shortcut of widely used functions
     if (grepl(" ", abb, perl = TRUE)) {
         message("Invalid input: space detected in input")
         return(NULL)
@@ -353,12 +349,8 @@ construct_stringr <- function() {
         warning("%>% operator mode spotted while plotting.\nsetting mode to +, use turbokit::toggle_pipe() or shortcut to switch back")
         invisible(toggle_pipe())
     }
-
-    ### TODO: allow for numbers? multiple non-unique letter combi
     abb <- tolower(unlist(strsplit(abb, split = "", fixed = TRUE)))
-
     expression <- .expand_stringr_abbreviation(abb)
-
     if (grepl("NA", expression, perl = TRUE)) {
         return(NULL)
     }
@@ -404,6 +396,7 @@ construct_stringr <- function() {
                                            "u" = "upper",
                                            "t" = "title",
                                            "f" = "fixed",
+                                           "s" = "sentence",
                                            {
                                                message(paste(
                                                    "third letter:",
@@ -419,9 +412,8 @@ construct_stringr <- function() {
                                            "r" = "remove", # replace
                                            "e" = "extract",
                                            "m" = "match",
-                                           "d" = "data",
                                            "l" = "locate",
-                                           "g" = "data",
+                                           "g" = "glue",
                                            "t" = "to",
                                            "s" = "split",
                                            "v" = "view",
@@ -475,7 +467,6 @@ construct_clock <- function() {
     abb <- svDialogs::dlg_input("Input function abbreviation",
                                 default = NULL,
                                 Sys.info()["user"])$res
-    ### TODO:  if nchar is 1, make shortcut of widely used functions
     if (grepl(" ", abb, perl = TRUE)) {
         message("Invalid input: space detected in input")
         return(NULL)
@@ -491,12 +482,8 @@ construct_clock <- function() {
         warning("%>% operator mode spotted while plotting.\nsetting mode to +, use turbokit::toggle_pipe() or shortcut to switch back")
         invisible(toggle_pipe())
     }
-
-    ### TODO: allow for numbers? multiple non-unique letter combi
     abb <- tolower(unlist(strsplit(abb, split = "", fixed = TRUE)))
-
     expression <- .expand_clock_abbreviation(abb)
-
     if (grepl("NA", expression, perl = TRUE)) {
         return(NULL)
     }
@@ -542,7 +529,7 @@ construct_clock <- function() {
     out[2] <- sub(x = x[2],
                   pattern = x[2],
                   replacement = switch(x[2],
-                                       "d" = "day",
+                                       "d" = "days",
                                        "h" = "hours",
                                        "m" = "minutes", # months, microseconds, miliseconds
                                        "n" = "nanoseconds",
@@ -579,6 +566,7 @@ construct_clock <- function() {
                                            "z" = "zone",
                                            "f" = "factor", #floor
                                            "p" = "parse",
+                                           "b" = "build",
                                            {
                                                message(paste(
                                                    "second letter:",
@@ -595,6 +583,7 @@ construct_clock <- function() {
                                            "m" = "month",
                                            "s" = "set", #floor
                                            "w" = "weekday",
+                                           "t" = "time",
                                            {
                                                message(paste(
                                                    "third letter:",
@@ -847,7 +836,6 @@ construct_forcats <- function() {
     abb <- svDialogs::dlg_input("Input function abbreviation",
                                 default = NULL,
                                 Sys.info()["user"])$res
-    ### TODO:  if nchar is 1, make shortcut of widely used functions
     if (grepl(" ", abb, perl = TRUE)) {
         message("Invalid input: space detected in input")
         return(NULL)
@@ -905,9 +893,12 @@ construct_forcats <- function() {
     out <- character(length(x))
     out[1] <- "fct"
     if (length(out) == 3) {
-        out[3] <- sub(x = x[2],
-                      pattern = x[2],
-                      replacement = switch(x[2],
+        if (x[2] == "e") {
+            return("fct_explicit_na")
+        }
+        out[3] <- sub(x = x[3],
+                      pattern = x[3],
+                      replacement = switch(x[3],
                                            "p" = "prop",
                                            "l" = "lowfreq",
                                            "m" = "min",
@@ -915,17 +906,13 @@ construct_forcats <- function() {
                                            {
                                                message(paste(
                                                    "third letter:",
-                                                   x[1],
+                                                   x[3],
                                                    "unknown forcats_lump abbreviation"))
                                                NA
                                            }
                       ),
                       fixed = TRUE)
         out[2] <- "lump"
-        if (x[2] == "e") {
-            out[2] <- "explicit"
-            out[3] <- "na"
-        }
     } else if (length(out) == 2) {
         out[2] <- sub(x = x[2],
                       pattern = x[2],
@@ -993,7 +980,6 @@ construct_readr <- function() {
     abb <- svDialogs::dlg_input("Input function abbreviation",
                                 default = NULL,
                                 Sys.info()["user"])$res
-    ### TODO:  if nchar is 1, make shortcut of widely used functions
     if (grepl(" ", abb, perl = TRUE)) {
         message("Invalid input: space detected in input")
         return(NULL)
@@ -1010,12 +996,8 @@ construct_readr <- function() {
         warning("+ operator mode spotted while plotting.\nsetting mode to %>%, use turbokit::toggle_pipe() or shortcut to switch back")
         invisible(toggle_pipe())
     }
-
-    ### TODO: allow for numbers? multiple non-unique letter combi
     abb <- tolower(unlist(strsplit(input, split = "", fixed = TRUE)))
-
     expression <- .expand_readr_abbreviation(abb)
-
     if (grepl("NA", expression, perl = TRUE)) {
         return(NULL)
     }
@@ -1147,7 +1129,10 @@ construct_readr <- function() {
 .expand_readr_tokenize <- function(x) {
     stopifnot(length(x) <= 2)
     out <- character(length(x))
-    out[1] <- "tokenize"
+    if (length(out) == 1) {
+        return("tokenize")
+    }
+    out[1] <- "tokenizer"
     if (length(out) == 2) {
         out[2] <- sub(x = x[2],
                       pattern = x[2],
@@ -1349,5 +1334,127 @@ construct_readr <- function() {
     paste0(out, collapse = "_")
 }
 
-
+#' Function to construct abbreviation into character string
+#'
+#' @param x character string starting with g.
+#' @return Adjusted cursor position in R script
+.expand_tidyverse_default <- function(x){
+    if (nchar(x) == 3) {
+        expression <- switch(substr(x, start = 1, stop = 2),
+                             "cda" = "cur_data_all",
+                             "cgr" = "cur_group_rows",
+                             "adf" = "as_data_frame",
+                             "igd" = "is_grouped_df",
+                             "ngd" = "new_grouped_df",
+                             "vgd" = "validate_grouped_df",
+                             {
+                                 message(
+                                     "No default word found. Did you forget a leading digit?")
+                                 NA
+                             })
+    } else if (nchar(x) == 2) {
+        expression <- switch(substr(x, start = 1, stop = 2),
+                             "sw" = "starts_with",
+                             "ew" = "ends_with",
+                             "rj" = "right_join",
+                             "lj" = "left_join",
+                             "cw" = "case_when",
+                             "ao" = "any_of", #all_of
+                             "nr" = "num_range", #nrow
+                             "ac" = "add_count", #add_column (tibble)
+                             "ar" = "add_row",
+                             "at" = "add_tally", # as_tibble
+                             "aj" = "anti_join",
+                             "bc" = "bind_cols",
+                             "br" = "bind_rows",
+                             "ca" = "c_across",
+                             "cb" = "common_by",
+                             "cd" = "cur_data",
+                             "cc" = "cur_column",
+                             "cg" = "cur_group",
+                             "cm" = "colMeans",
+                             "cs" = "colSums",
+                             "df" = "data.frame",
+                             "fj" = "full_join",
+                             "fc" = "file.choose",
+                             "gc" = "group_cols",
+                             "gd" = "group_data",
+                             "gi" = "group_indices",
+                             "gk" = "group_keys",
+                             "gm" = "group_map", #experimental
+                             "gn" = "group_nest",
+                             "gs" = "group_size", #group_split
+                             "gt" = "group_trim",
+                             "gv" = "group_vars",
+                             "gw" = "group_walk",
+                             "ia" = "if_all",
+                             "ie" = "if_else",
+                             "in" = "is.numeric",
+                             "if" = "is.factor",
+                             "il" = "is.list",
+                             "ic" = "is.character",
+                             "ii" = "is.integer",
+                             "im" = "is.matrix",
+                             "ip" = "install.packages",
+                             "ij" = "inner_join",
+                             "lc" = "last_col",
+                             "nc" = "ncol",
+                             "nd" = "n_distinct",
+                             "ng" = "n_groups",
+                             "ni" = "na_if",
+                             "nb" = "nest_by",
+                             "nj" = "nest_join",
+                             "rw" = "rename_with",
+                             "rd" = "rows_delete",
+                             "ri" = "rows_insert",
+                             "rp" = "rows_patch",
+                             "ru" = "rows_update", #rows_upsert
+                             "rs" = "rowSums",
+                             "rc" = "read_csv",
+                             "rm" = "rowMeans",
+                             "ss" = "set.seed", #same_src slice_sample
+                             "sf" = "sample_frac",
+                             "sj" = "semi_join",
+                             "se" = "setequal", #weird naming convention
+                             "sd" = "setdiff",
+                             "sh" = "slice_head",
+                             "sm" = "slice_max", #slice_min
+                             "st" = "slice_tail",
+                             "tm" = "trunc_mat",
+                             "ts" = "type_sum",
+                             "wo" = "with_order",
+                             "wg" = "with_groups",
+                             "wl" = "writeLines",
+                             {
+                                 message(
+                                     "No default word found. Did you forget a leading digit?")
+                                 NA
+                             })
+    } else if (nchar(x == 1)) {
+        expression <- switch(substr(x, start = 1, stop = 1),
+                             "m" = "mutate", #matches
+                             "f" = "filter",
+                             "s" = "select", #slice
+                             "p" = "ggplot", #pull
+                             "z" = "summarise",
+                             "a" = "across", #arrange
+                             "e" = "everything", #explain
+                             "g" = "group_by", #glimpse
+                             "c" = "contains", #coalesce (dplyr), collect, combine
+                             "r" = "rowwise", #relocate rename
+                             "b" = "between",
+                             "d" = "distinct",
+                             "i" = "intersect",
+                             "l" = "length", #lead , lag
+                             "n" = "near", #nth
+                             "t" = "transmute",
+                             "u" = "ungroup",
+                             "v" = "View", #base function, consider utils::view
+                             {
+                                 message(
+                                     "No default word found. Did you forget a leading digit?")
+                                 NA
+                             })
+    }
+}
 

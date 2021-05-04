@@ -1,9 +1,9 @@
 ---
-title: "turbokit_tidymath"
+title: "tidymath"
 output: rmarkdown::html_vignette
 author: "Donald Seinen"
 vignette: >
-  %\VignetteIndexEntry{turbokit_tidymath}
+  %\VignetteIndexEntry{tidymath}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

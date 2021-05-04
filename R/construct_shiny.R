@@ -1,3 +1,6 @@
+# DT
+
+
 ##########  shiny ##########
 
 #' Function to insert shiny shortcut combination into R script at cursor position
@@ -25,11 +28,8 @@ construct_shiny <- function(){
         warning("%>% operator mode spotted while plotting.\nsetting mode to +, use turbokit::toggle_pipe() or shortcut to switch back")
         invisible(toggle_pipe())
     }
-
     abb <- tolower(unlist(strsplit(abb, split = "", fixed = TRUE)))
-
-    expression <- .expand_shiny_abbreviation(abb)
-
+    expression <- .expand_shiny_default(abb)
     if (grepl("na", expression, perl = TRUE)) {
         return(NULL)
     }
@@ -41,7 +41,7 @@ construct_shiny <- function(){
 #'
 #' @param x character string starting with g.
 #' @return Adjusted cursor position in R script
-.expand_shiny_abbreviation <- function(x) {
+.expand_shiny_default <- function(x) {
     stopifnot(length(x) > 0 & length(x) <= 5)
     out <- switch(
         x[1],
@@ -84,7 +84,7 @@ construct_shiny <- function(){
 #' @param x character vector, maximum length 3.
 #' @return full length character string of input
 .expand_shiny_a <- function(x) {
-    stopifnot(length(x) >= 1 & length(x) < 3)
+    stopifnot(length(x) >= 1 & length(x) < 5)
     out <- character(length(x))
     x <- stringi::stri_c(x, collapse = "")
     if (length(out) == 1) {
@@ -96,8 +96,6 @@ construct_shiny <- function(){
                "al" = "action_link",
                "ao" = "animation_options",
                "at" = "append_tab",
-               "asa" = "as_shiny_appobj",
-               "arp" = "add_resource_path",
                {
                    message(paste(
                        "two letters:",
@@ -105,6 +103,8 @@ construct_shiny <- function(){
                        "unknown shiny_a abbreviation"))
                    NA
                })
+    } else if (length(out) == 3){
+       ifelse(x == "asa", "as_shiny_appobj", "add_resource_path")
     }
 }
 
@@ -113,7 +113,7 @@ construct_shiny <- function(){
 #' @param x character vector, maximum length 3.
 #' @return full length character string of input
 .expand_shiny_b <- function(x) {
-    stopifnot(length(x) >= 1 & length(x) < 3)
+    stopifnot(length(x) >= 1 & length(x) < 5)
     out <- character(length(x))
     x <- stringi::stri_c(x, collapse = "")
     if (length(out) == 1) {
@@ -125,9 +125,9 @@ construct_shiny <- function(){
                "be" = "bind_event",
                "bb" = "bookmark_button",
                "bl" = "bootstrap_lib",
-               "bp" = "bootstrap_page", #brushed_points
+               # "bp" = "bootstrap_page", #brushed_points
                "bv" = "browser_viewer",
-               "bo" = "bursh_opts",
+               "bo" = "brush_opts",
                {
                    message(paste(
                        "two letters:",
@@ -143,7 +143,7 @@ construct_shiny <- function(){
 #' @param x character vector, maximum length 3.
 #' @return full length character string of input
 .expand_shiny_c <- function(x) {
-    stopifnot(length(x) >= 1 & length(x) < 4)
+    stopifnot(length(x) >= 1 & length(x) < 5)
     out <- character(length(x))
     x <- stringi::stri_c(x, collapse = "")
     if (length(out) == 1) {
@@ -153,6 +153,7 @@ construct_shiny <- function(){
                "cm" = "call_module",
                "ci" = "checkbox_input",
                "co" = "click_opts",
+               "cp" = "conditional_panel",
                {
                    message(paste(
                        "two letters:",
@@ -181,7 +182,7 @@ construct_shiny <- function(){
 #' @param x character vector, maximum length 3.
 #' @return full length character string of input
 .expand_shiny_d <- function(x) {
-    stopifnot(length(x) >= 1 & length(x) < 4)
+    stopifnot(length(x) >= 1 & length(x) < 5)
     out <- character(length(x))
     x <- stringi::stri_c(x, collapse = "")
     if (length(out) == 1) {
@@ -221,7 +222,7 @@ construct_shiny <- function(){
 #' @param x character vector, maximum length 3.
 #' @return full length character string of input
 .expand_shiny_e <- function(x) {
-    stopifnot(length(x) >= 1 & length(x) < 4)
+    stopifnot(length(x) >= 1 & length(x) < 5)
     out <- character(length(x))
     x <- stringi::stri_c(x, collapse = "")
     if (length(out) == 1) {
@@ -257,7 +258,7 @@ construct_shiny <- function(){
 #' @param x character vector, maximum length 3.
 #' @return full length character string of input
 .expand_shiny_f <- function(x) {
-    stopifnot(length(x) >= 1 & length(x) < 4)
+    stopifnot(length(x) >= 1 & length(x) < 5)
     out <- character(length(x))
     x <- stringi::stri_c(x, collapse = "")
     if (length(out) == 2) {
@@ -315,13 +316,12 @@ construct_shiny <- function(){
 #' @param x character vector, maximum length 2.
 #' @return full length character string of input
 .expand_shiny_h <- function(x) {
-    stopifnot(length(x) >= 1 & length(x) < 3)
+    stopifnot(length(x) >= 1 & length(x) < 5)
     x <- stringi::stri_c(x, collapse = "")
     switch(x,
-           "ht" = "help_text", #hide_tab
+           "ht" = "help_text", #hide_tab html_template
            "ho" = "hover_opts", # html_output
            "h" = "html",
-           "ht" = "html_template", #fill_page, fixed_page, fixed_panel
            "hr" = "html_response",
            {
                message(paste(
@@ -335,7 +335,7 @@ construct_shiny <- function(){
 #' @param x character vector, maximum length 2.
 #' @return full length character string of input
 .expand_shiny_i <- function(x) {
-    stopifnot(length(x) >= 1 & length(x) < 4)
+    stopifnot(length(x) >= 1 & length(x) < 5)
     out <- character(length(x))
     x <- stringi::stri_c(x, collapse = "")
     if (length(out) == 1) {
@@ -351,7 +351,7 @@ construct_shiny <- function(){
                "it" = "include_text", #insert_tab, is_truthy
                "il" = "invalidate_later",
                "iu" = "insert_ui",
-               "ir" = "is_reactivevalues", #is_reactive, is_running
+               "ir" = "is.reactivevalues", #is_reactive, is_running
                {
                    message(paste(
                        "two letters:",
@@ -378,7 +378,7 @@ construct_shiny <- function(){
 #' @param x character vector, maximum length 2.
 #' @return full length character string of input
 .expand_shiny_m <- function(x) {
-    stopifnot(length(x) >= 1 & length(x) < 4)
+    stopifnot(length(x) >= 1 & length(x) < 5)
     out <- character(length(x))
     x <- stringi::stri_c(x, collapse = "")
     if (length(out) == 1) {
@@ -417,7 +417,7 @@ construct_shiny <- function(){
 #' @param x character vector, maximum length 2.
 #' @return full length character string of input
 .expand_shiny_n <- function(x) {
-    stopifnot(length(x) >= 1 & length(x) < 4)
+    stopifnot(length(x) >= 1 & length(x) < 5)
     out <- character(length(x))
     x <- stringi::stri_c(x, collapse = "")
     if (length(out) == 1) {
@@ -426,9 +426,6 @@ construct_shiny <- function(){
         switch(x,
                "nm" = "navbar_menu",
                "np" = "navbar_page", #navlist_panel, #near_points
-               "mb" = "modal_button",
-               "md" = "modal_dialog",
-               "ms" = "module_server",
                "ni" = "numeric_input",
                {
                    message(paste(
@@ -459,8 +456,7 @@ construct_shiny <- function(){
                "os" = "on_stop",
                "ose" = "on_session_ended",
                "oo" = "output_options",
-               "ordm" = "on_reactive_domain_ended",
-               "ni" = "numeric_input",
+               "orde" = "on_reactive_domain_ended",
                {
                    message(paste(
                        "unknown shiny_o abbreviation"))
