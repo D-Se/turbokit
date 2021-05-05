@@ -1,0 +1,171 @@
+---
+title: "chaining"
+output: rmarkdown::html_vignette
+author: "Donald Seinen"
+vignette: >
+  %\VignetteIndexEntry{chaining}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(turbokit)
+```
+
+In this vignette, chaining arbitrarily complex pipes is explained, covering the following topics:
+
+-   The whole game
+
+-   Chaining functions
+
+    -   Tidymath
+
+    -   Superpipe operator
+
+    -   Dynamic snippet
+
+    -   Quasi comments
+
+# The whole game
+
+```{r, eval=FALSE}
+ "~s*sw>m>z*a*e>p>1gv>1syc" %>>%.
+ 
+# describes a snippet (dynamic - not stored)
+${1}:mydata %>%
+    select(starts_with("${2}:charmatch")) %>%
+    mutate(${3:new} = ${4:func}) %>%
+    summarise(across(everything(), ${5:func})) %>%
+    ggplot(aes(${6:param})) +
+    geom_histogram() +
+    geom_violin() +
+    scale_y_continuous()
+
+ # and results in 
+ mydata %>%
+  select(starts_with("param")) %>%
+  mutate(new = func) %>%
+  summarise(across(everything(), func)) %>%
+  ggplot(aes(param)) +
+  geom_violin() +
+  scale_y_continuous()
+```
+
+The result is a arbitrarily complex pipe in the active document where the user can jump from location to location and fill in required parameters to functions. Parameters can be filled in using the `turbo()` functiont, which is a one-off execution of tidymath through an interface. This interface does not break the dynamic snippet, and can be used to append pipes after they have been constructed. These would be used at the "param" and func locations in the above script.
+
+# Chaining functions
+
+## Tidymath
+
+### What is tidymath?
+
+> **tidymath** is a shorthand notation form, initialism description, for widely used R functions in chain format. It uses first letters of snake case functions to construct a complex pipeline of function calls.
+
+An initialism is an abbreviation formed from initial letters, in the case of tidymath, the initials of each component of a function name. For example, the tidyselect function `starts_with()` maps to `sw` .
+
+Abbreviations used in tidymath adhere to [tidy](https://www.jstatsoft.org/article/view/v059i10) principles, that is, each abbreviation is structured and constructed in the same way, it does not matter if the function it describes is snake case, camel case or some other notation form. Using a metaphor, tidymath is "vectorising" function names allowing for performing the same operation on vastly different function naming conventions.
+
+```{r, eval=FALSE}
+# Tidymath
+"~s*sw>m*3fr>g>p>1gh"
+
+```
+
+Defintions
+
+:   The **initial term** ( \~ ) denotes tidymath initiation. It is translated to `mydata %>%`
+
+:   An **interaction term** ( \* ) denotes that the function on the right is placed within the parenthesis of the function on the left.
+
+:   A **prefix** ( digit ) denotes the package in which the function lives. Defaults are available.
+
+:   An **abbreviation** ( gh ) describes a function by its first snake case letters ( geom_histogram )
+
+:   A **function term** ( letter ) denotes a part or the whole of an abbreviation for a function.
+
+:   A **pipe** ( \> ) indicates the a pipe operator (`+` or `%>%`) should be placed and the next characters are on a new line.
+
+### Code evaluation
+
+Tidymath is recognized as such when the character string starts with \~, the *tilde*, a universal sign for formula in R. Tidymath is evaluated from left to right. The \* interaction term has precedence over the \> pipe term and are resolved from right to left.
+
+```{r, eval=FALSE}
+"~z*a*e"
+# results in 
+summarrise(across(everything()))
+```
+
+## The superpipe
+
+The superpipe `%>>%` is the translation mechanism that converts tidymath into usable complex pipes.
+
+```{r, eval=FALSE}
+# Tidymath + superpipe
+"~s*sw>m>g>p>1gh" %>>%.
+```
+
+Prior to using the superpipe operators, user should double check if there are no snippets called "s" already in their .Rsnippets file. This snippet would be overwritten by the pipe.
+
+This can be done by navigating to ***Tools \> Global Options \> Code \> Edit Snippets.***
+
+The superpipe is a handy function to insert complex pipes, to reduce long text to a shorthand format. However, to have remnants of it left in the script is not se useful.
+
+Turbokit provides the `clean()` to transform everything superpipe call into a comment. This way, the call is preserved, but it is not evaluated when a script is sourced, or a markdown doc is knitted.
+
+## Dynamic snippets
+
+The superpipe serves another purpose. In addition to translating tidymath, it converts the outcome to a *dynamic snippet*. Dynamic snippets are [snippets](%5B%3Chttps://support.rstudio.com/hc/en-us/articles/204463668-Code-Snippets%3E)](<https://support.rstudio.com/hc/en-us/articles/204463668-Code-Snippets>)), text macros, modified in place according to a singular naming convention for one-time use. This differs from regular snippets in that those usually are defined in advance to simplify recurring coding tasks.
+
+```{r, eval=FALSE}
+# Tidymath + superpipe
+"~s*sw>m*3fr>g>p>1gh" %>>%.
+
+# Translates to
+${1}:mydata %>%
+    select(starts_with("${2}:charmatch")) %>%
+    mutate(${3:new}) %>%
+    group_by(${4:var}) %>%
+    ggplot(aes(${5:param})) +
+    geom_histogram()
+    
+
+```
+
+The last piece of the puzzle that the superpipe does, is to insert this dynamic snippet at the cursor location. The user can then call a custom snippet, named `s` by writing an s and hitting the `TAB` key. For Windows users, an additional package setting is available, `getOption("turbokit-autoinsert")` to automatically insert the snippet after its creation. Alternatively, users might want to use the insertSnippet shortcut.
+
+## Quasi comments
+
+A side effect of the superpipe operator is that it has a silent argument. This argument is a remnant of requirements set by the R dev team, where they specify that infix operators can not be unary in nature.
+
+The superpipe has no use for a second argument, and thus ignores it entirely.
+
+```{r, eval=FALSE}
+%>>%.
+```
+
+In the default shortcut, a meaningless dot will be inserted to satisfy the constraint. However, this dot can be replaced with pretty much anything.
+
+**Abusing this might result in undefined behavior.**
+
+However, when approached carefully, it can serve as nice specially formatted comment.
+
+```{r, eval=FALSE}
+# ifrom R's perspective
+"~s" %>>% .[[include_this_plot?.]]
+
+# is the same as
+"~s" %>>%.
+
+# but please don't abuse this like for safety, even though it evaluates fine.
+"~s" %>>%pi@.[NaN*?1i~Inf:0]$F
+
+```
+
+A good practice is to turn quasi comments into regular comments after script is done, or needs to be exported or sourced. This can be done with the `clean()` function. Alternative, use the `eval=FALSE` option in Markdown.

@@ -1,45 +1,65 @@
 ---
-title: "Introduction to Turbokit"
+title: "turbokit"
 output: rmarkdown::html_vignette
+description: >
+  Start here if this is your first time using turbokit. You'll learn how to setup, the       package, its basic philosophy, the most important code manipulation actions.
 vignette: >
-  %\VignetteIndexEntry{Introduction to Turbokit}
+  %\VignetteIndexEntry{turbokit}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 
+This vignette explains in detail each of these features.
+
+-   Package summary
+
+-   Turbokit Introduction
+
+    -   Why this package
+
+    -   Development roadmap
+
+-   Setup
+
+    -   Shortcuts
+
+    -   Options
+
+-   Turbokit design philosophy
+
 # Package Summary
 
-Turbokit introduces quality of life features reducing redundancy in day-to-day coding tasks in R and increasing the accessibility of stylish R code. It does so by re-thinking how frequently used functions are written by users, minimizing the number of key presses and reducing time spent on formatting tasks. Turbokit leverages [snippets](https://support.rstudio.com/hc/en-us/articles/204463668-Code-Snippets) , [infix operators](https://cran.r-project.org/doc/manuals/R-lang.html#Operators) , [custom shortcuts](https://support.rstudio.com/hc/en-us/articles/206382178-Customizing-Keyboard-Shortcuts) , fuzze matching, [addins](https://rstudio.github.io/rstudioaddins/) and [the tidyverse manifesto](https://cran.r-project.org/web/packages/tidyverse/vignettes/manifesto.html) to do so.
+Turbokit introduces quality of life features reducing redundancy in day-to-day coding tasks in R and increasing the accessibility of stylish R code. It does so by re-thinking how frequently used functions are written by users, minimizing the number of key presses and reducing time spent on formatting tasks. Turbokit leverages [snippets](https://support.rstudio.com/hc/en-us/articles/204463668-Code-Snippets), [infix operators](https://cran.r-project.org/doc/manuals/R-lang.html#Operators), [custom shortcuts](https://support.rstudio.com/hc/en-us/articles/206382178-Customizing-Keyboard-Shortcuts), fuzzy matching, [addins](https://rstudio.github.io/rstudioaddins/) and [the tidyverse manifesto](https://cran.r-project.org/web/packages/tidyverse/vignettes/manifesto.html) to do so.
 
 Turbokit includes the following features:
 
--   *Smart pipe:* A single button press to insert `%>%` or `+` based on document context. **Reduce formatting**
+-   *Smart pipe:* A single button press to insert `%>%` or `+` based on document context.
 
--   *Tidymath*: Shorthand notation for writing chains of functions in a pipe format. **Reduce typing**
+see `vignette("turbo")`
 
--   *Superpipe*: `%>>%` operator to convert tidymath instructions to a full-length snippet. **Reduce menuing**
+-   Shortcut button for a curated list of (1500+) functions.
+
+-   Shortcut buttons for extremely frequent functions.
+
+see `vignette("chaining")`
+
+-   *Tidymath*: Shorthand notation for writing chains of functions in a pipe format.
+
+-   *Superpipe*: `%>>%` operator to convert tidymath instructions to a full-length snippet.
 
 -   *Dynamic snippets:* adaptive snippets of formatted complex pipes described by *tidymath* and constructed by the *superpipe*.
 
 -   *Quasi-comments*: Non-evaluated syntax highlighted R code.
 
--   Shortcut buttons for key functions: dplyr / tidyselect / superpipe / construct functions.
+# Turbokit Introduction
 
-This vignette explains in detail each of these features.
-
-# Why turbokit?
+## Why turbokit?
 
 A stigma yet clings to R - It is hard to use.
 
 Historically, naming conventions used in R packages were [problematic](https://journal.r-project.org/archive/2012-2/RJournal_2012-2_Baaaath.pdf). Dots, camelCase, snake_case and function parameter names, many were unpredictable. This forced users to apply trial-and-error style probing to find out or remember what the function name is in a given package. Typos and deviation from that what matters: data science.
 
-> The goal of the tidyverse is to discover the minimal set of chunks needed to do data science and have some sense of the priority of the remainder.
->
-> -Tidyverse design guide / Tidyverse team
-
-Convergence by the user-base toward acceptance of human-centered, consistent, composable and [inclusive unifying principles](https://design.tidyverse.org/index.html) of the tidyverse and increasingly widespread usage of its [style guide](https://style.tidyverse.org/) is great for reducing redundant loss of resources - making R (and data science!) easier.
-
-## Code input
+### Code input
 
 There is however a bottleneck. Inputting code takes time, and this time cost increases the longer or harder to remember a function name is. Systems are in place to aid the user, but often come with hurdles to overcome or drawbacks when used.
 
@@ -52,30 +72,16 @@ There is however a bottleneck. Inputting code takes time, and this time cost inc
 +----------------+-------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 | Snippet        | Insert arbitrarily long code chunks, and jump from location to location.                                                                        | Requires special syntax and menuing to set up.                                                                                                                                               |
 +----------------+-------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-| Turbokit       | Combines shorthand notation, shortcuts and snippets.                                                                                            | Does not cover all possible functions. Has some setup cost and learning curve.                                                                                                               |
-|                |                                                                                                                                                 |                                                                                                                                                                                              |
-|                | Supports search list customization. Curated list of supported functions based on lifecycles.                                                    |                                                                                                                                                                                              |
-+----------------+-------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+While powerful in their own right, the systems available do not play very well with each other. There thus exists a gap - fast paced, predictable output for complicated functions that does not require complex syntax.
 
 The turbokit package provides quality of life features that makes existing systems and the tidy design philosophy easily accessible, more consistent and speedier to use.
 
-## Script navigation
+### Script navigation
 
-Another bottleneck occurs when doing data science in R. Script navigation and formatting code consumes user attention and is the cause of many a rant. Ever typed a wrong pipe operator? A capital letter instead of a small letter? Forgot the shortcut to move to the end of the line, resulting in abuse of the direction keys? System exist to help with this.
+Another bottleneck is script navigation and formatting code. Ever typed a wrong pipe operator? Forgot to insert library calls? Typed a capital letter instead of a small letter? Forgot the shortcut to move to the end of the line, resulting in abuse of the direction keys? Turbokit helps with this by providing some formatting tools.
 
-+-----------+-------------------------+------------------------+
-| System    | Benefit                 | Drawback               |
-+===========+=========================+========================+
-| Shortcuts | Powerful tasks          | After the fact         |
-+-----------+-------------------------+------------------------+
-| Packages  |                         | Requires library calls |
-+-----------+-------------------------+------------------------+
-| Snippet   |                         |                        |
-+-----------+-------------------------+------------------------+
-| Turbokit  |                         |                        |
-+-----------+-------------------------+------------------------+
-
-# Setup turbokit
+# Setup
 
 Turbokit is somewhat different from most packages, as many of its features are available without the need to call `library(turbokit)`. However, to use turbokit to its full potential, the user has to invest some time in setting up turbokit to their preference.
 
@@ -99,7 +105,7 @@ tabl <- "
 | switch mode      | *ctrl + shift + right*  |
 | insert pipe      | *ctrl + shift + .*  |
 | insert superpipe      | *ctrl + shift + `*   |
-| contruct_complex | *ctrl + shift + /*       |
+| turbo | *ctrl + shift + /*       |
 | select       | *ctrl + shift + s*    |
 | filter    | *ctrl + shift + f*       |
 | mutate | *ctrl + shift + m*        |
@@ -112,15 +118,29 @@ tabl <- "
 cat(tabl)
 ```
 
-Note: the superpipe shortcut is the backtick, often on same key as \~.
-
-Besides the two pipe operators, all of the output of the aforementioned shortcuts and construct\_ and insert\_, can be achieved through tidymath and superpipe combination as well as the construct_complex wrapper function. It is thus recommended to only bind those functions that the user very frequently uses.
+Besides the two pipe operators, all of the output of the insert\_ functions, can be achieved through tidymath and superpipe combination as well as the turbo function. It is thus recommended to only bind those functions that the user very frequently uses.
 
 ## Options
 
-Turbokit has several options that can change the output of its operators to the users desire or requirement. As turbokit deals with snippets and shortcuts, it inevitably has to deal with different operating systems and use cases.
+Turbokit has several options that can change the output of its operators and functions to the users desire or requirement. As turbokit deals with snippets and shortcuts, it inevitably has to deal with different operating systems and use cases.
 
-Changes to options are not stored, and must be rerun after restarting an R session. This is both a blessing and a curse.
+Changes to options are not stored permanently, and must be rerun after restarting an R session. A way to permanently can be done by editing an Rprofile file.
+
+`usethis::edit_r_profile() or  file.edit(file.path("~", ".Rprofile"))` to edit .Rprofile in HOME.
+
+If multiple rprofiles are present, use `file.edit(".Rprofile")` to edit the project level file.
+
+In the .Rprofile file, a line can be added, `options("turbokit-optionname")`
+
+## boot
+
+Turbokit provides powerful features for starting the package automatically, and reduce redundant pre-analysis tasks such as library calls. However, changing a users' namespace is not always wanted. By default, this options is turned off.
+
+```{r, eval=FALSE}
+getOption("turbokit-boot")
+```
+
+A message is printed if verbose is set to `TRUE`.
 
 ### up
 
@@ -130,7 +150,7 @@ Up, or user preference, is an option that determines the output of several of tu
 getOption("turbokit-up")
 ```
 
-to change its option, there is a function available.
+to change its option, there is a function available. See the Custom bindings in the Use turbo section.
 
 ```{r, eval=FALSE}
 read(package_name)
@@ -144,7 +164,7 @@ default()
 
 ### autoinsert
 
-For Windows users, Turbokit can automatically insert the snippet. By default, this option is set to `TRUE`. To check your settings, use
+For Windows users, Turbokit can automatically insert the snippet. By default, this option is set to `TRUE`. If the package `devtools` is not installed, this function will not be available. To check your settings, use
 
 ```{r, eval=FALSE}
 getOption("turbokit-autoinsert")
@@ -204,6 +224,85 @@ to disable, use
 
 ```{r, eval=FALSE}
 options("turbokit-verbose" = FALSE)
+
 ```
 
-## 
+# Turbokit Design Philosophy
+
+How many functions are typed, how many backspaces hit every day, every month, every year, per career, per R user? What is the total redundant hand travel distance?
+
+> Do not Repeat Yourself (Hunt & Davis, 1999)
+
+Once these questions are asked, several problems becomes clear.
+
+1.  Much of a function name is redundant for the developer.
+
+    > It deosn't mttaer in waht oredr the ltteers in a wrod are, hmuans can udnertsand it.
+
+2.  Thinking of code is faster than writing code.
+
+3.  Existing systems are powerful, but unpredictable output or inflexible.
+
+Consider the following piece of legacy code:
+
+```{r BaseR, eval=FALSE}
+transform(iris[which(iris$Species == "versicolor"),], new = Sepal.Length*2)
+```
+
+In baseR such a call would take roughly 76 keystrokes, given that there are no mistakes. Such code is rarely written these days, as R has seen many years of active development. In recent years, package developers started from scratch, and thought deeply about how code is written, introducing the *tidyverse.*
+
+> The goal of the tidyverse is to discover the minimal set of chunks needed to do data science and have some sense of the priority of the remainder.
+>
+> -Tidyverse design guide / Tidyverse team
+
+Convergence by the user-base toward acceptance of human-centered, consistent, composable and [inclusive unifying principles](https://design.tidyverse.org/index.html) of the tidyverse and increasingly widespread usage of its [style guide](https://style.tidyverse.org/) is great for reducing redundant loss of resources - making R (and data science!) easier.
+
+The tidyverse packages provide an alternative way to write code in a nice format
+
+```{r, eval=FALSE}
+iris %>%
+    select(starts_with("Sepal"), Species) %>%
+    filter(str_detect(Species, "v")) %>%
+    group_by(Species) %>%
+    summarise(across(everything(), mean)) %>%
+    ggplot(aes(Sepal.Length, Sepal.Width)) +
+    geom_density_2d_filled()
+```
+
+What the current design philosophy does not do, however, is heavily reduce the keypresses required to arrive at this code. The above example takes roughly 75 keystrokes.
+
+Turbokit is implemented with the following principles in mind.
+
+### 1. Writing code is a bottleneck
+
+Code is written for different stakeholders, including the PC, the developer and the end-user. However, it is the end result that counts, not the methodology to arrive at that result. It does not matter if a user fully types out a function call, how many times a piece of code is rewritten, or if the code itself is the result of a function.
+
+Adults read about 270-300 words per minute, but type only about 40-70 words per minute given *fluency* in a language. Now extend this to non-native speakers and different keyboard layouts or scripts. An example is Chinese, where the *Shift* key is often linked to a change in input styles. Punctuation marks and input often is not identical to what R expects and recognizes, for example the parenthesis ）verses ).
+
+The typing process is inherently prone to errors.
+
+*Example*: `"~s*sw>m*2sd>z*a*e>p>1gv>1syc"`, which is equivalent to
+
+```{r, eval=FALSE}
+mydata %>%
+  select(starts_with()) %>%
+  mutate(new = str_detect()) %>%
+  summarise(across(everything(), func)) %>%
+  ggplot(aes(param)) +
+  geom_violin() +
+  scale_y_continuous()
+```
+
+### 2. Code input is personal
+
+Every user is different. Typing speed, language fluency, R history, interest et cetera all differ in users. Code input methodology should reflect the different preferences of each user.
+
+> Code input methods should be adaptive to user preferences
+
+### 3. Code input should be predictable
+
+Using style guides and naming conventions are a matter of taste. However, there are similarities in all naming conventions. Often names are chunks by separators such as underscores, capital letter or dots that specify verbs and nouns and some metadata of a function. To memorise which function in which package uses what naming convention is a big hurdle in learning any programming language.
+
+This extends to parameters. Non-standard evaluation (NSE) enables different forms of input. Should a parameter be quoted, unquoted, a list or a vector?
+
+> Code input methods should reduce cognitive load required to use functions by being predictable

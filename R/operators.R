@@ -7,13 +7,14 @@
 #'
 #' @return seemingly unary infix function
 `%.%` <- function(name, body) {
-    `%paste%` <- paste0
-    fun_name <- "%" %paste% name %paste% "%"
+  `%paste%` <- paste0
+  fun_name <- "%" %paste% name %paste% "%"
 
-    assign(
-        x = fun_name,
-        value = function(x, comment) body(x),
-        envir = parent.frame())
+  assign(
+    x = fun_name,
+    value = function(x, comment) body(x),
+    envir = parent.frame()
+  )
 }
 
 #' Superpipe operator: translate tidymath to dynamic snippets.
@@ -80,26 +81,31 @@
 #' This behavior extends to markdown. Note - it could lead to unintended behavior
 #'
 #' @export
-`%>>%` <- ">>" %.% function(x){
-    out <- .construct_chain(x)
-    out <- .construct_snippet(out)
-    s <- {
-        suppressMessages(usethis::edit_rstudio_snippets(type = "r"))
-        rstudioapi::documentSave()
-        rstudioapi::documentClose()
-        .remove_snippet(name = "s",
-                               path = getOption("turbokit-snippetdir"))
-        .reposition_row()
-        {
-            rstudioapi::insertText("s")
-            if (Sys.info()["sysname"] == "Windows"
-                & getOption("turbokit-autoinsert")){
-                ### TODO: access shortcuts and default shortcuts in R.
-                # mimic insert snippet code // programmatically insert hook.
-                KeyboardSimulator::keybd.press(button = "shift+tab")
-            }
+`%>>%` <- ">>" %.% function(x) {
+  out <- construct_chain(x)
+  # snippet gets added here
+  out <- construct_snippet(out)
+  s <- {
+    suppressMessages(usethis::edit_rstudio_snippets(type = "r"))
+    rstudioapi::documentSave()
+    rstudioapi::documentClose()
+    remove_snippet(
+      name = "s",
+      path = getOption("turbokit-snippetdir")
+    )
+    reposition_row()
+    {
+      rstudioapi::insertText("s")
+      if (Sys.info()["sysname"] == "Windows" &
+        getOption("turbokit-autoinsert")) {
+        ### TODO: access shortcuts and default shortcuts in R.
+        # mimic insert snippet code // programmatically insert hook.
+        if (requireNamespace("KeyboardSimulator", quietly = TRUE)) {
+          KeyboardSimulator::keybd.press(button = "shift+tab")
         }
+      }
     }
+  }
 }
 
 ########## Insert operators ##########
@@ -131,22 +137,24 @@
 #' \code{\%>>\%.}.
 #'
 #' @export
-superpipe <- function(){
-    rstudioapi::insertText("%>>%.")
-    if (!"turbokit" %in% .packages()) {
-        library(turbokit)
-    }
-    x <- rstudioapi::getActiveDocumentContext()
-    y <- rstudioapi::primary_selection(x = x)
-    if (stringi::stri_detect_regex(str = x$contents[y$range$end[1]],
-                                   pattern = "[[:lower:]]",
-                                   max_count = 1)) {
-        rstudioapi::insertText("\n")
-    } else if (y$range$end[1] == length(x$contents)) {
-        rstudioapi::insertText("\n")
-    }
-    z <- x$contents[y$range$start[1]]
-    rstudioapi::sendToConsole(z, execute = T, focus = F)
+superpipe <- function() {
+  rstudioapi::insertText("%>>%.")
+  if (!"turbokit" %in% .packages()) {
+    library(turbokit)
+  }
+  x <- rstudioapi::getActiveDocumentContext()
+  y <- rstudioapi::primary_selection(x = x)
+  if (stringi::stri_detect_regex(
+    str = x$contents[y$range$end[1]],
+    pattern = "[[:lower:]]",
+    max_count = 1
+  )) {
+    rstudioapi::insertText("\n")
+  } else if (y$range$end[1] == length(x$contents)) {
+    rstudioapi::insertText("\n")
+  }
+  z <- x$contents[y$range$start[1]]
+  rstudioapi::sendToConsole(z, execute = T, focus = F)
 }
 
 # code adapted from mufflr package (performance, generalized, extended)
@@ -159,38 +167,46 @@ superpipe <- function(){
 #'
 #' @export
 insert_pipe <- function() {
-    pipe <- pipe_toggle()$pipe
-    x <- rstudioapi::getActiveDocumentContext()
-    y <- x$selection[[1]]$range
-    row <- y$end["row"]
-    col <- y$end["column"]
-    n_nested <- sum(gregexpr(pattern = ")",
-                             text = x$contents[row],
-                             fixed = TRUE)[[1]] > 0)
-    ind <- .rs.readUiPref("num_spaces_for_tab")
-    if (n_nested > 0 & getOption("turbokit-smartpipe")) {
-        rstudioapi::insertText(paste0(
-            " ", pipe, "\n", strrep(" ", ind)),
-            # location = needed here, else ranges error
-            location = rstudioapi::document_position(y$start["row"],
-                                                     col + n_nested))
-        rstudioapi::setCursorPosition(
-            rstudioapi::document_position(y$start["row"] + 1, col))
-    } else {
-        indent_c <-
-            regexec(pattern = "\\w", x$contents[row], perl = TRUE)[[1]][1]-1
-        if (indent_c < 0)
-            ind <- nchar(x$contents[row])
-        if (sum(y$end - y$start) > 0) {
-            rstudioapi::insertText(paste0(pipe, "\n", strrep(" ", ind)))
-        }
-        else {
-            if (grepl(pattern = "\\s$", x$contents[row], perl = TRUE)) {
-                rstudioapi::insertText(paste0(pipe, "\n", strrep(" ", ind)))
-            }
-            else {
-                rstudioapi::insertText(paste0(" ", pipe, "\n", strrep(" ", ind)))
-            }
-        }
+  pipe <- pipe_toggle()$pipe
+  x <- rstudioapi::getActiveDocumentContext()
+  y <- x$selection[[1]]$range
+  row <- y$end["row"]
+  col <- y$end["column"]
+  n_nested <- sum(gregexpr(
+    pattern = ")",
+    text = x$contents[row],
+    fixed = TRUE
+  )[[1]] > 0)
+  ind <- .rs.readUiPref("num_spaces_for_tab")
+  if (n_nested > 0 & getOption("turbokit-smartpipe")) {
+    rstudioapi::insertText(paste0(
+      " ", pipe, "\n", strrep(" ", ind)
+    ),
+    # location = needed here, else ranges error
+    location = rstudioapi::document_position(
+      y$start["row"],
+      col + n_nested
+    )
+    )
+    rstudioapi::setCursorPosition(
+      rstudioapi::document_position(y$start["row"] + 1, col)
+    )
+  } else {
+    indent_c <-
+      regexec(pattern = "\\w", x$contents[row], perl = TRUE)[[1]][1] - 1
+    if (indent_c < 0) {
+      ind <- nchar(x$contents[row])
     }
+    if (sum(y$end - y$start) > 0) {
+      rstudioapi::insertText(paste0(pipe, "\n", strrep(" ", ind)))
+    }
+    else {
+      if (grepl(pattern = "\\s$", x$contents[row], perl = TRUE)) {
+        rstudioapi::insertText(paste0(pipe, "\n", strrep(" ", ind)))
+      }
+      else {
+        rstudioapi::insertText(paste0(" ", pipe, "\n", strrep(" ", ind)))
+      }
+    }
+  }
 }

@@ -80,7 +80,7 @@
 #' @docType package
 #' @name turbokit
 NULL
-#> NULL
+# > NULL
 
 
 # Adding new packages manual
@@ -116,4 +116,3 @@ NULL
 # 1. describe family of packages (wrapper package) or package names
 # 2. execute factories
 # 3.
-

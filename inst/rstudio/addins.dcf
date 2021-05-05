@@ -20,9 +20,9 @@ Interactive: false
 
 
 
-Name: Turbo construct complex combination function
+Name: Turbo
 Description: Expands and inserts combination of abbreviations of tidyverse packages
-Binding: construct_complex
+Binding: turbo
 Interactive: false
 
 Name: Turbo construct ggplot combination function
