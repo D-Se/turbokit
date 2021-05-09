@@ -63,15 +63,11 @@ Historically, naming conventions used in R packages were [problematic](https://j
 
 There is however a bottleneck. Inputting code takes time, and this time cost increases the longer or harder to remember a function name is. Systems are in place to aid the user, but often come with hurdles to overcome or drawbacks when used.
 
-+----------------+-------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 | System         | Benefit                                                                                                                                         | Drawback                                                                                                                                                                                     |
-+================+=================================================================================================================================================+==============================================================================================================================================================================================+
+|----------------|-------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Autocompletion | Visual cues and menuing for fuzzy matches, shorthand function notation. Covers all possible functions. Prompt speed and wait time customizable. | Packages have to be attached. to be searched. Output differs depending on typing speed. User has to slow down to be fast for most functions. Unpredictable position of match in search list. |
-+----------------+-------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 | Shortcuts      | One-stop-shop for complicated input at a button press.                                                                                          | Requires package addin (long setup time) and shortcut overload as each button is tied to a unique key.                                                                                       |
-+----------------+-------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 | Snippet        | Insert arbitrarily long code chunks, and jump from location to location.                                                                        | Requires special syntax and menuing to set up.                                                                                                                                               |
-+----------------+-------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 
 While powerful in their own right, the systems available do not play very well with each other. There thus exists a gap - fast paced, predictable output for complicated functions that does not require complex syntax.
 
@@ -95,7 +91,7 @@ Turbokit shortcut addins all start with "Turbo".
 
 The following table is a suggestion for mapping turbokit shortcut keys. Some of these recommended shortcuts may overlap with default shortcuts. Recommended shortcuts are such that hand travel distance is minimized and shortcuts have a link to the function name.
 
-Naturally, users are encouraged experiment with the shortcut setup to find their favorite setup. that works best for them.
+Naturally, users are encouraged experiment with the shortcut setup to find their favorite setup that works best for them.
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
 tabl <- "

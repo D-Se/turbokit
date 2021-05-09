@@ -1,0 +1,48 @@
+home:
+  title: An R package for speedy code input
+  description: Jumpstart your data analsyis with shortcuts and snippets
+
+reference:
+- title: "Speedy insertion of functions"
+  desc: >
+    Use abbreviations to rapidly insert complex functions predictably.
+- contents:
+  - turbo
+  - turbo_abb
+
+- title: "Operators for quick insertion of functions"
+  desc: >
+    Operators that speed up code input.
+- contents:
+  - starts_with("%>")
+  - ends_with("pipe")
+- title: "Specify turbokit function side effects"
+  desc: >
+    Functions that finetune turbokit function results by changing settings and
+    side effects. Specification of abbreviation families, prioritizing search
+    trees.
+- contents:
+  - starts_with("toggle_")
+  - read
+  - default
+
+- title: "Data analysis process preparation functions"
+  desc: >
+    Functions to reduce workload while preparing a data analysis process, such
+    as attaching packages.
+- contents:
+  - boot
+  - clean
+
+- title: "Shortcut bindings"
+  desc: >
+    functions to bind to shortcuts. Not meant to be called manually.
+- contents:
+  - starts_with("insert_")
+
+- title: "Abbreviation constructor functions"
+  desc: >
+    Functions for translating user input to an abbreviation, and insert the
+    appropriate function in the active document.
+- contents:
+  - starts_with("construct_")

@@ -3,6 +3,11 @@
 # Function to insert any function into an R script at the cursor position
 insert <- function(verb) {
     verb <- deparse(substitute(verb))
+    if (verb %in% c("starts_with", "contains", "ends_with")) {
+        return(
+            rstudioapi::insertText(paste0(verb,"(\"\")"))
+        )
+    }
     rstudioapi::insertText(paste0(verb, "()"))
 }
 
@@ -24,9 +29,32 @@ reposition <- function(n) {
 # Function to move mouse cursor to the end of the line
 reposition_end <- function() {
     x <- rstudioapi::getActiveDocumentContext()
-    rstudioapi::setCursorPosition(
-        rstudioapi::document_position(x$selection[[1]]$range$start["row"],
-                                      x$selection[[1]]$range$end["column"] + 1))
+    y <- x$selection[[1]]$range
+    row <- y$end["row"]
+    col <- y$end["column"]
+    n_nested <- sum(gregexpr(
+        pattern = "[)\"]",
+        text = x$contents[row],
+        perl = TRUE
+    )[[1]] > 0)
+    if (n_nested > 0) {
+            rstudioapi::insertText(" ", location = rstudioapi::document_position(
+                y$start["row"],
+                col + n_nested
+            ))
+        return(
+            rstudioapi::setCursorPosition(
+                rstudioapi::document_position(
+                    y$start["row"],
+                    col + n_nested + 1
+                )
+            )
+        )
+    } else {
+        rstudioapi::setCursorPosition(
+            rstudioapi::document_position(x$selection[[1]]$range$start["row"],
+                                          x$selection[[1]]$range$end["column"] + 1))
+    }
 }
 
 # Function to move mouse cursor to the next row
@@ -164,7 +192,7 @@ transform_complex_interaction <- function(x) {
         m <- gregexpr("[(]", words[1], perl = TRUE)[[1]][1]
         # place one term within brackets of the other
         out <- reposition_str(words[1],
-                               reposition_str(outer, inner, n+1), m+1)
+                               reposition_str(outer, inner, n + 1), m + 1)
     }
     out <- c(out, ">")
     out

@@ -159,7 +159,7 @@ insert_across <- function() {
 #' @export
 insert_contains <- function() {
   insert(contains)
-  reposition(1)
+  reposition(2)
 }
 
 #' ends_with function in an R script with cursor between brackets
@@ -169,7 +169,7 @@ insert_contains <- function() {
 #' @export
 insert_ends_with <- function() {
   insert(ends_with)
-  reposition(1)
+  reposition(2)
 }
 
 #' everything function in an R script with cursor between brackets
@@ -198,7 +198,7 @@ insert_is.numeric <- function() {
 #' @export
 insert_starts_with <- function() {
   insert(starts_with)
-  reposition(1)
+  reposition(2)
 }
 
 #' where function in an R script with cursor between brackets

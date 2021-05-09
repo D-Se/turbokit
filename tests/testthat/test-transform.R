@@ -2,7 +2,6 @@ test_that("multiplication works", {
   expect_equal(2 * 2, 4)
 })
 
-
 test_that("transform strings", {
     # removes *
     expect_equal(transform_complex_interaction(

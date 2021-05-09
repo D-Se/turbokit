@@ -138,6 +138,7 @@
 #'
 #' @export
 superpipe <- function() {
+  reposition_end()
   rstudioapi::insertText("%>>%.")
   if (!"turbokit" %in% .packages()) {
     library(turbokit)
@@ -173,16 +174,16 @@ insert_pipe <- function() {
   row <- y$end["row"]
   col <- y$end["column"]
   n_nested <- sum(gregexpr(
-    pattern = ")",
+    pattern = "[)\"]",
     text = x$contents[row],
-    fixed = TRUE
+    perl = TRUE
   )[[1]] > 0)
   ind <- .rs.readUiPref("num_spaces_for_tab")
   if (n_nested > 0 & getOption("turbokit-smartpipe")) {
     rstudioapi::insertText(paste0(
       " ", pipe, "\n", strrep(" ", ind)
     ),
-    # location = needed here, else ranges error
+     #location = needed here, else ranges error
     location = rstudioapi::document_position(
       y$start["row"],
       col + n_nested
