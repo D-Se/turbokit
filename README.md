@@ -31,3 +31,5 @@ Turbokit introduces a set of tools for quickly inserting functions, function cha
 `devtools::install_github("D-se/turbokit")`
 
 # Cheat Sheet
+
+<https://github.com/D-Se/turbokit/blob/main/turbokit.pdf>
