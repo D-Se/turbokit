@@ -32,4 +32,4 @@ Turbokit introduces a set of tools for quickly inserting functions, function cha
 
 # Cheat Sheet
 
-<https://github.com/D-Se/turbokit/blob/main/turbokit.pdf>
+[![](images/cheatsheetthumb.png)](https://github.com/D-Se/turbokit/blob/main/turbokit.pdf)
