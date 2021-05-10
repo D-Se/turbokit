@@ -348,31 +348,32 @@ expand_parsnip_get <- function(x) {
   out <- character(length(x))
   out[1] <- "get"
   if (length(out) == 2) {
-  out[2] <- sub(
-    x = x[2],
-    pattern = x[2],
-    replacement = switch(x[2],
-      "d" = "dependency",
-      "e" = "encoding",
-      "f" = "fit",
-      {
-        message(paste(
-          "second letter:",
-          x[1],
-          "unknown parsnip_get abbreviation"
-        ))
-        NA
-      }
-    ),
-    fixed = TRUE
-  )
-  paste0(out, collapse = "_")
+    out[2] <- sub(
+      x = x[2],
+      pattern = x[2],
+      replacement = switch(x[2],
+        "d" = "dependency",
+        "e" = "encoding",
+        "f" = "fit",
+        {
+          message(paste(
+            "second letter:",
+            x[1],
+            "unknown parsnip_get abbreviation"
+          ))
+          NA
+        }
+      ),
+      fixed = TRUE
+    )
+    paste0(out, collapse = "_")
   } else if (length(out) == 3) {
-    out[2] <- dplyr::case_when(x[2] == "f" ~ "from",
-                               x[2] == "m" ~ "model",
-                               x[2] == "p" ~ "pred")
+    out[2] <- dplyr::case_when(
+      x[2] == "f" ~ "from",
+      x[2] == "m" ~ "model",
+      x[2] == "p" ~ "pred"
+    )
     out[3] <- ifelse(x[3] == "e", "env", "type")
-
   }
   paste0(out, collapse = "_")
 }
@@ -527,7 +528,7 @@ expand_dials_abbreviation <- function(x) {
         "cs" = "cost_complexity",
         "cf" = "confidence_factor",
         "df" = "deg_free",
-        "d" = "dropout", #degree
+        "d" = "dropout", # degree
         "di" = "degree_int",
         "dp" = "dist_power",
         "d" = "dropout",
@@ -604,9 +605,11 @@ expand_dials_abbreviation <- function(x) {
 expand_dials_g <- function(x) {
   out <- character(length(x))
   if (length(out) == 2) {
-    return(dplyr::case_when(x[2] == "r" ~ "grid_random",
-                            x[2] == "n" ~ "get_n",
-                            x[2] == "p" ~ "get_p"))
+    return(dplyr::case_when(
+      x[2] == "r" ~ "grid_random",
+      x[2] == "n" ~ "get_n",
+      x[2] == "p" ~ "get_p"
+    ))
   } else if (x[3] == "h" | x[3] == "e") {
     if (length(out) == 3) {
       if (x[2] == "m") {
@@ -677,7 +680,7 @@ expand_dials_g <- function(x) {
         ),
         fixed = TRUE
       )
-    } else if(length(out) == 4){
+    } else if (length(out) == 4) {
       return("get_n_frac_range")
     }
     paste0(out, collapse = "_")
@@ -1018,8 +1021,7 @@ expand_rsample_pretty <- function(x) {
     fixed = TRUE
   )
   out <- paste0(out, collapse = "_")
-  #remove first and last _
+  # remove first and last _
   out <- stringr::str_remove(string = out, pattern = "_")
   out <- stringr::str_remove(string = out, pattern = "_{1,2}$")
 }
-

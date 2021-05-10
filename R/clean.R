@@ -16,27 +16,33 @@
 #' @param detach Boolean - detach the turbokit package after cleaning?
 #' @export
 #' @return Commented turbokit syntax
-clean <- function(detach = TRUE){
-    x <- rstudioapi::getActiveDocumentContext()
-    tryCatch(expr = {
+clean <- function(detach = TRUE) {
+  x <- rstudioapi::getActiveDocumentContext()
+  tryCatch(expr = {
     rstudioapi::sendToConsole(cleaner(doc = x, detach = detach),
-                              execute = T, focus = F)
-    }, error = function(cond){
-        # rstudioapi code param returns error (is not character), but works
-        return(NULL)
-    })
+      execute = T, focus = F
+    )
+  }, error = function(cond) {
+    # rstudioapi code param returns error (is not character), but works
+    return(NULL)
+  })
 }
 
 cleaner <- function(doc, detach) {
-    clean_ind <- which(stringi::stri_detect(str = doc$contents,
-                                            regex = "%>>%") == T)
-    for (i in seq_along(clean_ind)) {
-        rstudioapi::modifyRange(id = doc$id,
-                                text = "# ",
-                                location = rstudioapi::document_position(
-                                    row = clean_ind[i], column = 1))
-    }
-    if (detach & requireNamespace("devtools", quietly = TRUE)) {
-        devtools::unload("turbokit")
-    }
+  clean_ind <- which(stringi::stri_detect(
+    str = doc$contents,
+    regex = "%>>%"
+  ) == T)
+  for (i in seq_along(clean_ind)) {
+    rstudioapi::modifyRange(
+      id = doc$id,
+      text = "# ",
+      location = rstudioapi::document_position(
+        row = clean_ind[i], column = 1
+      )
+    )
+  }
+  if (detach & requireNamespace("devtools", quietly = TRUE)) {
+    devtools::unload("turbokit")
+  }
 }

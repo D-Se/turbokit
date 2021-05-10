@@ -10,10 +10,10 @@
 #' # resetting the default
 #' default()
 default <- function() {
-    ### TODO:withr here?
-    options("turbokit-up" = {
-        l <- vector(mode = "list", length = 9)
-        names(l) <- letters[1:9]
-        l
-    })
+  ### TODO:withr here?
+  options("turbokit-up" = {
+    l <- vector(mode = "list", length = 9)
+    names(l) <- letters[1:9]
+    l
+  })
 }

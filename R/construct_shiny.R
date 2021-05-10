@@ -72,16 +72,18 @@ expand_shiny_default <- function(x) {
       NA
     }
   )
- # exceptions
-  if (out %in% c("get_devmode_option", "in_devmode",
-                 "key_missing", "with_devmode",
-                 "is.key_missing", "includeCSS",
-                 "includeHTML", "insertUI",
-                 "is.reactivevalues", "plotPNG",
-                 "reactiveUI", "shinyUI")) {
+  # exceptions
+  if (out %in% c(
+    "get_devmode_option", "in_devmode",
+    "key_missing", "with_devmode",
+    "is.key_missing", "includeCSS",
+    "includeHTML", "insertUI",
+    "is.reactivevalues", "plotPNG",
+    "reactiveUI", "shinyUI"
+  )) {
     return(out)
   } else {
-  snakecase::to_lower_camel_case(out)
+    snakecase::to_lower_camel_case(out)
   }
 }
 
@@ -680,7 +682,7 @@ expand_shiny_v <- function(x) {
     return("vertical_layout")
   }
   if (length(out) == 3) {
-  switch(x,
+    switch(x,
       "vcu" = "validate_css_unit", # no capitalized CSS here
       "vsi" = "var_selectize_input", # var_Select_input
       "vto" = "verbatim_text_output",

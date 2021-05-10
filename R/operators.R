@@ -183,7 +183,7 @@ insert_pipe <- function() {
     rstudioapi::insertText(paste0(
       " ", pipe, "\n", strrep(" ", ind)
     ),
-     #location = needed here, else ranges error
+    # location = needed here, else ranges error
     location = rstudioapi::document_position(
       y$start["row"],
       col + n_nested

@@ -2,126 +2,126 @@ expand_tidyverse_default <- function(x) {
   if (nchar(x) == 3) {
     x <- stringi::stri_c(x, collapse = "")
     expression <- switch(substr(x, start = 1, stop = 3),
-                         "cda" = "cur_data_all",
-                         "cgr" = "cur_group_rows",
-                         "adf" = "as_data_frame",
-                         "igd" = "is_grouped_df",
-                         "ngd" = "new_grouped_df",
-                         "vgd" = "validate_grouped_df",
-                         {
-                           message(
-                             "No default word found. Did you forget a leading digit?"
-                           )
-                           NA
-                         }
+      "cda" = "cur_data_all",
+      "cgr" = "cur_group_rows",
+      "adf" = "as_data_frame",
+      "igd" = "is_grouped_df",
+      "ngd" = "new_grouped_df",
+      "vgd" = "validate_grouped_df",
+      {
+        message(
+          "No default word found. Did you forget a leading digit?"
+        )
+        NA
+      }
     )
   } else if (nchar(x) == 2) {
     x <- stringi::stri_c(x, collapse = "")
     expression <- switch(substr(x, start = 1, stop = 2),
-                         "sw" = "starts_with",
-                         "ew" = "ends_with",
-                         "rj" = "right_join",
-                         "lj" = "left_join",
-                         "cw" = "case_when",
-                         "ao" = "any_of", # all_of
-                         "nr" = "num_range", # nrow
-                         "ac" = "add_count", # add_column (tibble)
-                         "ar" = "add_row",
-                         "at" = "add_tally", # as_tibble
-                         "aj" = "anti_join",
-                         "bc" = "bind_cols",
-                         "br" = "bind_rows",
-                         "ca" = "c_across",
-                         "cb" = "common_by",
-                         "cd" = "cur_data",
-                         "cc" = "cur_column",
-                         "cg" = "cur_group",
-                         "cm" = "colMeans",
-                         "cs" = "colSums",
-                         "df" = "data.frame",
-                         "fj" = "full_join",
-                         "fc" = "file.choose",
-                         "gc" = "group_cols",
-                         "gd" = "group_data",
-                         "gi" = "group_indices",
-                         "gk" = "group_keys",
-                         "gm" = "group_map", # experimental
-                         "gn" = "group_nest",
-                         "gs" = "group_size", # group_split
-                         "gt" = "group_trim",
-                         "gv" = "group_vars",
-                         "gw" = "group_walk",
-                         "ia" = "if_all",
-                         "ie" = "if_else",
-                         "in" = "is.numeric",
-                         "if" = "is.factor",
-                         "il" = "is.list",
-                         "ic" = "is.character",
-                         "ii" = "is.integer",
-                         "im" = "is.matrix",
-                         "ip" = "install.packages",
-                         "ij" = "inner_join",
-                         "lc" = "last_col",
-                         "nc" = "ncol",
-                         "nd" = "n_distinct",
-                         "ng" = "n_groups",
-                         "ni" = "na_if",
-                         "nb" = "nest_by",
-                         "nj" = "nest_join",
-                         "rw" = "rename_with",
-                         "rd" = "rows_delete",
-                         "ri" = "rows_insert",
-                         "rp" = "rows_patch",
-                         "ru" = "rows_update", # rows_upsert
-                         "rs" = "rowSums",
-                         "rc" = "read_csv",
-                         "rm" = "rowMeans",
-                         "ss" = "set.seed", # same_src slice_sample
-                         "sf" = "sample_frac",
-                         "sj" = "semi_join",
-                         "se" = "setequal", # weird naming convention
-                         "sd" = "setdiff",
-                         "sh" = "slice_head",
-                         "sm" = "slice_max", # slice_min
-                         "st" = "slice_tail",
-                         "tm" = "trunc_mat",
-                         "ts" = "type_sum",
-                         "wo" = "with_order",
-                         "wg" = "with_groups",
-                         "wl" = "writeLines",
-                         {
-                           message(
-                             "No default word found. Did you forget a leading digit?"
-                           )
-                           NA
-                         }
+      "sw" = "starts_with",
+      "ew" = "ends_with",
+      "rj" = "right_join",
+      "lj" = "left_join",
+      "cw" = "case_when",
+      "ao" = "any_of", # all_of
+      "nr" = "num_range", # nrow
+      "ac" = "add_count", # add_column (tibble)
+      "ar" = "add_row",
+      "at" = "add_tally", # as_tibble
+      "aj" = "anti_join",
+      "bc" = "bind_cols",
+      "br" = "bind_rows",
+      "ca" = "c_across",
+      "cb" = "common_by",
+      "cd" = "cur_data",
+      "cc" = "cur_column",
+      "cg" = "cur_group",
+      "cm" = "colMeans",
+      "cs" = "colSums",
+      "df" = "data.frame",
+      "fj" = "full_join",
+      "fc" = "file.choose",
+      "gc" = "group_cols",
+      "gd" = "group_data",
+      "gi" = "group_indices",
+      "gk" = "group_keys",
+      "gm" = "group_map", # experimental
+      "gn" = "group_nest",
+      "gs" = "group_size", # group_split
+      "gt" = "group_trim",
+      "gv" = "group_vars",
+      "gw" = "group_walk",
+      "ia" = "if_all",
+      "ie" = "if_else",
+      "in" = "is.numeric",
+      "if" = "is.factor",
+      "il" = "is.list",
+      "ic" = "is.character",
+      "ii" = "is.integer",
+      "im" = "is.matrix",
+      "ip" = "install.packages",
+      "ij" = "inner_join",
+      "lc" = "last_col",
+      "nc" = "ncol",
+      "nd" = "n_distinct",
+      "ng" = "n_groups",
+      "ni" = "na_if",
+      "nb" = "nest_by",
+      "nj" = "nest_join",
+      "rw" = "rename_with",
+      "rd" = "rows_delete",
+      "ri" = "rows_insert",
+      "rp" = "rows_patch",
+      "ru" = "rows_update", # rows_upsert
+      "rs" = "rowSums",
+      "rc" = "read_csv",
+      "rm" = "rowMeans",
+      "ss" = "set.seed", # same_src slice_sample
+      "sf" = "sample_frac",
+      "sj" = "semi_join",
+      "se" = "setequal", # weird naming convention
+      "sd" = "setdiff",
+      "sh" = "slice_head",
+      "sm" = "slice_max", # slice_min
+      "st" = "slice_tail",
+      "tm" = "trunc_mat",
+      "ts" = "type_sum",
+      "wo" = "with_order",
+      "wg" = "with_groups",
+      "wl" = "writeLines",
+      {
+        message(
+          "No default word found. Did you forget a leading digit?"
+        )
+        NA
+      }
     )
   } else if (nchar(x == 1)) {
     expression <- switch(substr(x, start = 1, stop = 1),
-                         "m" = "mutate", # matches
-                         "f" = "filter",
-                         "s" = "select", # slice
-                         "p" = "ggplot", # pull
-                         "z" = "summarise",
-                         "a" = "across", # arrange
-                         "e" = "everything", # explain
-                         "g" = "group_by", # glimpse
-                         "c" = "contains", # coalesce (dplyr), collect, combine
-                         "r" = "rowwise", # relocate rename
-                         "b" = "between",
-                         "d" = "distinct",
-                         "i" = "intersect",
-                         "l" = "length", # lead , lag
-                         "n" = "near", # nth
-                         "t" = "transmute",
-                         "u" = "ungroup",
-                         "v" = "View", # base function, consider utils::view
-                         {
-                           message(
-                             "No default word found. Did you forget a leading digit?"
-                           )
-                           NA
-                         }
+      "m" = "mutate", # matches
+      "f" = "filter",
+      "s" = "select", # slice
+      "p" = "ggplot", # pull
+      "z" = "summarise",
+      "a" = "across", # arrange
+      "e" = "everything", # explain
+      "g" = "group_by", # glimpse
+      "c" = "contains", # coalesce (dplyr), collect, combine
+      "r" = "rowwise", # relocate rename
+      "b" = "between",
+      "d" = "distinct",
+      "i" = "intersect",
+      "l" = "length", # lead , lag
+      "n" = "near", # nth
+      "t" = "transmute",
+      "u" = "ungroup",
+      "v" = "View", # base function, consider utils::view
+      {
+        message(
+          "No default word found. Did you forget a leading digit?"
+        )
+        NA
+      }
     )
   }
 }
@@ -910,9 +910,11 @@ expand_clock_zone <- function(x) {
   out[2] <- "time"
   if (length(out) == 4) {
     out[3] <- ifelse(x[3] == "p", "parse", "set")
-    out[4] <- dplyr::case_when(x[4] == "a" ~ "abbrev",
-                               x[4] == "c" ~ "complete",
-                               x[4] == "z" ~ "zone")
+    out[4] <- dplyr::case_when(
+      x[4] == "a" ~ "abbrev",
+      x[4] == "c" ~ "complete",
+      x[4] == "z" ~ "zone"
+    )
   } else if (length(out) == 3) {
     if (out[1] == "zone") {
       out[3] <- ifelse(x[3] == "n", "names", "version")
@@ -1418,4 +1420,3 @@ expand_readr_spec <- function(x) {
   )
   paste0(out, collapse = "_")
 }
-

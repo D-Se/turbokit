@@ -910,7 +910,7 @@ expand_ggforce_stat <- function(x) {
         }
       )
     )
-    return( paste0(out, collapse = "_"))
+    return(paste0(out, collapse = "_"))
   } else if (length(out) == 3) {
     x <- stringi::stri_c(x, collapse = "")
     switch(x,
@@ -1031,24 +1031,24 @@ expand_ggridges_scale <- function(x) {
         return("scale_point_shape")
       }
     } else {
-    out[1] <- "scale"
-    out[3] <- "cyclical"
-    out[2] <- sub(
-      x = x[2],
-      pattern = x[2],
-      replacement = switch(x[2],
-        "a" = "alpha",
-        "c" = "colour",
-        "f" = "fill",
-        "l" = "linetype",
-        "s" = "size",
-        {
-          message("unknown ggridges size 3 abbreviation")
-          NA
-        }
+      out[1] <- "scale"
+      out[3] <- "cyclical"
+      out[2] <- sub(
+        x = x[2],
+        pattern = x[2],
+        replacement = switch(x[2],
+          "a" = "alpha",
+          "c" = "colour",
+          "f" = "fill",
+          "l" = "linetype",
+          "s" = "size",
+          {
+            message("unknown ggridges size 3 abbreviation")
+            NA
+          }
+        )
       )
-    )
-    return(paste0(out, collapse = "_"))
+      return(paste0(out, collapse = "_"))
     }
   } else if (length(out) == 4) {
     x <- stringi::stri_c(x, collapse = "")

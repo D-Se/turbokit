@@ -23,35 +23,39 @@
 #' # specify a specific location, to determine a prefix to the abbreviation.
 #' read(stringr, 3)
 read <- function(package, pos = NULL) {
-    package <- deparse(substitute(package))
-    l <- vector(mode = "list", length = 9L)
-    if (!package %in% turbokit_packages) {stop("Package not recognized or not (yet) implemented")}
-    l <- getOption("turbokit-up")
-    if (is.null(pos)) {
-        pos <- as.numeric(min(which(unlist(lapply(l, rlang::is_empty)) == T)))
-    }
-    if (!pos < 10 & pos != 0){stop("Position out of range, accepted positions: 1-9")}
-    if (!is.numeric(pos)) {
-        warning("position is not numeric, converting to numeric")
-        pos <- as.numeric(pos)
-    }
-    ### TODO: shift gears -- when up option is changed, shift default numbers one
-    # behind the user defined positions?
-    l[[pos]] <- create_expression(package = {{ package }})
-    options("turbokit-up" = l)
-    if (getOption("turbokit-verbose")) {
-        cat(paste0(package, " inserted at position ", pos))
-    }
-
+  package <- deparse(substitute(package))
+  l <- vector(mode = "list", length = 9L)
+  if (!package %in% turbokit_packages) {
+    stop("Package not recognized or not (yet) implemented")
+  }
+  l <- getOption("turbokit-up")
+  if (is.null(pos)) {
+    pos <- as.numeric(min(which(unlist(lapply(l, rlang::is_empty)) == T)))
+  }
+  if (!pos < 10 & pos != 0) {
+    stop("Position out of range, accepted positions: 1-9")
+  }
+  if (!is.numeric(pos)) {
+    warning("position is not numeric, converting to numeric")
+    pos <- as.numeric(pos)
+  }
+  ### TODO: shift gears -- when up option is changed, shift default numbers one
+  # behind the user defined positions?
+  l[[pos]] <- create_expression(package = {{ package }})
+  options("turbokit-up" = l)
+  if (getOption("turbokit-verbose")) {
+    cat(paste0(package, " inserted at position ", pos))
+  }
 }
 
 # Helper to transform character string into turbokit-recognized expression of package expansion
 create_expression <- function(package) {
-    package <- rlang::ensym(package)
-    term <- rlang::parse_expr(
-        paste0("expand_",
-               rlang::expr_text(package),
-               "_abbreviation(x)"
-        )
+  package <- rlang::ensym(package)
+  term <- rlang::parse_expr(
+    paste0(
+      "expand_",
+      rlang::expr_text(package),
+      "_abbreviation(x)"
     )
+  )
 }

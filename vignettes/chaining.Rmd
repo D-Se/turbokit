@@ -25,7 +25,7 @@ In this vignette, chaining arbitrarily complex pipes is explained, covering the 
 
 -   Chaining functions
 
-    -   Tidymath
+    -   Pipemath
 
     -   Superpipe operator
 
@@ -58,29 +58,29 @@ ${1}:mydata %>%
   scale_y_continuous()
 ```
 
-The result is a arbitrarily complex pipe in the active document where the user can jump from location to location and fill in required parameters to functions. Parameters can be filled in using the `turbo()` functiont, which is a one-off execution of tidymath through an interface. This interface does not break the dynamic snippet, and can be used to append pipes after they have been constructed. These would be used at the "param" and func locations in the above script.
+The result is a arbitrarily complex pipe in the active document where the user can jump from location to location and fill in required parameters to functions. Parameters can be filled in using the `turbo()` functiont, which is a one-off execution of pipemath through an interface. This interface does not break the dynamic snippet, and can be used to append pipes after they have been constructed. These would be used at the "param" and func locations in the above script.
 
 # Chaining functions
 
-## Tidymath
+## Pipemath
 
-### What is tidymath?
+### What is pipemath?
 
-> **tidymath** is a shorthand notation form, initialism description, for widely used R functions in chain format. It uses first letters of snake case functions to construct a complex pipeline of function calls.
+> **Pipemath** is a shorthand notation form, initialism description, for widely used R functions in chain format. It uses first letters of snake case functions to construct a complex pipeline of function calls.
 
-An initialism is an abbreviation formed from initial letters, in the case of tidymath, the initials of each component of a function name. For example, the tidyselect function `starts_with()` maps to `sw` .
+An initialism is an abbreviation formed from initial letters, in the case of pipemath, the initials of each component of a function name. For example, the tidyselect function `starts_with()` maps to `sw` .
 
-Abbreviations used in tidymath adhere to [tidy](https://www.jstatsoft.org/article/view/v059i10) principles, that is, each abbreviation is structured and constructed in the same way, it does not matter if the function it describes is snake case, camel case or some other notation form. Using a metaphor, tidymath is "vectorising" function names allowing for performing the same operation on vastly different function naming conventions.
+Abbreviations used in pipemath adhere to [tidy](https://www.jstatsoft.org/article/view/v059i10) principles, that is, each abbreviation is structured and constructed in the same way, it does not matter if the function it describes is snake case, camel case or some other notation form. Using a metaphor, pipemath is "vectorising" function names allowing for performing the same operation on vastly different function naming conventions.
 
 ```{r, eval=FALSE}
-# Tidymath
+# pipemath
 "~s*sw>m*3fr>g>p>1gh"
 
 ```
 
 Defintions
 
-:   The **initial term** ( \~ ) denotes tidymath initiation. It is translated to `mydata %>%`
+:   The **initial term** ( \~ ) denotes pipemath initiation. It is translated to `mydata %>%`
 
 :   An **interaction term** ( \* ) denotes that the function on the right is placed within the parenthesis of the function on the left.
 
@@ -94,7 +94,7 @@ Defintions
 
 ### Code evaluation
 
-Tidymath is recognized as such when the character string starts with \~, the *tilde*, a universal sign for formula in R. Tidymath is evaluated from left to right. The \* interaction term has precedence over the \> pipe term and are resolved from right to left.
+Pipemath is recognized as such when the character string starts with \~, the *tilde*, a universal sign for formula in R. Pipemath is evaluated from left to right. The \* interaction term has precedence over the \> pipe term and are resolved from right to left.
 
 ```{r, eval=FALSE}
 "~z*a*e"
@@ -104,10 +104,10 @@ summarrise(across(everything()))
 
 ## The superpipe
 
-The superpipe `%>>%` is the translation mechanism that converts tidymath into usable complex pipes.
+The superpipe `%>>%` is the translation mechanism that converts pipemath into usable complex pipes.
 
 ```{r, eval=FALSE}
-# Tidymath + superpipe
+# pipemath + superpipe
 "~s*sw>m>g>p>1gh" %>>%.
 ```
 
@@ -121,10 +121,10 @@ Turbokit provides the `clean()` to transform everything superpipe call into a co
 
 ## Dynamic snippets
 
-The superpipe serves another purpose. In addition to translating tidymath, it converts the outcome to a *dynamic snippet*. Dynamic snippets are [snippets](%5B%3Chttps://support.rstudio.com/hc/en-us/articles/204463668-Code-Snippets%3E)](<https://support.rstudio.com/hc/en-us/articles/204463668-Code-Snippets>)), text macros, modified in place according to a singular naming convention for one-time use. This differs from regular snippets in that those usually are defined in advance to simplify recurring coding tasks.
+The superpipe serves another purpose. In addition to translating pipemath, it converts the outcome to a *dynamic snippet*. Dynamic snippets are [snippets](%5B%3Chttps://support.rstudio.com/hc/en-us/articles/204463668-Code-Snippets%3E)](<https://support.rstudio.com/hc/en-us/articles/204463668-Code-Snippets>)), text macros, modified in place according to a singular naming convention for one-time use. This differs from regular snippets in that those usually are defined in advance to simplify recurring coding tasks.
 
 ```{r, eval=FALSE}
-# Tidymath + superpipe
+# pipemath + superpipe
 "~s*sw>m*3fr>g>p>1gh" %>>%.
 
 # Translates to

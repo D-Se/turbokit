@@ -43,11 +43,11 @@ see `vignette("turbo")`
 
 see `vignette("chaining")`
 
--   *Tidymath*: Shorthand notation for writing chains of functions in a pipe format.
+-   *Pipemath*: Shorthand notation for writing chains of functions in a pipe format.
 
--   *Superpipe*: `%>>%` operator to convert tidymath instructions to a full-length snippet.
+-   *Superpipe*: `%>>%` operator to convert *pipemath* instructions to a full-length snippet.
 
--   *Dynamic snippets:* adaptive snippets of formatted complex pipes described by *tidymath* and constructed by the *superpipe*.
+-   *Dynamic snippets:* adaptive snippets of formatted complex pipes described by *pipemath* and constructed by the *superpipe*.
 
 -   *Quasi-comments*: Non-evaluated syntax highlighted R code.
 
@@ -63,11 +63,15 @@ Historically, naming conventions used in R packages were [problematic](https://j
 
 There is however a bottleneck. Inputting code takes time, and this time cost increases the longer or harder to remember a function name is. Systems are in place to aid the user, but often come with hurdles to overcome or drawbacks when used.
 
++----------------+-------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 | System         | Benefit                                                                                                                                         | Drawback                                                                                                                                                                                     |
-|----------------|-------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
++================+=================================================================================================================================================+==============================================================================================================================================================================================+
 | Autocompletion | Visual cues and menuing for fuzzy matches, shorthand function notation. Covers all possible functions. Prompt speed and wait time customizable. | Packages have to be attached. to be searched. Output differs depending on typing speed. User has to slow down to be fast for most functions. Unpredictable position of match in search list. |
++----------------+-------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 | Shortcuts      | One-stop-shop for complicated input at a button press.                                                                                          | Requires package addin (long setup time) and shortcut overload as each button is tied to a unique key.                                                                                       |
++----------------+-------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 | Snippet        | Insert arbitrarily long code chunks, and jump from location to location.                                                                        | Requires special syntax and menuing to set up.                                                                                                                                               |
++----------------+-------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 
 While powerful in their own right, the systems available do not play very well with each other. There thus exists a gap - fast paced, predictable output for complicated functions that does not require complex syntax.
 
@@ -114,7 +118,7 @@ tabl <- "
 cat(tabl)
 ```
 
-Besides the two pipe operators, all of the output of the insert\_ functions, can be achieved through tidymath and superpipe combination as well as the turbo function. It is thus recommended to only bind those functions that the user very frequently uses.
+Besides the two pipe operators, all of the output of the insert\_ functions, can be achieved through pipemath and superpipe combination as well as the turbo function. It is thus recommended to only bind those functions that the user very frequently uses.
 
 ## Options
 

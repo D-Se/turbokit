@@ -444,17 +444,18 @@ expand_user_pref <- function(x) {
   )
 }
 
-turbokit_default <- function(x){
-      switch(x,
-             "boot" = boot(),
-             "clean" = clean(),
-             "read" = {
-               rstudioapi::insertText("read()")
-               reposition(1)
-             },
-             "default" = {
-               rstudioapi::insertText("default()")
-               reposition(1)
-             },
-             NA)
+turbokit_default <- function(x) {
+  switch(x,
+    "boot" = boot(),
+    "clean" = clean(),
+    "read" = {
+      rstudioapi::insertText("read()")
+      reposition(1)
+    },
+    "default" = {
+      rstudioapi::insertText("default()")
+      reposition(1)
+    },
+    NA
+  )
 }
