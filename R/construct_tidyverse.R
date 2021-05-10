@@ -1,6 +1,7 @@
 expand_tidyverse_default <- function(x) {
   if (nchar(x) == 3) {
-    expression <- switch(substr(x, start = 1, stop = 2),
+    x <- stringi::stri_c(x, collapse = "")
+    expression <- switch(substr(x, start = 1, stop = 3),
                          "cda" = "cur_data_all",
                          "cgr" = "cur_group_rows",
                          "adf" = "as_data_frame",
@@ -15,6 +16,7 @@ expand_tidyverse_default <- function(x) {
                          }
     )
   } else if (nchar(x) == 2) {
+    x <- stringi::stri_c(x, collapse = "")
     expression <- switch(substr(x, start = 1, stop = 2),
                          "sw" = "starts_with",
                          "ew" = "ends_with",
@@ -682,9 +684,9 @@ expand_clock_date <- function(x) {
       fixed = TRUE
     )
     out[2] <- sub(
-      x = x[3],
-      pattern = x[3],
-      replacement = switch(x[3],
+      x = x[2],
+      pattern = x[2],
+      replacement = switch(x[2],
         "l" = "leap",
         "m" = "month",
         "s" = "set", # floor
@@ -822,6 +824,7 @@ expand_clock_is <- function(x) {
       ),
       fixed = TRUE
     )
+    out[3] <- ifelse(x[3] == "t", "time", "day")
   } else {
     out[2] <- sub(
       x = x[2],
@@ -903,11 +906,13 @@ expand_clock_weekday <- function(x) {
 expand_clock_zone <- function(x) {
   stopifnot(length(x) <= 4)
   out <- character(length(x))
-  out[1] <- ifelse(x[2] == "d", "zone", "zoned")
-  out[2] <- ifelse(x[2] == "d", "database", "time")
+  out[1] <- "zoned"
+  out[2] <- "time"
   if (length(out) == 4) {
-    out[3] <- "parse"
-    out[4] <- ifelse(x[4] == "a", "abbrev", "complete")
+    out[3] <- ifelse(x[3] == "p", "parse", "set")
+    out[4] <- dplyr::case_when(x[4] == "a" ~ "abbrev",
+                               x[4] == "c" ~ "complete",
+                               x[4] == "z" ~ "zone")
   } else if (length(out) == 3) {
     if (out[1] == "zone") {
       out[3] <- ifelse(x[3] == "n", "names", "version")
@@ -1106,7 +1111,7 @@ construct_readr <- function() {
 }
 
 expand_readr_abbreviation <- function(x) {
-  stopifnot(length(x) > 0 & length(x) <= 3)
+  stopifnot(length(x) > 0 & length(x) <= 5)
   switch(x[1],
     "r" = expand_readr_read(x),
     "w" = expand_readr_write(x),
@@ -1286,7 +1291,7 @@ expand_readr_date <- function(x) {
 }
 
 expand_readr_format <- function(x) {
-  stopifnot(length(x) <= 2)
+  stopifnot(length(x) <= 5)
   out <- character(length(x))
   out[1] <- "format"
   out[2] <- sub(
@@ -1311,7 +1316,7 @@ expand_readr_format <- function(x) {
 }
 
 expand_readr_melt <- function(x) {
-  stopifnot(length(x) <= 2)
+  stopifnot(length(x) <= 5)
   out <- character(length(x))
   out[1] <- "melt"
   if (length(out) == 3) {
@@ -1359,7 +1364,7 @@ expand_readr_melt <- function(x) {
 }
 
 expand_readr_parse <- function(x) {
-  stopifnot(length(x) <= 2)
+  stopifnot(length(x) <= 5)
   out <- character(length(x))
   out[1] <- "parse"
   out[2] <- sub(
@@ -1390,7 +1395,7 @@ expand_readr_parse <- function(x) {
 }
 
 expand_readr_spec <- function(x) {
-  stopifnot(length(x) <= 2)
+  stopifnot(length(x) <= 5)
   out <- character(length(x))
   out[1] <- "spec"
   out[2] <- sub(

@@ -238,9 +238,7 @@ expand_usethis_p <- function(x) {
 expand_usethis_use <- function(x) {
   stopifnot(length(x) <= 3)
   out <- character(length(x))
-  if (length(out) == 3) {
-    return(ifelse(x[2] == "m", "pr_merge_main", "pr_pull_upstream"))
-  } else if (length(out) == 2) {
+  if (length(out) == 2) {
     out[1] <- "use"
     out[2] <- sub(
       x = x[2],

@@ -83,7 +83,7 @@ expand_recipes_all <- function(x) {
 }
 
 expand_recipes_step <- function(x) {
-  stopifnot(length(x) <= 3)
+  stopifnot(length(x) <= 4)
   out <- character(length(x))
   out[1] <- "step"
   out[2] <- sub(
@@ -122,7 +122,7 @@ expand_recipes_step <- function(x) {
   )
   if (length(out) == 3) {
     if (x[3] == "p" | x[3] == "r") {
-      ifelse(x[3] == "p", "poly", "rbf")
+      out[3] <- ifelse(x[3] == "p", "poly", "rbf")
     } else if (x[3] == "l") {
       out[3] <- "linear"
       out[2] <- "impute"
@@ -236,12 +236,14 @@ construct_parsnip <- function() {
 expand_parsnip_abbreviation <- function(x) {
   stopifnot(length(x) > 0 & length(x) <= 3)
   out <- character(length(x))
+  if (x[1] == "g") {
+    return(expand_parsnip_get(x))
+  }
   if (length(out) == 1) {
     out[1] <- sub(
       x = x[1],
       pattern = x[1],
       replacement = switch(x[1],
-        "g" = expand_parsnip_get(x),
         "a" = "augment",
         "t" = "translate",
         "v" = "varying",
@@ -266,7 +268,7 @@ expand_parsnip_abbreviation <- function(x) {
       replacement = switch(x,
         "dt" = "decision_tree", # remove_role?
         "bt" = "boost_tree",
-        "c" = "C5.0_train",
+        "ct" = "C5.0_train",
         "ea" = "eval_args",
         "ar" = "add_rowindex",
         "fc" = "fit_control",
@@ -276,7 +278,7 @@ expand_parsnip_abbreviation <- function(x) {
         "lr" = "linear_reg", # logistic_reg
         "mc" = "min_cols", # make_call
         "mr" = "multinum_reg", # min_rows
-        "mp" = "model_predict", # model_printer
+        "mp" = "multi_predict", # model_printer
         "mm" = "maybe_matrix",
         "nn" = "nearest_neighbor",
         "nm" = "null_model",
@@ -342,19 +344,17 @@ expand_parsnip_abbreviation <- function(x) {
 }
 
 expand_parsnip_get <- function(x) {
-  stopifnot(length(x) <= 2)
+  stopifnot(length(x) <= 4)
   out <- character(length(x))
   out[1] <- "get"
+  if (length(out) == 2) {
   out[2] <- sub(
     x = x[2],
     pattern = x[2],
     replacement = switch(x[2],
       "d" = "dependency",
       "e" = "encoding",
-      "m" = "model",
-      "j" = "jitter", # jitterdodge?
-      "n" = "nudge",
-      "s" = "stack",
+      "f" = "fit",
       {
         message(paste(
           "second letter:",
@@ -366,6 +366,15 @@ expand_parsnip_get <- function(x) {
     ),
     fixed = TRUE
   )
+  paste0(out, collapse = "_")
+  } else if (length(out) == 3) {
+    out[2] <- dplyr::case_when(x[2] == "f" ~ "from",
+                               x[2] == "m" ~ "model",
+                               x[2] == "p" ~ "pred")
+    out[3] <- ifelse(x[3] == "e", "env", "type")
+
+  }
+  paste0(out, collapse = "_")
 }
 ### TODO: Needs thorough check for naming policy
 
@@ -404,7 +413,7 @@ construct_tune <- function() {
 }
 
 expand_tune_abbreviation <- function(x) {
-  stopifnot(length(x) > 0 & length(x) <= 4)
+  stopifnot(length(x) > 0 & length(x) <= 5)
   ### TODO: order of appearance here?
   x <- stringi::stri_c(x, collapse = "")
   switch(x,
@@ -485,8 +494,8 @@ construct_dials <- function() {
 expand_dials_abbreviation <- function(x) {
   stopifnot(length(x) > 0 & length(x) <= 6)
   ### TODO: order of appearance here?
-  out <- character(length = x)
-  if (length(out) >= 2 & grepl(x = x, pattern = "^g|n")) {
+  out <- character(length = length(x))
+  if (length(out) >= 2 & grepl(x = x[1], pattern = "^g|n")) {
     out <- sub(
       x = x[1],
       pattern = x[1],
@@ -518,7 +527,7 @@ expand_dials_abbreviation <- function(x) {
         "cs" = "cost_complexity",
         "cf" = "confidence_factor",
         "df" = "deg_free",
-        "d" = "degree",
+        "d" = "dropout", #degree
         "di" = "degree_int",
         "dp" = "dist_power",
         "d" = "dropout",
@@ -594,10 +603,12 @@ expand_dials_abbreviation <- function(x) {
 
 expand_dials_g <- function(x) {
   out <- character(length(x))
-  if (grepl(x = x, pattern = "h|e", perl = T)) {
-    if (length(out) == 2) {
-      out <- "grid_random" # grid_regular
-    } else if (length(out) == 3) {
+  if (length(out) == 2) {
+    return(dplyr::case_when(x[2] == "r" ~ "grid_random",
+                            x[2] == "n" ~ "get_n",
+                            x[2] == "p" ~ "get_p"))
+  } else if (x[3] == "h" | x[3] == "e") {
+    if (length(out) == 3) {
       if (x[2] == "m") {
         out <- "grid_max_entropy"
       }
@@ -648,7 +659,7 @@ expand_dials_g <- function(x) {
         ),
         fixed = TRUE
       )
-    } else if (length(out == 2)) {
+    } else if (length(out) == 2) {
       out[2] <- sub(
         x = x[2],
         pattern = x[2],
@@ -666,6 +677,8 @@ expand_dials_g <- function(x) {
         ),
         fixed = TRUE
       )
+    } else if(length(out) == 4){
+      return("get_n_frac_range")
     }
     paste0(out, collapse = "_")
   }
@@ -685,7 +698,7 @@ expand_dials_num <- function(x) {
       x = x[2],
       pattern = x[2],
       replacement = switch(x[2],
-        "b = breaks",
+        "b" = "breaks",
         "c" = "comp",
         "h" = "hash",
         "t" = "terms", # tokens
@@ -757,7 +770,7 @@ expand_yardstick_abbreviation <- function(x) {
     "ccv" = "classification_cost_vec",
     "cm" = "conf_mat",
     "dt" = "detection_prevalence",
-    "dtv" = "detection_prevelance_vec",
+    "dpv" = "detection_prevalence_vec",
     "dte" = "dots_to_estimate",
     "fm" = "f_meas",
     "fmv" = "f_meas_vec",
@@ -804,7 +817,7 @@ expand_yardstick_abbreviation <- function(x) {
       message(paste(
         "first letter:",
         x[1],
-        "unknown stringr abbreviation"
+        "unknown yardstick abbreviation"
       ))
       NA
     }
@@ -921,8 +934,8 @@ construct_rsample <- function() {
 expand_rsample_abbreviation <- function(x) {
   stopifnot(length(x) > 0 & length(x) <= 5)
   out <- character(length(x))
-  if (length(out) > 2 & grepl(x = x, pattern = "^p{1}", perl = TRUE)) {
-    out <- expand_rsample_pretty(x)
+  if (length(out) >= 2 && x[1] == "p") {
+    return(expand_rsample_pretty(x))
   } else {
     x <- stringi::stri_c(x, collapse = "")
     switch(x,
@@ -959,7 +972,7 @@ expand_rsample_abbreviation <- function(x) {
         message(paste(
           "first letter:",
           x[1],
-          "unknown stringr abbreviation"
+          "unknown rsample abbreviation"
         ))
         NA
       }
@@ -997,12 +1010,16 @@ expand_rsample_pretty <- function(x) {
         message(paste(
           "second letter:",
           x[1],
-          "unknown clock_get abbreviation"
+          "unknown rsample_pretty abbreviation"
         ))
         NA
       }
     ),
     fixed = TRUE
   )
-  paste0(out, collapse = "_")
+  out <- paste0(out, collapse = "_")
+  #remove first and last _
+  out <- stringr::str_remove(string = out, pattern = "_")
+  out <- stringr::str_remove(string = out, pattern = "_{1,2}$")
 }
+

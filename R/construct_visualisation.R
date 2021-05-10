@@ -67,7 +67,7 @@ expand_ggmisc_abbreviation <- function(x) {
     "f" = {
       dplyr::case_when(
         x[2] == "m" ~ "fortify_map", # ggfortify
-        x[2] == "p" ~ ft_pal, # hrbrthemes
+        x[2] == "p" ~ "ft_pal" # hrbrthemes
       )
     },
     "r" = {
@@ -195,6 +195,7 @@ expand_ggmisc_position <- function(x) {
     "pj" = "position_jitterdodgev", # ggstance
     "ps" = "position_stackv", # ggstance,
     "pb" = "position_beeswarm", # ggbeeswarm,
+    "pqr" = "position_quasirandom", # ggbeeswarm,
     "pq" = "position_quasirandom" # ggbeeswarm,
   )
 }
@@ -239,7 +240,7 @@ construct_cowplot <- function() {
 expand_cowplot_abbreviation <- function(x) {
   stopifnot(length(x) > 0 & length(x) <= 4)
   out <- character(length(x))
-  if (grepl(x = x, pattern = "^g|p|d|s|t")) {
+  if (grepl(x = x[1], pattern = "^g|p|d|s|t")) {
     switch(x[1],
       "g" = expand_cowplot_get(x),
       "p" = expand_cowplot_p(x),
@@ -392,12 +393,13 @@ expand_cowplot_theme <- function(x) {
   stopifnot(length(x) <= 5)
   out <- character(length(x))
   if (length(out) == 2) {
-    out <- dplyr::case_when(
+    out[1] <- "theme"
+    out[2] <- dplyr::case_when(
       x[2] == "m" ~ "map",
       x[2] == "c" ~ "cowplot",
-      x[3] == "n" ~ "nothing"
+      x[2] == "n" ~ "nothing"
     )
-    return(out)
+    return(paste0(out, collapse = "_"))
   } else if (length(out) == 3) {
     out[1] <- "theme"
     out[2] <- ifelse(x[2] == "m", "minimal", "half")
@@ -677,7 +679,7 @@ expand_ggthemes_theme <- function(x) {
 }
 
 expand_ggthemes_scale <- function(x) {
-  stopifnot(length(x) <= 2)
+  stopifnot(length(x) <= 5)
   out <- character(length(x))
   out[1] <- "scale"
   if (x[2] == "c") {
@@ -842,7 +844,7 @@ expand_ggforce_geom <- function(x) {
           message(paste(
             "second letter:",
             x[2],
-            "unknown cowplot_get abbreviation"
+            "unknown ggforce_geom abbreviation"
           ))
           NA
         }
@@ -851,11 +853,11 @@ expand_ggforce_geom <- function(x) {
     return(paste0(out, collapse = "_"))
   } else if (length(out) == 3) {
     x <- stringi::stri_c(x, collapse = "")
-    switch(x[2],
+    switch(x,
       "gab" = "geom_arc_bar", # arc0 arc2 autodensity autohistogram
       "gbc" = "geom_bspline_closed", # bspline bezier0 bezier2
       "gds" = "geom_delauney_segment",
-      "gdt" = "geom_delayney_tile",
+      "gdt" = "geom_delauney_tile",
       "gdw" = "geom_diagonal_wide",
       "gmc" = "geom_mark_circle",
       "gme" = "geom_mark_ellipse",
@@ -868,7 +870,7 @@ expand_ggforce_geom <- function(x) {
         message(paste(
           "second letter:",
           x[2],
-          "unknown cowplot_get abbreviation"
+          "unknown ggforce_geom abbreviation"
         ))
         NA
       }
@@ -908,20 +910,19 @@ expand_ggforce_stat <- function(x) {
         }
       )
     )
+    return( paste0(out, collapse = "_"))
   } else if (length(out) == 3) {
     x <- stringi::stri_c(x, collapse = "")
-    switch(x[2],
+    switch(x,
       "sab" = "stat_arc_bar", # arc0 arc2 autodensity autohistogram
       "sbc" = "stat_bspline_closed", # bspline bezier0 bezier2
       "sds" = "stat_delavor_summary",
       "sps" = "stat_parallel_sets",
       "sdw" = "set_diagonal_wide",
       {
-        message(paste(
-          "second letter:",
-          x[2],
+        message(
           "unknown ggforce_stat abbreviation"
-        ))
+        )
         NA
       }
     )
@@ -1021,12 +1022,15 @@ expand_ggridges_scale <- function(x) {
   stopifnot(length(x) <= 5)
   out <- character(length(x))
   if (length(out) == 3) {
-    if (x == "svl") {
-      return("scale_vline_linetype")
-    }
-    if (x == "sps") {
-      return("scale_point_shape")
-    }
+    if (x[2] %in% c("v", "p")) {
+      x <- stringi::stri_c(x, collapse = "")
+      if (x == "svl") {
+        return("scale_vline_linetype")
+      }
+      if (x == "sps") {
+        return("scale_point_shape")
+      }
+    } else {
     out[1] <- "scale"
     out[3] <- "cyclical"
     out[2] <- sub(
@@ -1044,7 +1048,8 @@ expand_ggridges_scale <- function(x) {
         }
       )
     )
-    paste0(out, collapse = "_")
+    return(paste0(out, collapse = "_"))
+    }
   } else if (length(out) == 4) {
     x <- stringi::stri_c(x, collapse = "")
     switch(x,

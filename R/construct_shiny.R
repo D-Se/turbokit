@@ -72,8 +72,17 @@ expand_shiny_default <- function(x) {
       NA
     }
   )
-  ### TODO:check this
+ # exceptions
+  if (out %in% c("get_devmode_option", "in_devmode",
+                 "key_missing", "with_devmode",
+                 "is.key_missing", "includeCSS",
+                 "includeHTML", "insertUI",
+                 "is.reactivevalues", "plotPNG",
+                 "reactiveUI", "shinyUI")) {
+    return(out)
+  } else {
   snakecase::to_lower_camel_case(out)
+  }
 }
 
 expand_shiny_a <- function(x) {
@@ -328,13 +337,13 @@ expand_shiny_i <- function(x) {
     switch(x,
       "id" = "in_devmode",
       "ip" = "inc_progress", # input_panel
-      "ic" = "include_css",
-      "ih" = "include_html",
+      "ic" = "includeCSS",
+      "ih" = "includeHTML",
       "im" = "include_markdown",
       "is" = "include_script", # is_singleton
       "it" = "include_text", # insert_tab, is_truthy
       "il" = "invalidate_later",
-      "iu" = "insert_ui",
+      "iu" = "insertUI",
       "ir" = "is.reactivevalues", # is_reactive, is_running
       {
         message(paste(
@@ -460,7 +469,7 @@ expand_shiny_p <- function(x) {
       "pv" = "pane_viewer",
       "pi" = "password_input",
       "po" = "plot_output",
-      "pp" = "plot_png",
+      "pp" = "plotPNG",
       "pt" = "prepend_tab",
       "pe" = "print_error",
       {
@@ -501,7 +510,7 @@ expand_shiny_r <- function(x) {
       "rc" = "reactive_console",
       "rp" = "reactive_plot", # reactive_poll, reactive_print, remove_plot, remove_print, resource_paths
       "rt" = "reactive_text", # reactive_table, reactive_timer, #remove_tab, render table, render_text, run_tests
-      "ru" = "reactive_ui", # remove_ui, render_ui, "run_url
+      "ru" = "reactiveUI", # remove_ui, render_ui, "run_url
       "rv" = "reactive_values", # reactive_val,
       "rr" = "reactlog_reset",
       "rs" = "reactlog_show",
@@ -550,11 +559,11 @@ expand_shiny_s <- function(x) {
     switch(x,
       "se" = "safe_error", # snapshot_exclude
       "si" = "selectize_input", # select_input, server_info, slider_input
-      "sp" = "sidebar_penal", # set_progress
+      "sp" = "sidebar_panel", # set_progress
       "ss" = "set_serializer",
       "sa" = "stop_app", # shiny_app
       "so" = "shiny_options",
-      "su" = "shiny_ui",
+      "su" = "shinyUI",
       "sm" = "show_modal",
       "sn" = "show_notification",
       "st" = "show_tab",
@@ -666,11 +675,13 @@ expand_shiny_v <- function(x) {
   x <- stringi::stri_c(x, collapse = "")
   if (length(out) == 1) {
     return("validate")
-  } else if (length(out == 2)) {
+  }
+  if (length(out) == 2) {
     return("vertical_layout")
-  } else if (length(out) == 3) {
-    out <- switch(x,
-      "vcu" = "validate_css_unit",
+  }
+  if (length(out) == 3) {
+  switch(x,
+      "vcu" = "validate_css_unit", # no capitalized CSS here
       "vsi" = "var_selectize_input", # var_Select_input
       "vto" = "verbatim_text_output",
       {
@@ -683,7 +694,6 @@ expand_shiny_v <- function(x) {
       }
     )
   }
-  out
 }
 
 expand_shiny_w <- function(x) {
