@@ -7,9 +7,7 @@
 construct_recipes <- function() {
   abb <- character(length = 1)
   abb <- svDialogs::dlg_input("Input function abbreviation",
-    default = NULL,
-    Sys.info()["user"]
-  )$res
+    default = NULL)$res
   if (grepl(" ", abb, perl = TRUE)) {
     message("Invalid input: space detected in input")
     return(NULL)
@@ -206,9 +204,7 @@ expand_recipes_update <- function(x) {
 construct_parsnip <- function() {
   abb <- character(length = 1)
   abb <- svDialogs::dlg_input("Input function abbreviation",
-    default = NULL,
-    Sys.info()["user"]
-  )$res
+    default = NULL)$res
   if (grepl(" ", abb, perl = TRUE)) {
     message("Invalid input: space detected in input")
     return(NULL)
@@ -387,9 +383,7 @@ expand_parsnip_get <- function(x) {
 construct_tune <- function() {
   abb <- character(length = 1)
   abb <- svDialogs::dlg_input("Input function abbreviation",
-    default = NULL,
-    Sys.info()["user"]
-  )$res
+    default = NULL)$res
   if (grepl(" ", abb, perl = TRUE)) {
     message("Invalid input: space detected in input")
     return(NULL)
@@ -466,9 +460,7 @@ expand_tune_abbreviation <- function(x) {
 construct_dials <- function() {
   abb <- character(length = 1)
   abb <- svDialogs::dlg_input("Input function abbreviation",
-    default = NULL,
-    Sys.info()["user"]
-  )$res
+    default = NULL)$res
   if (grepl(" ", abb, perl = TRUE)) {
     message("Invalid input: space detected in input")
     return(NULL)
@@ -729,9 +721,7 @@ expand_dials_num <- function(x) {
 construct_yardstick <- function() {
   abb <- character(length = 1)
   abb <- svDialogs::dlg_input("Input function abbreviation",
-    default = NULL,
-    Sys.info()["user"]
-  )$res
+    default = NULL)$res
   if (grepl(" ", abb, perl = TRUE)) {
     message("Invalid input: space detected in input")
     return(NULL)
@@ -835,9 +825,7 @@ expand_yardstick_abbreviation <- function(x) {
 construct_workflows <- function() {
   abb <- character(length = 1)
   abb <- svDialogs::dlg_input("Input function abbreviation",
-    default = NULL,
-    Sys.info()["user"]
-  )$res
+    default = NULL)$res
   if (grepl(" ", abb, perl = TRUE)) {
     message("Invalid input: space detected in input")
     return(NULL)
@@ -907,9 +895,7 @@ expand_workflows_abbreviation <- function(x) {
 construct_rsample <- function() {
   abb <- character(length = 1)
   abb <- svDialogs::dlg_input("Input function abbreviation",
-    default = NULL,
-    Sys.info()["user"]
-  )$res
+    default = NULL)$res
   if (grepl(" ", abb, perl = TRUE)) {
     message("Invalid input: space detected in input")
     return(NULL)

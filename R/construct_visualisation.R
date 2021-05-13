@@ -19,9 +19,7 @@ expand_visualisation_default <- function(x) {
 construct_ggmisc <- function() {
   abb <- character(length = 1)
   abb <- svDialogs::dlg_input("Input function abbreviation",
-    default = NULL,
-    Sys.info()["user"]
-  )$res
+    default = NULL)$res
   if (grepl(" ", abb, perl = TRUE)) {
     message("Invalid input: space detected in input")
     return(NULL)
@@ -79,6 +77,10 @@ expand_ggmisc_abbreviation <- function(x) {
         x == "rtx" ~ "rotateTextX", # ggExtra
         x == "re" ~ "runExample" # ggExtra
       )
+    },
+    {
+      message("unknown ggmisc abbreviation")
+      NA
     }
   )
 }
@@ -135,7 +137,11 @@ expand_ggmisc_geom <- function(x) {
     "gps" = "ggpiestats", # ggstatsplot
     "gss" = "ggscatterstats", # ggstatsplot
     "gds" = "ggdotplotstats", # ggstatsplot
-    "gws" = "ggwithinstats" # ggstatsplot
+    "gws" = "ggwithinstats", # ggstatsplot
+    {
+      message("unknown ggmisc_geom abbreviation")
+      NA
+    }
   )
 }
 
@@ -145,7 +151,11 @@ expand_ggmisc_element <- function(x) {
   switch(x,
     "em" = "element_markdown", # ggtext
     "et" = "element_text", # ggtext
-    "ets" = "element_textbox_simple" # ggtext
+    "ets" = "element_textbox_simple", # ggtext
+    {
+      message("unknown ggmisc_element abbreviation")
+      NA
+    }
   )
 }
 
@@ -165,7 +175,11 @@ expand_ggmisc_theme <- function(x) {
     "tg" = "theme_ggstatsplot", # ggstatsplot
     "tp" = "theme_pie", # ggstatsplot
     "tct" = "theme_cleantable", # survminer
-    "ts" = "theme_survminer" # survminer
+    "ts" = "theme_survminer", # survminer
+    {
+      message("unknown ggmisc_theme abbreviation")
+      NA
+    }
   )
 }
 
@@ -180,7 +194,11 @@ expand_ggmisc_scale <- function(x) {
     "sxc" = "scale_x_comma", # hrbrthemes
     "syc" = "scale_y_comma", # hrbrthemes
     "sxp" = "scale_x_percent", # hrbrthemes
-    "syp" = "scale_y_percent" # hrbrthemes
+    "syp" = "scale_y_percent", # hrbrthemes
+    {
+      message("unknown ggmisc_scale abbreviation")
+      NA
+    }
   )
 }
 
@@ -196,7 +214,11 @@ expand_ggmisc_position <- function(x) {
     "ps" = "position_stackv", # ggstance,
     "pb" = "position_beeswarm", # ggbeeswarm,
     "pqr" = "position_quasirandom", # ggbeeswarm,
-    "pq" = "position_quasirandom" # ggbeeswarm,
+    "pq" = "position_quasirandom", # ggbeeswarm,
+    {
+      message("unknown ggmisc_position abbreviation")
+      NA
+    }
   )
 }
 
@@ -210,9 +232,7 @@ expand_ggmisc_position <- function(x) {
 construct_cowplot <- function() {
   abb <- character(length = 1)
   abb <- svDialogs::dlg_input("Input function abbreviation",
-    default = NULL,
-    Sys.info()["user"]
-  )$res
+    default = NULL)$res
   if (grepl(" ", abb, perl = TRUE)) {
     message("Invalid input: space detected in input")
     return(NULL)
@@ -423,9 +443,7 @@ expand_cowplot_theme <- function(x) {
 construct_ggsci <- function() {
   abb <- character(length = 1)
   abb <- svDialogs::dlg_input("Input function abbreviation",
-    default = NULL,
-    Sys.info()["user"]
-  )$res
+    default = NULL)$res
   if (grepl(" ", abb, perl = TRUE)) {
     message("Invalid input: space detected in input")
     return(NULL)
@@ -579,9 +597,7 @@ expand_ggsci_scale <- function(x) {
 construct_ggthemes <- function() {
   abb <- character(length = 1)
   abb <- svDialogs::dlg_input("Input function abbreviation",
-    default = NULL,
-    Sys.info()["user"]
-  )$res
+    default = NULL)$res
   if (grepl(" ", abb, perl = TRUE)) {
     message("Invalid input: space detected in input")
     return(NULL)
@@ -749,9 +765,7 @@ expand_ggthemes_scale <- function(x) {
 construct_ggforce <- function() {
   abb <- character(length = 1)
   abb <- svDialogs::dlg_input("Input function abbreviation",
-    default = NULL,
-    Sys.info()["user"]
-  )$res
+    default = NULL)$res
   if (grepl(" ", abb, perl = TRUE)) {
     message("Invalid input: space detected in input")
     return(NULL)
@@ -920,9 +934,7 @@ expand_ggforce_stat <- function(x) {
       "sps" = "stat_parallel_sets",
       "sdw" = "set_diagonal_wide",
       {
-        message(
-          "unknown ggforce_stat abbreviation"
-        )
+        message("unknown ggforce_stat abbreviation")
         NA
       }
     )
@@ -941,9 +953,7 @@ expand_ggforce_stat <- function(x) {
 construct_ggridges <- function() {
   abb <- character(length = 1)
   abb <- svDialogs::dlg_input("Input function abbreviation",
-    default = NULL,
-    Sys.info()["user"]
-  )$res
+    default = NULL)$res
   if (grepl(" ", abb, perl = TRUE)) {
     message("Invalid input: space detected in input")
     return(NULL)
@@ -984,11 +994,7 @@ expand_ggridges_abbreviation <- function(x) {
     "s" = expand_ggridges_scale(x),
     "t" = "theme_ridges",
     {
-      message(paste(
-        "first letter:",
-        x[1],
-        "unknown ggridges abbreviation"
-      ))
+      message("unknown ggridges abbreviation")
       NA
     }
   )
@@ -1087,9 +1093,7 @@ expand_ggridges_scale <- function(x) {
 construct_ggraph <- function() {
   abb <- character(length = 1)
   abb <- svDialogs::dlg_input("Input function abbreviation",
-    default = NULL,
-    Sys.info()["user"]
-  )$res
+    default = NULL)$res
   if (grepl(" ", abb, perl = TRUE)) {
     message("Invalid input: space detected in input")
     return(NULL)
@@ -1158,9 +1162,7 @@ expand_ggraph_abbreviation <- function(x) {
     },
     "u" = "unset_graph_style",
     {
-      message(paste(
-        "unknown ggraph abbreviation"
-      ))
+      message("unknown ggraph abbreviation")
       NA
     }
   )
@@ -1237,7 +1239,6 @@ expand_ggraph_scale <- function(x) {
   stopifnot(length(x) <= 5)
   out <- character(length(x))
   out[1] <- "scale"
-
   if (x[2] == "e") {
     if (length(out) == 3) {
       out[2] <- "edge"
@@ -1302,11 +1303,7 @@ expand_ggraph_scale <- function(x) {
         "sewi" = "scale_edge_width_identity",
         "sewm" = "scale_edge_width_manual",
         {
-          message(paste(
-            "second letter:",
-            x[2],
-            "unknown ggraph_geom abbreviation"
-          ))
+          message("unknown ggraph_geom abbreviation")
           NA
         }
       )
@@ -1322,11 +1319,7 @@ expand_ggraph_scale <- function(x) {
       "slsi" = "scale_label_size_identity",
       "slsm" = "scale_label_size__manual",
       {
-        message(paste(
-          "second letter:",
-          x[2],
-          "unknown ggraph_geom abbreviation"
-        ))
+        message("unknown ggraph_geom abbreviation")
         NA
       }
     )
@@ -1343,9 +1336,7 @@ expand_ggraph_scale <- function(x) {
 construct_scales <- function() {
   abb <- character(length = 1)
   abb <- svDialogs::dlg_input("Input function abbreviation",
-    default = NULL,
-    Sys.info()["user"]
-  )$res
+    default = NULL)$res
   if (grepl(" ", abb, perl = TRUE)) {
     message("Invalid input: space detected in input")
     return(NULL)
@@ -1389,7 +1380,11 @@ expand_scales_abbreviation <- function(x) {
         "be" = "breaks_extended",
         "bl" = "breaks_log",
         "bp" = "brewer_pal", # breaks_pretty
-        "bw" = "breaks_with"
+        "bw" = "breaks_with",
+        {
+          message("unknown scales_b abbreviation")
+          NA
+        }
       )
     },
     "c" = expand_scales_c(x),
@@ -1450,11 +1445,7 @@ expand_scales_c <- function(x) {
       "cq" = "col_quantile",
       "cr" = "colour_ramp",
       {
-        message(paste(
-          "first letter:",
-          x[1],
-          "unknown scales_c abbreviation"
-        ))
+        message("unknown scales_c abbreviation")
         NA
       }
     )
@@ -1475,11 +1466,7 @@ expand_scales_d <- function(x) {
       "dp" = "dichromat_pal",
       "d" = "dollar", # discrete dscale
       {
-        message(paste(
-          "first letter:",
-          x[1],
-          "unknown scales_d abbreviation"
-        ))
+        message("unknown scales_d abbreviation")
         NA
       }
     )
@@ -1545,7 +1532,7 @@ expand_scales_o <- function(x) {
       "oe" = "ordinal_english",
       "of" = "ordinal_format", # ordinal_french (subset of ordinal_format)
       {
-        message("unknown scales_oabbreviation")
+        message("unknown scales_o abbreviation")
         NA
       }
     )
@@ -1566,7 +1553,7 @@ expand_scales_p <- function(x) {
       "pb" = "pretty_breaks",
       "pt" = "probability_trans", # probit_trans
       {
-        message("unknown scalesp abbreviation")
+        message("unknown scales_p abbreviation")
         NA
       }
     )

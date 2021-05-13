@@ -20,7 +20,7 @@ clean <- function(detach = TRUE) {
   x <- rstudioapi::getActiveDocumentContext()
   tryCatch(expr = {
     rstudioapi::sendToConsole(cleaner(doc = x, detach = detach),
-      execute = T, focus = F
+      execute = TRUE, focus = FALSE
     )
   }, error = function(cond) {
     # rstudioapi code param returns error (is not character), but works

@@ -9,9 +9,7 @@
 construct_usethis <- function() {
   abb <- character(length = 1)
   abb <- svDialogs::dlg_input("Input function abbreviation",
-    default = NULL,
-    Sys.info()["user"]
-  )$res
+    default = NULL)$res
   if (grepl(" ", abb, perl = TRUE)) {
     message("Invalid input: space detected in input")
     return(NULL)
@@ -305,9 +303,7 @@ expand_usethis_use <- function(x) {
 construct_testthat <- function() {
   abb <- character(length = 1)
   abb <- svDialogs::dlg_input("Input function abbreviation",
-    default = NULL,
-    Sys.info()["user"]
-  )$res
+    default = NULL)$res
   if (grepl(" ", abb, perl = TRUE)) {
     message("Invalid input: space detected in input")
     return(NULL)

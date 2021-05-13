@@ -123,7 +123,7 @@ complex_dialog <- function() {
       stop(NULL)
     }
     if (!grepl(x = abb, pattern = "^[[:alnum:]]{1}", perl = TRUE)) {
-      stop(paste("BBB Invalid input: Non-numeric at start of wrapper function.
+      stop(paste("Invalid input: Non-numeric at start of wrapper function.
                     In complex wrapper, please use one of", complex_error))
     } else if (grepl(" ", abb, perl = TRUE) | nchar(abb) > 10) {
       stop("Invalid input: space detected or input too long")
@@ -137,10 +137,8 @@ complex_dialog <- function() {
 
 # Transformation step of dialog box input to be construct_* function-friendly
 get_complex_userinput <- function() {
-  abb <- svDialogs::dlg_input("Input function abbreviation",
-    default = NULL,
-    Sys.info()["user"]
-  )$res
+  abb <- svDialogs::dlg_input(message = "Input function abbreviation",
+    default = NULL)$res
   tryCatch(expr = {
     if (rlang::is_empty(abb)) {
       stop(NULL)
@@ -164,15 +162,15 @@ get_complex_userinput <- function() {
         replacement = "",
         perl = TRUE
       )
-      if (abb != out) {
-        message("Unrecognized formatting detected - coercing to accepted format")
-      }
+      #if (abb != out) {
+       # message("Unrecognized formatting detected - coercing to accepted format")
+      #}
       # input is ready for chaining constructs and inserts
       return(out)
     } else if (!grepl(pattern = "^[[:alnum:]]{1}", x = abb, perl = TRUE)) {
       ### TODO: create direct call for user-defined favorite shortcuts
       # example: input ~p~ returns ggplot(aes()) + geom_boxplot()
-      stop(paste("AAA Invalid input: Non-numeric at start of wrapper function.
+      stop(paste("Invalid input: Non-numeric at start of wrapper function.
                     In complex wrapper, please use one of", complex_error))
     } else {
       if (nchar(abb) > 10) {
@@ -182,11 +180,12 @@ get_complex_userinput <- function() {
     }
   }, error = function(cond) {
     message(cond)
-    return("error")
-  }, warning = function(cond) {
-    message(cond)
-    return("warning")
-  })
+    #return("error")
+  #}, warning = function(cond) {
+   # message(cond)
+    #return("warning")
+  }
+    )
 }
 
 # Transformation step of dialog box input to be construct_* function-friendly
@@ -198,6 +197,7 @@ transform_complex_interaction <- function(x) {
     n <- gregexpr("[(]", outer, perl = TRUE)[[1]][1]
     out <- reposition_str(outer, inner, n + 1)
   } else {
+    ### TODO:maximum 3 nested. Any situation where more than 3?
     words <- x[!x == "*" & !x == ">"]
     inner <- words[3]
     outer <- words[2]

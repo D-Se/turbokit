@@ -57,7 +57,8 @@ turbo <- function(input = NULL) {
     names(l) <- letters[1:9]
     l
   }
-  if (!identical(up, default_up, ignore.environment = T, ignore.bytecode = T, ignore.srcref = T)) {
+  if (!identical(up, default_up, ignore.environment = TRUE,
+                 ignore.bytecode = TRUE, ignore.srcref = TRUE)) {
     abb <- get_complex_userinput()
     if (abb %in% c("boot", "clean", "read", "default")) {
       return(turbokit_default(abb))

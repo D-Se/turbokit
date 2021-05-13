@@ -10,9 +10,7 @@
 construct_shiny <- function() {
   abb <- character(length = 1)
   abb <- svDialogs::dlg_input("Input function abbreviation",
-    default = NULL,
-    Sys.info()["user"]
-  )$res
+    default = NULL)$res
   ### TODO:  if nchar is 1, make shortcut of widely used functions
   if (grepl(" ", abb, perl = TRUE)) {
     message("Invalid input: space detected in input")

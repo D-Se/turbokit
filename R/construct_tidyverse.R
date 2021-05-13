@@ -9,9 +9,7 @@ expand_tidyverse_default <- function(x) {
       "ngd" = "new_grouped_df",
       "vgd" = "validate_grouped_df",
       {
-        message(
-          "No default word found. Did you forget a leading digit?"
-        )
+        message("No default word found. Did you forget a leading digit?")
         NA
       }
     )
@@ -90,9 +88,7 @@ expand_tidyverse_default <- function(x) {
       "wg" = "with_groups",
       "wl" = "writeLines",
       {
-        message(
-          "No default word found. Did you forget a leading digit?"
-        )
+        message("No default word found. Did you forget a leading digit?")
         NA
       }
     )
@@ -117,9 +113,7 @@ expand_tidyverse_default <- function(x) {
       "u" = "ungroup",
       "v" = "View", # base function, consider utils::view
       {
-        message(
-          "No default word found. Did you forget a leading digit?"
-        )
+        message("No default word found. Did you forget a leading digit?")
         NA
       }
     )
@@ -133,9 +127,7 @@ expand_tidyverse_default <- function(x) {
 construct_ggplot <- function() {
   abb <- character(length = 1)
   abb <- svDialogs::dlg_input("Input function abbreviation",
-    default = NULL,
-    Sys.info()["user"]
-  )$res
+    default = NULL)$res
   if (grepl(" ", abb, perl = TRUE)) {
     message("Invalid input: space detected in input")
     return(NULL)
@@ -445,9 +437,7 @@ expand_ggplot_theme <- function(x) {
 construct_stringr <- function() {
   abb <- character(length = 1)
   abb <- svDialogs::dlg_input("Input function abbreviation",
-    default = NULL,
-    Sys.info()["user"]
-  )$res
+    default = NULL)$res
   if (grepl(" ", abb, perl = TRUE)) {
     message("Invalid input: space detected in input")
     return(NULL)
@@ -579,9 +569,7 @@ expand_stringr_str <- function(x) {
 construct_clock <- function() {
   abb <- character(length = 1)
   abb <- svDialogs::dlg_input("Input function abbreviation",
-    default = NULL,
-    Sys.info()["user"]
-  )$res
+    default = NULL)$res
   if (grepl(" ", abb, perl = TRUE)) {
     message("Invalid input: space detected in input")
     return(NULL)
@@ -950,9 +938,7 @@ expand_clock_zone <- function(x) {
 construct_forcats <- function() {
   abb <- character(length = 1)
   abb <- svDialogs::dlg_input("Input function abbreviation",
-    default = NULL,
-    Sys.info()["user"]
-  )$res
+    default = NULL)$res
   if (grepl(" ", abb, perl = TRUE)) {
     message("Invalid input: space detected in input")
     return(NULL)
@@ -1084,9 +1070,7 @@ expand_forcats_lvls <- function(x) {
 construct_readr <- function() {
   abb <- character(length = 1)
   abb <- svDialogs::dlg_input("Input function abbreviation",
-    default = NULL,
-    Sys.info()["user"]
-  )$res
+    default = NULL)$res
   if (grepl(" ", abb, perl = TRUE)) {
     message("Invalid input: space detected in input")
     return(NULL)

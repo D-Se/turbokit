@@ -9,7 +9,6 @@
 `%.%` <- function(name, body) {
   `%paste%` <- paste0
   fun_name <- "%" %paste% name %paste% "%"
-
   assign(
     x = fun_name,
     value = function(x, comment) body(x),
@@ -211,3 +210,4 @@ insert_pipe <- function() {
     }
   }
 }
+

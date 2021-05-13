@@ -30,6 +30,20 @@ Turbokit introduces a set of tools for quickly inserting functions, function cha
 
 `devtools::install_github("D-se/turbokit")`
 
+# Setup
+
+To get the most out of the package, it is recommended to bind shortcuts to key functions.
+
+*Tools \> Addins \> Browse Addins \> Keyboard Shortcuts \> Turbo \_\_*
+
+<img src="images/shortcuts.png" width="374"/>
+
+-   Insert the shortcut you want for a given function
+
+-   Click "Apply"
+
+    Note that addin shortcuts will overwrite existing shortcuts - therefore, it is recommended to bind a three-key combination. For recommended shortcuts, see `vignette("turbokit")`.
+
 # Cheat Sheet
 
 [![](images/cheatsheetthumb.png)](https://github.com/D-Se/turbokit/blob/main/turbokit.pdf)

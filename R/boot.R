@@ -30,7 +30,8 @@ boot <- function() {
     names(l) <- letters[1:9]
     l
   }
-  if (!identical(up, default_up, ignore.environment = T, ignore.bytecode = T, ignore.srcref = T)) {
+  if (!identical(up, default_up, ignore.environment = TRUE,
+                 ignore.bytecode = TRUE, ignore.srcref = TRUE)) {
     packages <- as.character(unlist(up))
     packages <- paste0("library(", gsub(".*_(.+)_.*", "\\1", packages), ")")
     invisible(rstudioapi::insertText(packages))
@@ -44,7 +45,7 @@ boot <- function() {
         rstudioapi::insertText("library(tidymodels)")
       ),
       "shiny" = invisible(rstudioapi::insertText("library(shiny)")),
-      "dev" = invisible(rstudioapi::insertText("library(dev)"))
+      "dev" = invisible(rstudioapi::insertText("library(devtools)"))
     )
   }
 }
