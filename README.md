@@ -44,7 +44,7 @@ To get the most out of the package, it is recommended to bind shortcuts to key f
 
 -   Click "Apply"
 
-    Note that addin shortcuts will overwrite existing shortcuts - therefore, it is recommended to bind a three-key combination. For recommended shortcuts, see `vignette("turbokit")`.
+    Note that add-in shortcuts will overwrite existing shortcuts - therefore, it is recommended to bind a three-key combination. For recommended shortcuts, see `vignette("turbokit")`.
 
 # Cheat Sheet
 

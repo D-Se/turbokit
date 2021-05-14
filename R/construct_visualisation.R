@@ -11,7 +11,7 @@ expand_visualisation_default <- function(x) {
 # several smaller plotting packages combined in one.
 #
 
-#' Function to translate several smaller addon packages shortcut combination
+#' Function to translate several smaller add-on packages shortcut combination
 #' into R script at cursor position
 #'
 #' @return Adjusted cursor position in R script.
@@ -26,7 +26,7 @@ construct_ggmisc <- function() {
   } else if (!grepl("^a|c|g|p|s|e|t|u|f|r{1}", abb, perl = TRUE)) {
     message(paste(
       "Invalid input: unrecognized starting letter,
-                    recognized misc ggplot addon packages starting chars:",
+                    recognized misc ggplot add-on packages starting chars:",
       ggmisc_error
     ))
     return(NULL)

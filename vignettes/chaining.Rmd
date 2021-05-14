@@ -58,7 +58,7 @@ ${1}:mydata %>%
   scale_y_continuous()
 ```
 
-The result is a arbitrarily complex pipe in the active document where the user can jump from location to location and fill in required parameters to functions. Parameters can be filled in using the `turbo()` functiont, which is a one-off execution of pipemath through an interface. This interface does not break the dynamic snippet, and can be used to append pipes after they have been constructed. These would be used at the "param" and func locations in the above script.
+The result is a arbitrarily complex pipe in the active document where the user can jump from location to location and fill in required parameters to functions. Parameters can be filled in using the `turbo()` function, which is a one-off execution of pipemath through an interface. This interface does not break the dynamic snippet, and can be used to append pipes after they have been constructed. These would be used at the "param" and func locations in the above script.
 
 # Chaining functions
 

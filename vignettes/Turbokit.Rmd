@@ -29,7 +29,7 @@ This vignette explains in detail each of these features.
 
 # Package Summary
 
-Turbokit introduces quality of life features reducing redundancy in day-to-day coding tasks in R and increasing the accessibility of stylish R code. It does so by re-thinking how frequently used functions are written by users, minimizing the number of key presses and reducing time spent on formatting tasks. Turbokit leverages [snippets](https://support.rstudio.com/hc/en-us/articles/204463668-Code-Snippets), [infix operators](https://cran.r-project.org/doc/manuals/R-lang.html#Operators), [custom shortcuts](https://support.rstudio.com/hc/en-us/articles/206382178-Customizing-Keyboard-Shortcuts), fuzzy matching, [addins](https://rstudio.github.io/rstudioaddins/) and [the tidyverse manifesto](https://cran.r-project.org/web/packages/tidyverse/vignettes/manifesto.html) to do so.
+Turbokit introduces quality of life features reducing redundancy in day-to-day coding tasks in R and increasing the accessibility of stylish R code. It does so by re-thinking how frequently used functions are written by users, minimizing the number of key presses and reducing time spent on formatting tasks. Turbokit leverages [snippets](https://support.rstudio.com/hc/en-us/articles/204463668-Code-Snippets), [infix operators](https://cran.r-project.org/doc/manuals/R-lang.html#Operators), [custom shortcuts](https://support.rstudio.com/hc/en-us/articles/206382178-Customizing-Keyboard-Shortcuts), fuzzy matching, [add-ins](https://rstudio.github.io/rstudioaddins/) and [the tidyverse manifesto](https://cran.r-project.org/web/packages/tidyverse/vignettes/manifesto.html) to do so.
 
 Turbokit includes the following features:
 
@@ -89,7 +89,7 @@ Turbokit is somewhat different from most packages, as many of its features are a
 
 Several turbokit functions are exported as addin that can be bound to a shortcut key. Here, shortcuts are meant to be used as a quick insertion of a particular verb that work well with the smart pipe. These shortcuts will place the cursor between the brackets of the verb inserted at the cursor location. The smart pipe, when called, will relocate the cursor to the end of the line, and insert an operator based on the context of the pipe at that point.
 
-Turbokit shortcut addins all start with "Turbo".
+Turbokit shortcut add-ins all start with "Turbo".
 
 ***Tools \> Addins \> Browse Addins \> Keyboard Shortcuts \> Turbo \_\_\_***
 

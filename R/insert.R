@@ -195,7 +195,7 @@ insert_starts_with <- function() {
 ##########  insert ggplot ##########
 #' ggplot and aes functions in an R script with cursor between bracket of aes
 #'
-#' @return ggplot and aes functions in an R script with cursor between brackets
+#' @return \code{ggplot()} and \code{aes()} functions in an R script with cursor between brackets
 #'
 #' @export
 insert_ggplot <- function() {
