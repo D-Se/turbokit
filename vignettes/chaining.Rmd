@@ -124,7 +124,7 @@ Turbokit provides the `clean()` to transform everything superpipe call into a co
 
 ## Dynamic snippets
 
-The superpipe serves another purpose. In addition to translating pipemath, it converts the outcome to a *dynamic snippet*. Dynamic snippets are [snippets](%5B%3Chttps://support.rstudio.com/hc/en-us/articles/204463668-Code-Snippets%3E)](<https://support.rstudio.com/hc/en-us/articles/204463668-Code-Snippets>)), text macros, modified in place according to a singular naming convention for one-time use. This differs from regular snippets in that those usually are defined in advance to simplify recurring coding tasks.
+The superpipe serves another purpose. In addition to translating pipemath, it converts the outcome to a *dynamic snippet*. Dynamic snippets are text macros, modified in place according to a singular naming convention for one-time use. This differs from regular snippets in that those usually are defined in advance to simplify recurring coding tasks.
 
 ```{r, eval=FALSE}
 # pipemath + superpipe

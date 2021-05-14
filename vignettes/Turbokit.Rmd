@@ -29,7 +29,7 @@ This vignette explains in detail each of these features.
 
 # Package Summary
 
-Turbokit introduces quality of life features reducing redundancy in day-to-day coding tasks in R and increasing the accessibility of stylish R code. It does so by re-thinking how frequently used functions are written by users, minimizing the number of key presses and reducing time spent on formatting tasks. Turbokit leverages [snippets](https://support.rstudio.com/hc/en-us/articles/204463668-Code-Snippets), [infix operators](https://cran.r-project.org/doc/manuals/R-lang.html#Operators), [custom shortcuts](https://support.rstudio.com/hc/en-us/articles/206382178-Customizing-Keyboard-Shortcuts), fuzzy matching, [add-ins](https://rstudio.github.io/rstudioaddins/) and [the tidyverse manifesto](https://cran.r-project.org/web/packages/tidyverse/vignettes/manifesto.html) to do so.
+Turbokit introduces quality of life features reducing redundancy in day-to-day coding tasks in R and increasing the accessibility of stylish R code. It does so by re-thinking how frequently used functions are written by users, minimizing the number of key presses and reducing time spent on formatting tasks. Turbokit leverages [snippets](https://support.rstudio.com/hc/en-us/articles/204463668-Code-Snippets), [infix operators](https://cran.r-project.org/doc/manuals/R-lang.html#Operators), [custom shortcuts](https://support.rstudio.com/hc/en-us/articles/206382178-Customizing-Keyboard-Shortcuts), fuzzy matching, [add-ins](https://rstudio.github.io/rstudioaddins/) and the tidyverse manifesto to do so.
 
 Turbokit includes the following features:
 
