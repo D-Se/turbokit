@@ -46,7 +46,7 @@ get_snippets_path <- function() {
   if (Sys.info()["sysname"] == "Windows") {
     paste0(Sys.getenv()["APPDATA"], "\\RStudio\\snippets\\r.snippets")
   } else {
-    file.path("~", ".R", "snippets", "/r.snippets")
+    file.path("~/.config/rstudio/snippets/r.snippets")
   }
 }
 
