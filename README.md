@@ -48,4 +48,4 @@ To get the most out of the package, it is recommended to bind shortcuts to key f
 
 # Cheat Sheet
 
-[![](images/cheatsheetthumb.png)](https://github.com/D-Se/turbokit/blob/main/turbokit.pdf)
+[![](images/cheatsheetthumb.png)](https://github.com/D-Se/turbokitcheatsheet/blob/main/turbokit.pdf)

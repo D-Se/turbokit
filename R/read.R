@@ -5,7 +5,7 @@
 #' `r lifecycle::badge('experimental')`
 #'
 #' This function is is much like the well-known library function. It imports the
-#' abbreviations of a package and overwrites the existing setup. See \code{?default()}
+#' abbreviations of a package and overwrites the existing mode. See \code{?default()}
 #' to undo its effects.
 #'
 #' @param package name of a package.
