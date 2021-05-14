@@ -2,7 +2,7 @@
 % Please edit documentation in R/construct_visualisation.R
 \name{construct_ggmisc}
 \alias{construct_ggmisc}
-\title{Function to translate several smaller addon packages shortcut combination
+\title{Function to translate several smaller add-on packages shortcut combination
 into R script at cursor position}
 \usage{
 construct_ggmisc()
@@ -11,6 +11,6 @@ construct_ggmisc()
 Adjusted cursor position in R script.
 }
 \description{
-Function to translate several smaller addon packages shortcut combination
+Function to translate several smaller add-on packages shortcut combination
 into R script at cursor position
 }

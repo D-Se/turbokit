@@ -7,7 +7,7 @@
 insert_ggplot()
 }
 \value{
-ggplot and aes functions in an R script with cursor between brackets
+\code{ggplot()} and \code{aes()} functions in an R script with cursor between brackets
 }
 \description{
 ggplot and aes functions in an R script with cursor between bracket of aes
