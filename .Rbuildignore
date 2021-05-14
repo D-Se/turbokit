@@ -9,3 +9,5 @@
 ^turbokit\.pdf$
 ^images$
 ^cran-comments\.md$
+^CRAN-RELEASE$
+^\.travis\.yml$
