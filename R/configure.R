@@ -1,29 +1,10 @@
-#' Restore default package options used for construct_complex package
-#' abbreviations layout.
-#'
-#' @description
-#' This function undos the action of the read function.
-#'
-#' @export
-#' @return library call in script
-#' @examples
-#' # resetting the default
-#' default()
-default <- function() {
-  ### TODO:withr here?
-  options("turbokit-up" = {
-    l <- vector(mode = "list", length = 9)
-    names(l) <- letters[1:9]
-    l
-  })
-}
-
-
 #' Configure turbokit options through menuing
 #'
 #' @description
-#' Interactively change package options in an R session. Use \emph{Ctrl + mouse}
-#' to select multiple options.
+#' Interactively toggle between turbokit package options in an R session. When
+#' selected, switches the options to \code{TRUE} or \code{FALSE}, depending on
+#' the initial setting. Use \emph{Ctrl + mouse} to select multiple options at once.
+#' See \code{vignette("turbokit") for explanation of options. }
 #'
 #' @export
 #' @return library call in script
@@ -59,6 +40,3 @@ configure_turbokit <- function(){
            options("turbokit-verbose" = TRUE))
   }
 }
-
-
-

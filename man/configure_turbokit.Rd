@@ -10,8 +10,10 @@ configure_turbokit()
 library call in script
 }
 \description{
-Interactively change package options in an R session. Use \emph{Ctrl + mouse}
-to select multiple options.
+Interactively toggle between turbokit package options in an R session. When
+selected, switches the options to \code{TRUE} or \code{FALSE}, depending on
+the initial setting. Use \emph{Ctrl + mouse} to select multiple options at once.
+See \code{vignette("turbokit") for explanation of options. }
 }
 \examples{
 # resetting the default

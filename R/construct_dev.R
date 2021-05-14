@@ -5,7 +5,7 @@
 #' cursor position
 #'
 #' @return Adjusted cursor position in R script.
-#' @export
+# #' @export
 construct_usethis <- function() {
   abb <- character(length = 1)
   abb <- svDialogs::dlg_input("Input function abbreviation",
@@ -299,7 +299,7 @@ expand_usethis_use <- function(x) {
 #' cursor position
 #'
 #' @return Adjusted cursor position in R script.
-#' @export
+# #' @export
 construct_testthat <- function() {
   abb <- character(length = 1)
   abb <- svDialogs::dlg_input("Input function abbreviation",
