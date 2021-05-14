@@ -1,7 +1,5 @@
 # turbokit
 
-> turbokit
-
 # ![](http://cranlogs-dev.r-pkg.org/badges/%3Cpackagename%3E)
 
 # Overview
@@ -16,17 +14,21 @@ Turbokit introduces a set of tools for quickly inserting functions, function cha
 
 -   `%>>%` superpipe operator translates a complex pipe statement into full length snippets
 
-![tidymath](https://user-images.githubusercontent.com/59521296/115900266-55682080-a492-11eb-9900-132af0de617d.gif)
+<img src="https://user-images.githubusercontent.com/59521296/115900266-55682080-a492-11eb-9900-132af0de617d.gif" alt="tidymath" width="417"/>
 
 -   `insert_pipe()` inserts the appropriate pipe (`%>>%` or `+`) based on document context. Usable from within function brackets. Gone are keypresses for redundant formatting.
 
 -   Keyboard shortcuts for core functions, as well as frequently used dplyr functions. Extremely fast code input.
+
+Detailed explanation of turbokit functions are available by running these commands in R:
 
 `vignette("chaining")`
 
 `vignette("turbo")`
 
 # Installation
+
+Within R, or RStudio IDE, run the command
 
 `devtools::install_github("D-se/turbokit")`
 
