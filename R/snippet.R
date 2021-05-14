@@ -51,7 +51,8 @@ get_snippets_path <- function() {
 }
 
 ### snippr functions (altered for performance and adapted to TK use case, not exported)
-### Original author: David Robinson, under GPL 2 license
+### Original author: David Robinson, under GPL 2 license. Emails to update package
+### went unanswered.
 
 # Function to add snippet to a R.snippets file
 add_snippet <- function(name, body) {

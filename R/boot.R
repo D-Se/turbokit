@@ -19,6 +19,7 @@
 # #' \donttest{construct_complex("boot")}
 boot <- function() {
   up <- getOption("turbokit-up")
+  # boot option is off by default
   if (!"turbokit" %in% .packages() & getOption("turbokit-boot")) {
     library(turbokit)
     if (getOption("turbokit-verbose")) {

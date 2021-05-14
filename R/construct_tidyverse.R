@@ -123,7 +123,7 @@ expand_tidyverse_default <- function(x) {
 #' Function to insert ggplot shortcut combination into R script at cursor position
 #'
 #' @return Adjusted cursor position in R script.
-#' @export
+# #' @export
 construct_ggplot <- function() {
   abb <- character(length = 1)
   abb <- svDialogs::dlg_input("Input function abbreviation",
@@ -433,7 +433,7 @@ expand_ggplot_theme <- function(x) {
 #' Function to insert stringr shortcut combination into R script at cursor position
 #'
 #' @return Adjusted cursor position in R script
-#' @export
+# #' @export
 construct_stringr <- function() {
   abb <- character(length = 1)
   abb <- svDialogs::dlg_input("Input function abbreviation",
@@ -565,7 +565,7 @@ expand_stringr_str <- function(x) {
 #' Function to insert clock shortcut combination into R script at cursor position
 #'
 #' @return Adjusted cursor position in R script
-#' @export
+## ' @export
 construct_clock <- function() {
   abb <- character(length = 1)
   abb <- svDialogs::dlg_input("Input function abbreviation",
@@ -934,7 +934,7 @@ expand_clock_zone <- function(x) {
 #' Function to insert forcats shortcut combination into R script at cursor position
 #'
 #' @return Adjusted cursor position in R script
-#' @export
+# #' @export
 construct_forcats <- function() {
   abb <- character(length = 1)
   abb <- svDialogs::dlg_input("Input function abbreviation",
@@ -1066,7 +1066,7 @@ expand_forcats_lvls <- function(x) {
 #' Function to insert readr shortcut combination into R script at cursor position
 #'
 #' @return Adjusted cursor position in R script
-#' @export
+# #' @export
 construct_readr <- function() {
   abb <- character(length = 1)
   abb <- svDialogs::dlg_input("Input function abbreviation",

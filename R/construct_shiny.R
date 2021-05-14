@@ -6,7 +6,7 @@
 #' Function to insert shiny shortcut combination into R script at cursor position
 #'
 #' @return Adjusted cursor position in R script
-#' @export
+# #' @export
 construct_shiny <- function() {
   abb <- character(length = 1)
   abb <- svDialogs::dlg_input("Input function abbreviation",

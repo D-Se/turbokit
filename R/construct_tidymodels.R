@@ -3,7 +3,7 @@
 #' cursor position
 #'
 #' @return Adjusted cursor position in R script.
-#' @export
+# #' @export
 construct_recipes <- function() {
   abb <- character(length = 1)
   abb <- svDialogs::dlg_input("Input function abbreviation",
@@ -200,7 +200,7 @@ expand_recipes_update <- function(x) {
 #' cursor position
 #'
 #' @return Adjusted cursor position in R script
-#' @export
+# #' @export
 construct_parsnip <- function() {
   abb <- character(length = 1)
   abb <- svDialogs::dlg_input("Input function abbreviation",
@@ -379,7 +379,7 @@ expand_parsnip_get <- function(x) {
 #' Function to insert tune shortcut combination into R script at cursor position
 #'
 #' @return Adjusted cursor position in R script.
-#' @export
+# #' @export
 construct_tune <- function() {
   abb <- character(length = 1)
   abb <- svDialogs::dlg_input("Input function abbreviation",
@@ -456,7 +456,7 @@ expand_tune_abbreviation <- function(x) {
 #' Function to insert dials shortcut combination into R script at cursor position
 #'
 #' @return Adjusted cursor position in R script.
-#' @export
+# #' @export
 construct_dials <- function() {
   abb <- character(length = 1)
   abb <- svDialogs::dlg_input("Input function abbreviation",
@@ -717,7 +717,7 @@ expand_dials_num <- function(x) {
 #' Function to insert yardstick shortcut combination into R script at cursor position
 #'
 #' @return Adjusted cursor position in R script
-#' @export
+# #' @export
 construct_yardstick <- function() {
   abb <- character(length = 1)
   abb <- svDialogs::dlg_input("Input function abbreviation",
@@ -821,7 +821,7 @@ expand_yardstick_abbreviation <- function(x) {
 #' Function to insert workflows shortcut combination into R script at cursor position
 #'
 #' @return Adjusted cursor position in R script
-#' @export
+# #' @export
 construct_workflows <- function() {
   abb <- character(length = 1)
   abb <- svDialogs::dlg_input("Input function abbreviation",
@@ -891,7 +891,7 @@ expand_workflows_abbreviation <- function(x) {
 #' Function to insert rsample shortcut combination into R script at cursor position
 #'
 #' @return Adjusted cursor position in R script
-#' @export
+# #' @export
 construct_rsample <- function() {
   abb <- character(length = 1)
   abb <- svDialogs::dlg_input("Input function abbreviation",

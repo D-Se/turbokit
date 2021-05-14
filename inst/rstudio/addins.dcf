@@ -25,44 +25,6 @@ Description: Expands and inserts combination of abbreviations of tidyverse packa
 Binding: turbo
 Interactive: false
 
-Name: Turbo construct ggplot combination function
-Description: Expands and inserts combination of abbreviations of ggplot2 package
-Binding: construct_ggplot
-Interactive: false
-
-Name: Turbo construct recipes combination function
-Description: Expands and inserts combination of abbreviations of recipes package
-Binding: construct_recipes
-Interactive: false
-
-Name: Turbo construct parsnip combination function
-Description: Expands and inserts combination of abbreviations of parsnip package
-Binding: construct_parsnip
-Interactive: false
-
-Name: Turbo construct stringr combination function
-Description: Expands and inserts combination of abbreviations of stringr package
-Binding: construct_stringr
-Interactive: false
-
-Name: Turbo construct clock combination function
-Description: Expands and inserts combination of abbreviations of clock package
-Binding: construct_clock
-Interactive: false
-
-Name: Turbo construct forcats combination function
-Description: Expands and inserts combination of abbreviations of forcats package
-Binding: construct_forcats
-Interactive: false
-
-Name: Turbo construct readr combination function
-Description: Expands and inserts combination of abbreviations of readr package
-Binding: construct_readr
-Interactive: false
-
-
-
-
 
 Name: Turbo insert dplyr filter
 Description: Inserts `filter()` at the cursor position
@@ -159,16 +121,6 @@ Interactive: false
 Name: Turbo insert tidyhelper ends with
 Description: Inserts `ends_with()` at the cursor position
 Binding: insert_ends_with
-Interactive: false
-
-Name: Turbo insert tidyhelper where
-Description: Inserts `where()` at the cursor position
-Binding: insert_where
-Interactive: false
-
-Name: Turbo insert tidyhelper is.numeric
-Description: Inserts `numeric()` at the cursor position
-Binding: insert_is.numeric
 Interactive: false
 
 Name: Turbo insert tidyhelper contains

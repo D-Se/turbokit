@@ -181,16 +181,6 @@ insert_everything <- function() {
   insert(everything)
 }
 
-#' is.numeric function in an R script with cursor between brackets
-#'
-#' @return is_numeric function in an R script with cursor between brackets
-#'
-#' @export
-insert_is.numeric <- function() {
-  insert(is.numeric)
-  reposition(1)
-}
-
 #' starts_with function in an R script with cursor between brackets
 #'
 #' @return starts_with function in an R script with cursor between brackets
@@ -201,15 +191,6 @@ insert_starts_with <- function() {
   reposition(2)
 }
 
-#' where function in an R script with cursor between brackets
-#'
-#' @return where function in an R script with cursor between brackets
-#'
-#' @export
-insert_where <- function() {
-  insert(where)
-  reposition(1)
-}
 
 ##########  insert ggplot ##########
 #' ggplot and aes functions in an R script with cursor between bracket of aes

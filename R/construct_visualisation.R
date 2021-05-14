@@ -15,7 +15,7 @@ expand_visualisation_default <- function(x) {
 #' into R script at cursor position
 #'
 #' @return Adjusted cursor position in R script.
-#' @export
+# #' @export
 construct_ggmisc <- function() {
   abb <- character(length = 1)
   abb <- svDialogs::dlg_input("Input function abbreviation",
@@ -228,7 +228,7 @@ expand_ggmisc_position <- function(x) {
 #' cursor position
 #'
 #' @return Adjusted cursor position in R script.
-#' @export
+# #' @export
 construct_cowplot <- function() {
   abb <- character(length = 1)
   abb <- svDialogs::dlg_input("Input function abbreviation",
@@ -439,7 +439,7 @@ expand_cowplot_theme <- function(x) {
 #' cursor position
 #'
 #' @return Adjusted cursor position in R script.
-#' @export
+# #' @export
 construct_ggsci <- function() {
   abb <- character(length = 1)
   abb <- svDialogs::dlg_input("Input function abbreviation",
@@ -593,7 +593,7 @@ expand_ggsci_scale <- function(x) {
 #' cursor position
 #'
 #' @return Adjusted cursor position in R script.
-#' @export
+# #' @export
 construct_ggthemes <- function() {
   abb <- character(length = 1)
   abb <- svDialogs::dlg_input("Input function abbreviation",
@@ -761,7 +761,7 @@ expand_ggthemes_scale <- function(x) {
 #' cursor position
 #'
 #' @return Adjusted cursor position in R script.
-#' @export
+# #' @export
 construct_ggforce <- function() {
   abb <- character(length = 1)
   abb <- svDialogs::dlg_input("Input function abbreviation",
@@ -949,7 +949,7 @@ expand_ggforce_stat <- function(x) {
 #' cursor position
 #'
 #' @return Adjusted cursor position in R script.
-#' @export
+# #' @export
 construct_ggridges <- function() {
   abb <- character(length = 1)
   abb <- svDialogs::dlg_input("Input function abbreviation",
@@ -1089,7 +1089,7 @@ expand_ggridges_scale <- function(x) {
 #' cursor position
 #'
 #' @return Adjusted cursor position in R script.
-#' @export
+# #' @export
 construct_ggraph <- function() {
   abb <- character(length = 1)
   abb <- svDialogs::dlg_input("Input function abbreviation",
@@ -1332,7 +1332,7 @@ expand_ggraph_scale <- function(x) {
 #' cursor position
 #'
 #' @return Adjusted cursor position in R script.
-#' @export
+# #' @export
 construct_scales <- function() {
   abb <- character(length = 1)
   abb <- svDialogs::dlg_input("Input function abbreviation",
