@@ -1,6 +1,9 @@
 ---
 title: "chaining"
 output: rmarkdown::html_vignette
+md_extensions: [ 
+      "-autolink_bare_uris" 
+    ]
 author: "Donald Seinen"
 vignette: >
   %\VignetteIndexEntry{chaining}
