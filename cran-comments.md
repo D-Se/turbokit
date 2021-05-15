@@ -4,11 +4,13 @@
 * win-builder (devel)
 
 ## R CMD check results
-
-0 errors | 0 warnings | 1 note
+0 errors | 0 warnings | 0 notes.
 
 * This is a new release.
 
-*  NOTE: unable to verify current time
-This is documented on Stackoverflow as a result of 
-worldclockapi not being available, requiring a fix by R development team.
+## Test environments
+- rhub::check_for_cran(), 
+
+
+* Snippet functions disabled for server users.
+* Spell_check

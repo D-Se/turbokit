@@ -16,15 +16,15 @@
   )
 }
 
-#' Superpipe operator: translate tidymath to dynamic snippets.
+#' Superpipe operator: translate pipemath to dynamic snippets.
 #'
 #' @description
 #' `r lifecycle::badge('experimental')`
 #'
-#' Executes translation of tidymath, construction of dynamic snippet and inserts
+#' Executes translation of pipemath, construction of dynamic snippet and inserts
 #' the snippet at the cursor location. Designed to called by shortcut.
 #'
-#' @param x a character string in tidymath format to convert
+#' @param x a character string in pipemath format to convert
 #' @param comment quasi-comment
 #' @return A dynamic snippet added to R.snippets file
 #'
@@ -32,7 +32,7 @@
 #'
 #' \bold{The superpipe}
 #'
-#' The operator translates a character string of \emph{tidymath} at the current cursor
+#' The operator translates a character string of \emph{pipemath} at the current cursor
 #' location to a \emph{dynamic snippet}. It is available as an add-in shortcut,
 #' which is where its utility and powers shine. The superpipe operator is not
 #' designed to be typed by hand, as at its core, the \emph{turbokit} package
@@ -41,12 +41,12 @@
 #' length 1, after the operator.
 #' The superpipe operator shortcut is available after package installation, but
 #' unlike the regular pipe operator shortcut, is not able to be called executed
-#' wthout loading the \emph{turbokit} package, for user safety reasons.
+#' without loading the \emph{turbokit} package, for user safety reasons.
 #'
 #' \bold{Dynamic snippets}
 #'
 #' When called using its shortcut format, the operator translates a character
-#' string of \emph{tidymath} at the current cursor location to a \emph{dynamic snippet}.
+#' string of \emph{pipemath} at the current cursor location to a \emph{dynamic snippet}.
 #' A feature of the snippet, a text macro, is that users can press TAB to move to
 #' specified locations. Dynamic snippets differ from regular snippets in that
 #' input locations may vary depending on 1) the user input in the script, and
@@ -56,8 +56,8 @@
 #' are specified by the user, will insert locations based on common use cases.
 #'
 #' The dynamic snippets are synergistic with \code{turbbokit}'s \code{construct_complex}
-#' function, which is the translation engine that converts \emph{tidymath}. This
-#' means that while TABbing through inputs, the user can call the \code{construct_complex}
+#' function, which is the translation engine that converts \emph{pipemath}. This
+#' means that when going through inputs, the user can call the \code{construct_complex}
 #' shortcut to insert function calls, without breaking the snippet.
 #'
 #' The superpipe operator cleans up after itself. While the snippets remain available
@@ -116,11 +116,11 @@
 #'
 #' @section Insert superpipe:
 #'
-#' The superpipe is the entry point for translation of tidymath. It is designed
+#' The superpipe is the entry point for translation of pipemath. It is designed
 #' to be called via shortcut, and is primarily called for its side effects.
 #'
 #' \code{superpipe()} is a wrapper function that initiates a series of turbokit
-#' function calls to translate tidymath into a dynamic snippet, and helps the
+#' function calls to translate pipemath into a dynamic snippet, and helps the
 #' user to insert the newly created snippet directly into the R script.
 #'
 #' Its side effects, including code formatting and auto-insertion are tweakable
@@ -131,7 +131,7 @@
 #' \bold{Formatting}
 #' There are some limitations to automated formatting.
 #' 1.
-#' multi-line tidymath statements require the superpipe operator \code{\%>>\%} to
+#' multi-line pipemath statements require the superpipe operator \code{\%>>\%} to
 #' be manually typed, and an arbitrary symbol to be inserted after ward like so
 #' \code{\%>>\%.}.
 #'

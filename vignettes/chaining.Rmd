@@ -118,7 +118,7 @@ Prior to using the superpipe operators, user should double check if there are no
 
 This can be done by navigating to ***Tools \> Global Options \> Code \> Edit Snippets.***
 
-The superpipe is a handy function to insert complex pipes, to reduce long text to a shorthand format. However, to have remnants of it left in the script is not se useful.
+The superpipe is a handy function to insert complex pipes, to reduce long text to a shorthand format. However, to have remnants of it left in the script is not useful.
 
 Turbokit provides the `clean()` to transform everything superpipe call into a comment. This way, the call is preserved, but it is not evaluated when a script is sourced, or a markdown doc is knitted.
 

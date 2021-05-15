@@ -37,7 +37,7 @@ Regular snake case
 str_detect()
 ```
 
-the user types 2*sd* in the prompt when in mode *tidyverse*
+the user types `2sd` in the prompt when in mode *tidyverse*
 
 For camel case,
 
@@ -45,7 +45,7 @@ For camel case,
 reactiveValues()
 ```
 
-*rv* in the prompt when in mode *shiny*
+`rv` in the prompt when in mode *shiny*
 
 Dot notation,
 
@@ -55,7 +55,7 @@ is.character()
 
 *ic* in the prompt.
 
-Where does the 2 in *2sd* come from? This 2 is a prefix. Without a prefix, turbokit would quickly run out of unique letter combinations. These prefixes are allocated when a new package is added to the search tree of `turbo`. These prefixes are adjustable to user preference, see the custom prefix section.
+Where does the 2 in `2sd` come from? This 2 is a prefix. Without a prefix, turbokit would quickly run out of unique letter combinations. These prefixes are allocated when a new package is added to the search tree of `turbo`. These prefixes are adjustable to user preference, see the custom prefix section.
 
 The `turbo` function in some cases, attempts to guess a function the user wants in case there is a typo, but no other functions with similar naming structure and similar length, exists in the package.
 

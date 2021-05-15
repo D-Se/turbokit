@@ -10,7 +10,7 @@
 #' different packages in a shorthand style, reducing time spent inputting and
 #' formatting code.
 #'
-#' It has powerful side effect, which is its formula-like \emph{tidymath}
+#' It has powerful side effect, which is its formula-like \emph{pipemath}
 #' translation mechanism,with which entire pipelines are constructed and converted
 #' to \emph{dynamic snippets}.
 #' See \code{vignette("construct")} for a list of combination functions.
@@ -85,7 +85,7 @@ turbo <- function(input = NULL) {
   if (abb %in% c("boot", "clean", "read", "default")) {
     return(turbokit_default(abb))
   }
-  # translate tidymath
+  # translate pipemath
   if (grepl(x = abb, pattern = "^[~]{1}", perl = TRUE)) {
     return(construct_chain(abb))
   } else if (grepl(x = abb, pattern = "^[0]{1}", perl = TRUE)) {

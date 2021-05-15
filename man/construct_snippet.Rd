@@ -2,7 +2,7 @@
 % Please edit documentation in R/snippet.R
 \name{construct_snippet}
 \alias{construct_snippet}
-\title{Translates tidymath into snippet format.}
+\title{Translates pipemath into snippet format.}
 \usage{
 construct_snippet(input)
 }
@@ -13,5 +13,5 @@ construct_snippet(input)
 a new entry in r.snippets file called "s"
 }
 \description{
-Translates tidymath into snippet format.
+Translates pipemath into snippet format.
 }

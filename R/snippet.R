@@ -1,5 +1,5 @@
 
-#' Translates tidymath into snippet format.
+#' Translates pipemath into snippet format.
 #'
 #' @param input a list of tidyverse verbs, each list element is a row in output
 #' @return a new entry in r.snippets file called "s"

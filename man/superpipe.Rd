@@ -16,11 +16,11 @@ Instigate dynamic complex pipe snippet processing and insertion.
 \section{Insert superpipe}{
 
 
-The superpipe is the entry point for translation of tidymath. It is designed
+The superpipe is the entry point for translation of pipemath. It is designed
 to be called via shortcut, and is primarily called for its side effects.
 
 \code{superpipe()} is a wrapper function that initiates a series of turbokit
-function calls to translate tidymath into a dynamic snippet, and helps the
+function calls to translate pipemath into a dynamic snippet, and helps the
 user to insert the newly created snippet directly into the R script.
 
 Its side effects, including code formatting and auto-insertion are tweakable
@@ -31,7 +31,7 @@ output to your preference.
 \bold{Formatting}
 There are some limitations to automated formatting.
 1.
-multi-line tidymath statements require the superpipe operator \code{\%>>\%} to
+multi-line pipemath statements require the superpipe operator \code{\%>>\%} to
 be manually typed, and an arbitrary symbol to be inserted after ward like so
 \code{\%>>\%.}.
 }

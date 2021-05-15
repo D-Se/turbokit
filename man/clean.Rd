@@ -17,7 +17,7 @@ Commented turbokit syntax
 
 Turbokit comes with several features that require special syntax.
 Remnants of such syntax are not useful to the data science process. The clean
-function is an exit function that transforms any sentences with tidymath
+function is an exit function that transforms any sentences with \emph{pipemath}
 format into comments so that it will not be evaluated when running the script.
 This is especially helpful for markdown files.
 

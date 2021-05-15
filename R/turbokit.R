@@ -37,7 +37,7 @@
 #' }
 #'
 #' \emph{This is a mere recommendation - users are highly encouraged to try out
-#' different setupts that work for them.}
+#' different setups that work for them.}
 #'
 #' @section
 #' \code{insert} functions:
