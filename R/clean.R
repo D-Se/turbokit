@@ -23,8 +23,8 @@ clean <- function(detach = TRUE) {
       execute = TRUE, focus = FALSE
     )
   }, error = function(cond) {
-    # rstudioapi code param returns error (is not character), but works
-    return(NULL)
+    # rstudioapi code parameter returns error (is not character), but works
+    return("Script cleaned")
   })
 }
 
