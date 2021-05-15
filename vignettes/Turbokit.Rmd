@@ -57,29 +57,29 @@ see `vignette("chaining")`
 
 A stigma yet clings to R - It is hard to use.
 
-Historically, naming conventions used in R packages were [problematic](https://journal.r-project.org/archive/2012-2/RJournal_2012-2_Baaaath.pdf). Dots, camelCase, snake_case and function parameter names, many were unpredictable. This forced users to apply trial-and-error style probing to find out or remember what the function name is in a given package. Typos and deviation from that what matters: data science.
+Historically, naming conventions used in R packages were [problematic](https://journal.r-project.org/archive/2012-2/RJournal_2012-2_Baaaath.pdf). Dots, camelCase, snake_case and function parameter names, many were unpredictable. This forced users to apply trial-and-error style probing to find out or remember what the function name is in a given package. The result: typos and deviation from that what matters: data science for all stakeholders present.
 
 ### Code input
 
-There is however a bottleneck. Inputting code takes time, and this time cost increases the longer or harder to remember a function name is. Systems are in place to aid the user, but often come with hurdles to overcome or drawbacks when used.
+Inputting code takes time, and this time cost increases the longer or harder to remember a function name is. Systems are in place to aid the user, but often come with hurdles to overcome or drawbacks when used.
 
-+----------------+-------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-| System         | Benefit                                                                                                                                         | Drawback                                                                                                                                                                                     |
-+================+=================================================================================================================================================+==============================================================================================================================================================================================+
-| Autocompletion | Visual cues and menuing for fuzzy matches, shorthand function notation. Covers all possible functions. Prompt speed and wait time customizable. | Packages have to be attached. to be searched. Output differs depending on typing speed. User has to slow down to be fast for most functions. Unpredictable position of match in search list. |
-+----------------+-------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-| Shortcuts      | One-stop-shop for complicated input at a button press.                                                                                          | Requires package add-in (long setup time) and shortcut overload as each button is tied to a unique key.                                                                                      |
-+----------------+-------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-| Snippet        | Insert arbitrarily long code chunks, and jump from location to location.                                                                        | Requires special syntax and menuing to set up.                                                                                                                                               |
-+----------------+-------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
++----------------+-------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| System         | Benefit                                                                                                                                         | Drawback                                                                                                                                                                                    |
++================+=================================================================================================================================================+=============================================================================================================================================================================================+
+| Autocompletion | Visual cues and menuing for fuzzy matches, shorthand function notation. Covers all possible functions. Prompt speed and wait time customizable. | Packages have to be attached to be searched. Output differs depending on typing speed. User has to slow down to be fast for most functions. Unpredictable position of match in search list. |
++----------------+-------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Shortcuts      | One-stop-shop for complicated input at a button press.                                                                                          | Requires package add-in (long setup time) and shortcut overload as each button is tied to a unique key.                                                                                     |
++----------------+-------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Snippet        | Insert arbitrarily long code chunks, and jump from location to location.                                                                        | Requires special syntax and menuing to set up.                                                                                                                                              |
++----------------+-------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Pipe           | Passing once process to another                                                                                                                 | Requires special syntax and code navigation.                                                                                                                                                |
++----------------+-------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| NSE            | metaprogramming and easing code input in functions and expressions.                                                                             | Requires extensive programming knowledge to execute well. Not predictable what is, and what isn't implemented using NSE.                                                                    |
++----------------+-------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 
-While powerful in their own right, the systems available do not play very well with each other. There thus exists a gap - fast paced, predictable output for complicated functions that does not require complex syntax.
+While powerful in their own right, the systems available do not play very well with each other. There thus exists a gap - user-friendly, fast paced, predictable output for complicated functions.
 
 The turbokit package provides quality of life features that makes existing systems and the tidy design philosophy easily accessible, more consistent and speedier to use.
-
-### Script navigation
-
-Another bottleneck is script navigation and formatting code. Ever typed a wrong pipe operator? Forgot to insert library calls? Typed a capital letter instead of a small letter? Forgot the shortcut to move to the end of the line, resulting in abuse of the direction keys? Turbokit helps with this by providing some formatting tools.
 
 # Setup
 
@@ -124,13 +124,9 @@ Besides the two pipe operators, all of the output of the insert\_ functions, can
 
 Turbokit has several options that can change the output of its operators and functions to the users desire or requirement. As turbokit deals with snippets and shortcuts, it inevitably has to deal with different operating systems and use cases.
 
-Changes to options are not stored permanently, and must be rerun after restarting an R session. A way to permanently can be done by editing an Rprofile file.
+Changes to options are not stored permanently, and must be rerun after restarting an R session. A way to permanently can be done by editing an Rprofile file, by `usethis::edit_r_profile()` or `file.edit(file.path("~", ".Rprofile"))` . If multiple Rprofiles are present, use `file.edit(".Rprofile")` to edit the project level file. In the .Rprofile file, insert `options("turbokit-optionname = TRUE")` or `options("turbokit-optionname = FALSE").`
 
-`usethis::edit_r_profile() or  file.edit(file.path("~", ".Rprofile"))` to edit .Rprofile in HOME.
-
-If multiple rprofiles are present, use `file.edit(".Rprofile")` to edit the project level file.
-
-In the .Rprofile file, a line can be added, `options("turbokit-optionname")`
+A wrapper function, `configure_turbokit()` is available to quickly toggle options during an R session. Multiple options can be selected at once by holdingt the `ctrl` key, and clicking on the options.
 
 ## boot
 
@@ -164,7 +160,7 @@ default()
 
 ### autoinsert
 
-For Windows users, Turbokit can automatically insert the snippet. By default, this option is set to `TRUE`. If the package `devtools` is not installed, this function will not be available. To check your settings, use
+Turbokit can automatically insert the snippet. By default, this option is set to `TRUE`, and directly inserts the freshly made snippet when calling `%>>%.` To check your settings, use
 
 ```{r, eval=FALSE}
 getOption("turbokit-autoinsert")
@@ -196,11 +192,11 @@ options("turbokit-smartpipe" = FALSE)
 
 The directory where snippets are stored is likely to be untouched by many R users. However, when run in a cloud environment or when the directory has been manually changed, users may want to change this option so that turbokit can find the proper location of the snippet file to change.
 
-The default for this is the value returned by an internal `.get_snippets_path()` function. When called from a Windows PC, this will return
+The default for this is the value returned by an internal `get_snippets_path()` function. When called from a Windows PC, this will return
 
     %appdata%/Roaming/RStudio/snippets/r.snippets
 
-For other platform users, it will return
+For unix platform users, i.e. macOS and all Linux distributions, it will return
 
     ~/.config/rstudio/snippets/r.snippets
 
@@ -241,7 +237,7 @@ Once these questions are asked, several problems becomes clear.
 
 2.  Thinking of code is faster than writing code.
 
-3.  Existing systems are powerful, but unpredictable output or inflexible.
+3.  Existing systems are powerful, but unpredictable output or inflexible input.
 
 Consider the following piece of legacy code:
 
@@ -255,9 +251,9 @@ In baseR such a call would take roughly 76 keystrokes, given that there are no m
 >
 > -Tidyverse design guide / Tidyverse team
 
-Convergence by the user-base toward acceptance of human-centered, consistent, composable and [inclusive unifying principles](https://design.tidyverse.org/index.html) of the tidyverse and increasingly widespread usage of its [style guide](https://style.tidyverse.org/) is great for reducing redundant loss of resources - making R (and data science!) easier.
+Convergence by the user-base toward acceptance of human-centered, consistent, composable and [inclusive unifying principles](https://design.tidyverse.org/index.html) of the tidyverse and increasingly widespread usage of its [style guide](https://style.tidyverse.org/) is great for making R (and data science!) easier.
 
-The tidyverse packages provide an alternative way to write code in a nice format
+The tidyverse packages provide an alternative way to write code in a nice format, which is adopted by other package families, such as tidymodels. It heavily relies on the *pipe*, `%>%` or `+`.
 
 ```{r, eval=FALSE}
 iris %>%
@@ -275,34 +271,43 @@ Turbokit is implemented with the following principles in mind.
 
 ### 1. Writing code is a bottleneck
 
-Code is written for different stakeholders, including the PC, the developer and the end-user. However, it is the end result that counts, not the methodology to arrive at that result. It does not matter if a user fully types out a function call, how many times a piece of code is rewritten, or if the code itself is the result of a function.
+Adults read about 270-300 words per minute, but type only about 40-70 words per minute given *fluency* in a language. Introduce some syntax, like operators, parenthesis, brackets et cetera, and a problem becomes clear. We think and read much faster than we write.
 
-Adults read about 270-300 words per minute, but type only about 40-70 words per minute given *fluency* in a language. Now extend this to non-native speakers and different keyboard layouts or scripts. An example is Chinese, where the *Shift* key is often linked to a change in input styles. Punctuation marks and input often is not identical to what R expects and recognizes, for example the parenthesis ）verses ).
+R is very strict. It will not recognize wrongly typed words if executed. Any error in the code input process is thus magnified, and extra care must be placed on things like a missing brackets, quotes, and capital letters.
 
-The typing process is inherently prone to errors.
+> Code input should target the code writing bottleneck.
 
-*Example*: `"~s*sw>m*2sd>z*a*e>p>1gv>1syc"`, which is equivalent to
+### 2. Code input sees different stakeholders
+
+Every user is different. Typing speed, language fluency, environment, R usage history and use cases differ per user.
+
+> Code input methods should be adaptive to user preferences, use case, and stakeholders requirements.
+
+#### Single stakeholder
+
+For most code input, it is the end result that counts, not the methodology to arrive at that result. It does not matter if a user fully types out a function call, how many times a piece of code is rewritten, or if the code itself is the result of a function.
+
+When only a single stakeholder (the code writer), is present, then the method of input does not matter much, it depends on the preferences of the writer. It results in an equilibrium of convenience to use and input speed, mediated by number of words to type, and errors. Many methods exist to aid in speediness of code writing, such as TAB-completion, static snippets and shortcuts. These, however, don't play very well with each other, and are generated to be valid for every use case, instead of the use case at hand.
+
+Turbokit seeks to bring these input paradigms closer, to enable overlap.
+
+#### Multiple stakeholders present
+
+Consider a situation where multiple people are looking at an R script, for example a classroom or webinar. Stakeholders would be the writer, who was to perform under some pressure, the onlookers, who want to get an insight into process of data science, and third, any future user of the script.
+
+Humans thrive when the near-future can be predicted. However, in a group setting, it becomes harder to correctly input code, and to anticipate the stakeholder needs. What is often the result, is pre-made scripts, where the logic of the time of writing is forgotten. Consider the following code.
 
 ```{r, eval=FALSE}
-mydata %>%
-  select(starts_with()) %>%
-  mutate(new = str_detect()) %>%
-  summarise(across(everything(), func)) %>%
-  ggplot(aes(param)) +
-  geom_violin() +
-  scale_y_continuous()
+"~s>g>z" %>>% 1|Recap[Basic_structure]
+
+
+"~s*sw>g>p" %>>% 2|Introduce[starts_with()]
 ```
 
-### 2. Code input is personal
-
-Every user is different. Typing speed, language fluency, R history, interest et cetera all differ in users. Code input methodology should reflect the different preferences of each user.
-
-> Code input methods should be adaptive to user preferences
+The focus can be shifted to the content input, while preserving the niceties of pre-made scripts, with extra clarity of structure of the talk, lesson or script. It allows users to anticipate next content early, and keeping the novelty when the point is reached.
 
 ### 3. Code input should be predictable
 
-Using style guides and naming conventions are a matter of taste. However, there are similarities in all naming conventions. Often names are chunks by separators such as underscores, capital letter or dots that specify verbs and nouns and some metadata of a function. To memorise which function in which package uses what naming convention is a big hurdle in learning any programming language.
+Using style guides and naming conventions are a matter of taste. However, there are similarities in all naming conventions. Often names are chunks by separators such as underscores, capital letter or dots that specify verbs and nouns and some metadata of a function. To memorise which function in which package uses what naming convention is a big hurdle in learning any programming language. This extends to function parameters. Non-standard evaluation (NSE) enables different forms of input. Should a parameter be quoted, unquoted, a list or a vector?
 
-This extends to parameters. Non-standard evaluation (NSE) enables different forms of input. Should a parameter be quoted, unquoted, a list or a vector?
-
-> Code input methods should reduce cognitive load required to use functions by being predictable
+> Code input methods should reduce the cognitive load by being predictable.

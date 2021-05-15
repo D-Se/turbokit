@@ -42,12 +42,34 @@ construct_snippet <- function(input) {
 
 # Obtain platform-specific snippets file path
 get_snippets_path <- function() {
-  ### TODO: insert R studio internal file directory C code here?
-  if (Sys.info()["sysname"] == "Windows") {
-    paste0(Sys.getenv()["APPDATA"], "\\RStudio\\snippets\\r.snippets")
-  } else {
-    file.path("~/.config/rstudio/snippets/r.snippets")
+  if (!rstudioapi::isAvailable()) {
+    # soft error for .onLoad and .onAttach to silently fail if called from R.
+    return("error")
+  } else if (identical(rstudioapi::versionInfo()$mode, "server")) {
+    # cloud currently not supported
+    return("error")
   }
+  # snippet directory changes in RStudio 1.3
+  VER <- rstudioapi::getVersion() >= "1.3.0"
+  OS <- .Platform$OS.type
+  #OS <- Sys.info()["sysname"]
+  if (OS == "windows") {
+    if (VER) {
+      out <- paste0(Sys.getenv()["APPDATA"], "\\RStudio\\snippets\\r.snippets")
+    }
+  } else if (OS == "unix") {
+    if (VER) {
+      out <- file.path("~/.config/RStudio/snippets/r.snippets")
+      if (!file.exists(out)) {
+        warning("no snippet directory found")
+        return("error")
+      }
+      #out <- rappdirs::user_config_dir("RStudio", os = "unix")
+    } #else {
+      #out <- fs::path_home_r(".R", "snippets.R")
+    #}
+  }
+  out
 }
 
 ### snippr functions (altered for performance and adapted to TK use case, not exported)
@@ -57,6 +79,9 @@ get_snippets_path <- function() {
 # Function to add snippet to a R.snippets file
 add_snippet <- function(name, body) {
   path <- getOption("turbokit-snippetdir")
+  if (path == "error") {
+    stop("snippet file path corrupt, function disabled.")
+  }
   current <- read_snippet(path = path)
   current[[name]] <- prepare_snippet(body)
   write_snippet(current, path = path)

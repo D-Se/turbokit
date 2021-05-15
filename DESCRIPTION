@@ -5,8 +5,8 @@ Version: 0.1.0
 Authors@R: person("Donald", "Seinen", email="2869830202@qq.com",
     role = c("aut", "cre"))
 Maintainer: Donald Seinen <2869830202@qq.com>
-Description: Convenience tools to quickly insert commonly used functions and
-    make arbitrarily complex pipe chains through shortcuts and snippets. Avoid 
+Description: Quality of life tools to quickly insert commonly used functions and
+    make quickly construct complex pipes through shortcuts and snippets. Avoid 
     redundant key presses and speed up code formatting tasks.
 License: MIT + file LICENSE
 Encoding: UTF-8
@@ -27,7 +27,6 @@ Imports:
     withr
 Suggests:
     rmarkdown,
-    KeyboardSimulator (>= 2.6.0),
     knitr,
     testthat (>= 3.0.2),
     devtools
@@ -36,3 +35,4 @@ VignetteBuilder: knitr
 Roxygen: list(markdown = TRUE)
 Depends: 
     R (>= 2.10)
+

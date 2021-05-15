@@ -18,6 +18,9 @@
 
 .onAttach <- function(libname, pkgname) {
   # TODO better way of handling overwriting? user setting snippet name?
+  if (identical(getOption("turbokit-snippetdir"), "error")) {
+    return(NULL)
+  }
   if ("s" %in% names(read_snippet(path = getOption("turbokit-snippetdir")))) {
     packageStartupMessage(
       "Snippet s detected\n",

@@ -95,13 +95,13 @@
     reposition_row()
     {
       rstudioapi::insertText("s")
-      if (Sys.info()["sysname"] == "Windows" &
-        getOption("turbokit-autoinsert")) {
+      if (getOption("turbokit-autoinsert")) {
         ### TODO: access shortcuts and default shortcuts in R.
         # mimic insert snippet code // programmatically insert hook.
-        if (requireNamespace("KeyboardSimulator", quietly = TRUE)) {
-          KeyboardSimulator::keybd.press(button = "shift+tab")
-        }
+        #if (requireNamespace("KeyboardSimulator", quietly = TRUE)) {
+         # KeyboardSimulator::keybd.press(button = "shift+tab")
+        #}
+        rstudioapi::executeCommand(commandId = "insertSnippet", quiet = T)
       }
     }
   }
@@ -210,4 +210,5 @@ insert_pipe <- function() {
     }
   }
 }
+
 
