@@ -1,13 +1,13 @@
 Package: turbokit
 Type: Package
-Title: Speedy Code Input and Pipe Formatting
+Title: Speedy, Flexible and Convenient Code Input and Navigation
 Version: 0.1.0
 Authors@R: person("Donald", "Seinen", email="2869830202@qq.com",
     role = c("aut", "cre"))
 Maintainer: Donald Seinen <2869830202@qq.com>
-Description: Quality of life tools to quickly insert commonly used functions and
-    make quickly construct complex pipes through shortcuts and snippets. Avoid 
-    redundant key presses and speed up code formatting tasks.
+Description: Quality of life tools for rapid insertion of common functions and 
+    constructing complex pipes through shortcuts and snippets. Avoid redundant
+    key presses and speed up code formatting tasks.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
