@@ -9,8 +9,4 @@
 * This is a new release.
 
 ## Test environments
-- rhub::check_for_cran(), 
-
-
-* Snippet functions disabled for server users.
-* Spell_check
+- rhub::check_for_cran()
